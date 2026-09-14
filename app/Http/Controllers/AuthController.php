@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Announcement;
+use App\Models\Feature;
 use App\Models\SchoolSetting;
 
 class AuthController extends Controller
@@ -59,7 +61,14 @@ class AuthController extends Controller
     {
         $settings = $this->getSettings();
         $user = Auth::user();
+        $stats = [
+            'announcements' => Announcement::count(),
+            'activeAnnouncements' => Announcement::where('is_active', true)->count(),
+            'features' => Feature::count(),
+            'settings' => SchoolSetting::count(),
+        ];
+        $recentAnnouncements = Announcement::latest('published_at')->take(5)->get();
 
-        return view('dashboard.index', compact('settings', 'user'));
+        return view('dashboard.index', compact('settings', 'user', 'stats', 'recentAnnouncements'));
     }
 }
