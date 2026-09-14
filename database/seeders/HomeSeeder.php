@@ -97,5 +97,23 @@ class HomeSeeder extends Seeder
             'published_at' => now()->subDays(12),
             'is_active' => true,
         ]);
+        // 4. Seed Default Users
+        \App\Models\User::updateOrCreate(
+            ['email' => 'admin@sdnegerilama.sch.id'],
+            [
+                'name' => 'Administrator Sekolah',
+                'role' => 'admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            ]
+        );
+
+        \App\Models\User::updateOrCreate(
+            ['email' => 'siswa@sdnegerilama.sch.id'],
+            [
+                'name' => 'Andi Pratama',
+                'role' => 'siswa',
+                'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            ]
+        );
     }
 }

@@ -50,9 +50,15 @@
     </nav>
 
     <div class="nav-actions">
-      <a class="btn-login" href="#">
-        <i class="fa-solid fa-right-to-bracket"></i> Portal Login
-      </a>
+      @auth
+        <a class="btn-login" href="{{ route('dashboard') }}">
+          <i class="fa-solid fa-gauge"></i> Dashboard
+        </a>
+      @else
+        <a class="btn-login" href="{{ route('login') }}">
+          <i class="fa-solid fa-right-to-bracket"></i> Portal Login
+        </a>
+      @endauth
     </div>
   </header>
 
