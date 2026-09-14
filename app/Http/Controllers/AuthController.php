@@ -71,4 +71,16 @@ class AuthController extends Controller
 
         return view('dashboard.index', compact('settings', 'user', 'stats', 'recentAnnouncements'));
     }
+
+    public function information()
+    {
+        $settings = $this->getSettings();
+        $user = Auth::user();
+        $announcementCount = Announcement::count();
+        $featureCount = Feature::count();
+        $announcements = Announcement::latest('published_at')->take(5)->get();
+        $features = Feature::orderBy('order')->take(6)->get();
+
+        return view('information.index', compact('settings', 'user', 'announcements', 'features', 'announcementCount', 'featureCount'));
+    }
 }

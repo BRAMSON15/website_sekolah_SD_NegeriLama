@@ -123,6 +123,200 @@
             color: #24caa1;
         }
 
+        .information-home {
+            padding-bottom: 30px;
+        }
+
+        .information-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 112px;
+            margin-bottom: 20px;
+            padding: 24px 28px;
+            background: #1b2a47;
+        }
+
+        .information-hero h2 {
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 25px;
+        }
+
+        .information-hero p {
+            margin: 0;
+            color: #aab5c9;
+        }
+
+        .information-hero-icon {
+            color: #24caa1;
+            font-size: 42px;
+        }
+
+        .information-stats,
+        .information-panels {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .information-stats > [class*="col-"],
+        .information-panels > [class*="col-"] {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .information-stat-card {
+            display: flex;
+            align-items: center;
+            min-height: 104px;
+            margin-bottom: 20px;
+            padding: 18px;
+            background: #1b2a47;
+        }
+
+        .information-stat-icon {
+            display: flex;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 19px;
+        }
+
+        .information-stat-icon-green { background: #24caa1; }
+        .information-stat-icon-blue { background: #01c0c8; }
+        .information-stat-icon-purple { background: #9a68c7; }
+
+        .information-stat-card span,
+        .information-stat-card small {
+            display: block;
+            color: #aab5c9;
+        }
+
+        .information-stat-card strong {
+            display: block;
+            margin: 3px 0;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .information-stat-card small { font-size: 11px; }
+
+        .information-panel {
+            margin-bottom: 20px;
+            padding: 22px;
+            background: #1b2a47;
+        }
+
+        .information-panel-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .information-panel-heading h3 {
+            margin-bottom: 6px;
+            color: #fff;
+            font-size: 19px;
+        }
+
+        .information-panel-heading p {
+            margin: 0;
+            color: #8d93a8;
+            font-size: 12px;
+        }
+
+        .information-list-item,
+        .information-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 64px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .information-list-icon,
+        .information-feature-icon {
+            display: flex;
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .information-list-icon { background: #24caa1; }
+
+        .information-list-content,
+        .information-feature-item > div { flex: 1; min-width: 0; }
+
+        .information-list-content h4,
+        .information-feature-item h4 {
+            overflow: hidden;
+            margin: 0 0 4px;
+            color: #fff;
+            font-size: 13px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .information-list-content span,
+        .information-feature-item p {
+            margin: 0;
+            color: #8d93a8;
+            font-size: 11px;
+        }
+
+        .information-feature-icon { border-radius: 3px; }
+        .information-status { padding: 4px 7px; font-size: 10px; font-weight: 700; }
+        .information-status-active { background: rgba(36, 202, 161, .18); color: #24caa1; }
+        .information-status-muted { background: rgba(255, 255, 255, .1); color: #aab5c9; }
+
+        .information-panel-footer {
+            display: block;
+            margin-top: 17px;
+            color: #24caa1;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .information-panel-footer i { margin-left: 5px; }
+        .information-empty { padding: 28px 10px; color: #8d93a8; text-align: center; }
+        .information-empty i { display: block; margin-bottom: 8px; color: #24caa1; font-size: 25px; }
+        .information-empty p { margin: 0; }
+
+        .information-count {
+            color: #aab5c9;
+            font-size: 12px;
+        }
+
+        .table-subtext,
+        .form-hint {
+            display: block;
+            margin-top: 4px;
+            color: #8d93a8;
+            font-size: 11px;
+        }
+
+        .action-cell form { display: inline-block; margin-left: 5px; }
+        .feature-table-icon { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; margin-right: 8px; color: #fff; }
+        .information-pagination { padding-top: 18px; }
+        .information-pagination nav { text-align: right; }
+        .information-form-panel label { color: #fff; font-size: 12px; }
+        .information-form-panel .form-control { border: 1px solid rgba(255, 255, 255, .12); border-radius: 0; background: #152036; color: #fff; }
+        .information-form-panel .form-control:focus { border-color: #24caa1; box-shadow: none; }
+        .information-form-panel .checkbox { color: #aab5c9; }
+        .information-form-panel .checkbox label { color: #aab5c9; font-weight: 400; }
+        .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }
+
         @media (max-width: 767px) {
             .dashboard-map-frame {
                 height: 300px;
@@ -148,6 +342,11 @@
             .admin-quick-actions a + a {
                 margin-top: 8px;
             }
+
+            .information-hero { padding: 20px; }
+            .information-hero-icon { font-size: 28px; }
+            .information-panel-heading { display: block; }
+            .information-panel-heading .btn { margin-top: 12px; }
         }
 
         @media (min-width: 1170px) {
@@ -212,14 +411,15 @@
                                 <span class="mini-click-non">Lihat Website</span>
                             </a>
                         </li>
-                        <li>
-                            <a class="has-arrow" href="#" aria-expanded="false">
+                        <li class="{{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}">
+                            <a class="has-arrow" href="{{ route('admin.informasi') }}" aria-expanded="{{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'true' : 'false' }}">
                                 <i class="icon nalika-mail icon-wrap"></i>
                                 <span class="mini-click-non">Kelola Informasi</span>
                             </a>
                             <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Pengumuman" href="{{ route('pengumuman.index') }}"><span class="mini-sub-pro">Pengumuman</span></a></li>
-                                <li><a title="Keunggulan" href="{{ route('home') }}#akademik"><span class="mini-sub-pro">Fitur / Layanan</span></a></li>
+                                <li><a title="Beranda Informasi" href="{{ route('admin.informasi') }}"><span class="mini-sub-pro">Beranda Informasi</span></a></li>
+                                <li><a title="Pengumuman" href="{{ route('admin.pengumuman.index') }}"><span class="mini-sub-pro">Pengumuman</span></a></li>
+                                <li><a title="Fitur / Layanan" href="{{ route('admin.fitur.index') }}"><span class="mini-sub-pro">Fitur / Layanan</span></a></li>
                             </ul>
                         </li>
                     </ul>
