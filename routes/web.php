@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\PpdbController;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -11,6 +12,9 @@ Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
 Route::get('/akademik', [HomeController::class, 'akademik'])->name('akademik');
 Route::get('/fasilitas', [HomeController::class, 'fasilitas'])->name('fasilitas');
 Route::get('/ppdb', [HomeController::class, 'ppdb'])->name('ppdb');
+Route::get('/ppdb/daftar', [PpdbController::class, 'create'])->name('ppdb.register');
+Route::post('/ppdb/daftar', [PpdbController::class, 'store'])->name('ppdb.store');
+Route::get('/ppdb/berhasil/{registration}', [PpdbController::class, 'success'])->name('ppdb.success');
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [HomeController::class, 'detailPengumuman'])->name('pengumuman.show');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
@@ -24,6 +28,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
+    Route::get('/admin/ppdb', [PpdbController::class, 'index'])->name('admin.ppdb.index');
     Route::get('/admin/informasi/pengumuman', [InformationController::class, 'announcements'])->name('admin.pengumuman.index');
     Route::get('/admin/informasi/pengumuman/tambah', [InformationController::class, 'createAnnouncement'])->name('admin.pengumuman.create');
     Route::post('/admin/informasi/pengumuman', [InformationController::class, 'storeAnnouncement'])->name('admin.pengumuman.store');

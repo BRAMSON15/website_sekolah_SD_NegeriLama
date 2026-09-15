@@ -15,7 +15,7 @@
         <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 8px;"><i class="fa-solid fa-bullhorn"></i> PPDB Gelombang II Telah Dibuka!</h2>
         <p style="color: var(--muted);">Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik.</p>
       </div>
-      <a href="#" class="btn-login" style="padding: 14px 28px; font-size: 1rem;"><i class="fa-solid fa-paper-plane"></i> Daftar Sekarang Online</a>
+      <a href="{{ route('ppdb.register') }}" class="btn-login" style="padding: 14px 28px; font-size: 1rem;"><i class="fa-solid fa-paper-plane"></i> Daftar Sekarang Online</a>
     </div>
   </div>
 

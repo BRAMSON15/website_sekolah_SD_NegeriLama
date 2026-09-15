@@ -3,7 +3,7 @@
 @section('title', 'Login Portal - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
-<div style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%;">
+<div style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan/img/image.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   <div style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 440px;">
     
     <div style="text-align: center; margin-bottom: 30px;">

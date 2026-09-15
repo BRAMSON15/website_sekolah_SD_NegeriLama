@@ -166,7 +166,10 @@
 
     /* Subpage Header Banner */
     .page-header {
-      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: #ffffff;
       padding: 60px 6%;
       text-align: center;
@@ -261,5 +264,111 @@
       .nav-menu { display: none; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+
+      .home-hero {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+        padding: 52px 5% 88px !important;
+      }
+
+      .home-hero h1 {
+        font-size: clamp(2rem, 9vw, 3rem) !important;
+        letter-spacing: -0.5px !important;
+      }
+
+      .home-hero p {
+        font-size: 1rem !important;
+        margin-bottom: 24px !important;
+      }
+
+      .home-hero .hero-buttons {
+        flex-direction: column;
+        gap: 12px !important;
+      }
+
+      .home-hero .hero-buttons a {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .home-hero .hero-visual {
+        width: 100%;
+        padding-top: 12px;
+      }
+
+      .home-hero .hero-card-main {
+        padding: 22px !important;
+        padding-top: 42px !important;
+      }
+
+      .home-hero .hero-card-main > div:first-child,
+      .home-hero .hero-card-main > div:nth-child(2) {
+        font-size: 0.72rem !important;
+        padding: 10px 12px !important;
+      }
+
+      .home-hero .hero-card-main > div:first-child {
+        top: -16px !important;
+        left: 8px !important;
+      }
+
+      .home-hero .hero-card-main > div:nth-child(2) {
+        right: 8px !important;
+        bottom: -16px !important;
+      }
+
+      .home-features {
+        margin-top: 28px !important;
+        padding: 0 5% !important;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      .principal-section,
+      .information-section {
+        padding: 56px 5% !important;
+      }
+
+      .principal-grid,
+      .information-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+      }
+
+      .principal-section > .principal-grid > div:first-child > div {
+        width: min(100%, 280px) !important;
+        height: 280px !important;
+      }
+
+      .information-section > div:first-child {
+        margin-bottom: 32px !important;
+      }
+
+      .information-section h2 {
+        font-size: 1.75rem !important;
+      }
+
+      .announcement-panel,
+      .quick-access-panel {
+        padding: 20px !important;
+      }
+
+      .announcement-panel > div:first-child {
+        align-items: flex-start !important;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .announcement-item {
+        align-items: flex-start;
+        padding: 12px !important;
+      }
+
+      .announcement-item > div:last-child {
+        min-width: 0;
+      }
     }
   
