@@ -1,570 +1,343 @@
-<!doctype html>
-<html class="no-js" lang="id">
-
+<!DOCTYPE html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@yield('title', 'Dashboard Admin - SD Negeri Lama')</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@yield('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))</title>
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('mentahan2/nalika/img/favicon.ico') }}">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome & Leaflet -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  
+  <!-- Custom Mentahan2 Stylesheet -->
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/style.css') }}">
+  
+  <style>
+    /* Custom enhancements for responsiveness & theme integration */
+    .brand-title-wrap h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 2px 0;
+    }
+    .brand-title-wrap span {
+      font-size: 11px;
+      color: #9eb6d6;
+    }
+    .nav-item-icon {
+      font-size: 16px;
+      width: 22px;
+      text-align: center;
+      display: inline-block;
+    }
+    .user-avatar-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #2676df;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .topbar-right-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .logout-btn-link {
+      color: #ef5350;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: #fdf2f2;
+      transition: background 0.2s ease;
+    }
+    .logout-btn-link:hover {
+      background: #fde8e8;
+      color: #d32f2f;
+    }
+    .dashboard-map-container {
+      width: 100%;
+      height: 380px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 15px;
+      border: 1px solid var(--line);
+    }
+    #ambon-map {
+      width: 100%;
+      height: 100%;
+    }
     
-    <!-- favicon ============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('mentahan2/nalika/img/favicon.ico') }}">
-    <!-- Google Fonts ============================================ -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
-    <!-- FontAwesome & Nalika CSS ============================================ -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/nalika-icon.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/owl.carousel.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/owl.theme.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/owl.transitions.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/normalize.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/meanmenu.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/morrisjs/morris.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/scrollbar/jquery.mCustomScrollbar.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/metisMenu/metisMenu.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/metisMenu/metisMenu-vertical.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/calendar/fullcalendar.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/calendar/fullcalendar.print.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('mentahan2/nalika/css/responsive.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    /* Legacy Nalika Subpages Compatibility CSS */
+    .information-home { padding: 5px 0 30px; }
+    .information-hero {
+      min-height: 140px;
+      border-radius: 16px;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(105deg, #e7f2ff, #cfe6ff);
+      border: 1px solid #d9eafa;
+      margin-bottom: 22px;
+    }
+    .information-hero h2 { font-size: 24px; color: #123b72; margin-bottom: 6px; }
+    .information-hero p { color: #6682a8; font-size: 14px; margin: 0; }
+    .information-hero-icon { font-size: 55px; color: #1769d9; opacity: 0.85; }
+    .panel-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: #1769d9; display: block; margin-bottom: 5px; }
 
-    <style>
-        .dashboard-map-frame {
-            height: 432px;
-            overflow: hidden;
-            background: #d9e2e8;
-        }
+    .information-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
+    .information-stat-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .information-stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .information-stat-icon-green { background: #45bd8d; }
+    .information-stat-icon-blue { background: #1769d9; }
+    .information-stat-icon-purple { background: #8c6ce5; }
+    .information-stat-card span { display: block; font-size: 13px; color: #42618a; margin-bottom: 4px; }
+    .information-stat-card strong { display: block; font-size: 24px; color: #122f58; }
+    .information-stat-card small { color: #8097b5; font-size: 11px; }
 
-        .dashboard-map-frame iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+    .information-panels { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 25px; }
+    .information-panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 22px;
+      margin-bottom: 25px;
+    }
+    .information-panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .information-panel-heading h3, .information-panel-heading h4 { font-size: 17px; color: #122f58; margin: 0; }
+    .information-panel-heading p { font-size: 12px; color: #7390b5; margin-top: 3px; }
 
-        #ambon-map {
-            width: 100%;
-            height: 100%;
-            min-height: 432px;
-        }
+    .information-list-item, .information-feature-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #edf2f8;
+    }
+    .information-list-item:last-child, .information-feature-item:last-child { border-bottom: none; }
+    .information-list-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #e5f0ff;
+      color: #1769d9;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .information-list-content { flex: 1; }
+    .information-list-content h4, .information-feature-item h4 { font-size: 14px; color: #17345e; margin: 0 0 4px 0; }
+    .information-list-content span, .information-feature-item p { font-size: 11px; color: #7390b5; margin: 0; }
 
-        .admin-status-line {
-            margin-top: 18px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, .08);
-            color: #9da8bd;
-            font-size: 12px;
-        }
+    .information-status {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .information-status-active { background: #def8ef; color: #07866a; }
+    .information-status-muted { background: #f1f5fc; color: #7790b3; }
 
-        .admin-quick-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 16px;
-        }
+    .information-panel-footer {
+      display: inline-block;
+      margin-top: 15px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1769d9;
+    }
 
-        .admin-quick-actions a {
-            display: flex;
-            flex: 1;
-            min-height: 52px;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border: 1px solid rgba(255, 255, 255, .08);
-            color: #fff;
-            font-size: 11px;
-        }
+    /* Buttons & Form Controls */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .btn-primary { background: #1769d9; color: #fff; }
+    .btn-primary:hover { background: #1254b3; }
+    .btn-grey { background: #f1f6fc; color: #17345e; border: 1px solid var(--line); }
+    .btn-grey:hover { background: #e2ecf8; }
+    .btn-danger { background: #ef5350; color: #fff; }
+    .btn-danger:hover { background: #d32f2f; }
+    .btn-xs { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
 
-        .admin-quick-actions a:hover {
-            border-color: #24caa1;
-            color: #24caa1;
-        }
+    .table-responsive { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th { text-align: left; padding: 12px 14px; font-size: 12px; color: #7390b5; border-bottom: 1px solid var(--line); background: #f8fafc; }
+    td { padding: 14px; font-size: 13px; color: #17345e; border-bottom: 1px solid #edf2f8; vertical-align: middle; }
+    tr:hover td { background: #fcfdfe; }
+    .text-right { text-align: right; }
+    .text-center { text-align: center; }
+    .action-cell form { display: inline-block; margin-left: 4px; }
+    .table-subtext { display: block; font-size: 11px; color: #8aa0bc; margin-top: 3px; }
+    .feature-table-icon { display: inline-grid; width: 32px; height: 32px; place-items: center; border-radius: 8px; margin-right: 10px; vertical-align: middle; }
 
-        .admin-quick-actions i {
-            color: #24caa1;
-            font-size: 16px;
-        }
+    /* Form Styles */
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: #17345e; margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 10px 14px; border-radius: 9px; border: 1px solid var(--line); background: #fdfefe; font-size: 13px; color: #17345e; outline: none; }
+    .form-control:focus { border-color: #1769d9; box-shadow: 0 0 0 3px rgba(23,105,217,0.1); }
+    .form-hint { font-size: 11px; color: #7390b5; margin-top: 4px; display: block; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
+    .checkbox { margin-top: 15px; font-size: 13px; color: #17345e; }
 
-        .admin-panel-heading {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 16px;
-        }
+    @media (max-width: 900px) {
+      .information-stats { grid-template-columns: 1fr; }
+      .information-panels { grid-template-columns: 1fr; }
+    }
+  </style>
 
-        .admin-panel-heading h4 {
-            margin-bottom: 0;
-        }
-
-        .panel-eyebrow {
-            display: block;
-            margin-bottom: 6px;
-            color: #24caa1;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .admin-profile-meta {
-            display: grid;
-            gap: 8px;
-            margin: 0 0 18px;
-            color: #8d93a8;
-            font-size: 12px;
-        }
-
-        .admin-profile-meta i {
-            width: 18px;
-            color: #24caa1;
-        }
-
-        .information-home {
-            padding-bottom: 30px;
-        }
-
-        .information-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 112px;
-            margin-bottom: 20px;
-            padding: 24px 28px;
-            background: #1b2a47;
-        }
-
-        .information-hero h2 {
-            margin-bottom: 8px;
-            color: #fff;
-            font-size: 25px;
-        }
-
-        .information-hero p {
-            margin: 0;
-            color: #aab5c9;
-        }
-
-        .information-hero-icon {
-            color: #24caa1;
-            font-size: 42px;
-        }
-
-        .information-stats,
-        .information-panels {
-            margin-left: -10px;
-            margin-right: -10px;
-        }
-
-        .information-stats > [class*="col-"],
-        .information-panels > [class*="col-"] {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .information-stat-card {
-            display: flex;
-            align-items: center;
-            min-height: 104px;
-            margin-bottom: 20px;
-            padding: 18px;
-            background: #1b2a47;
-        }
-
-        .information-stat-icon {
-            display: flex;
-            width: 48px;
-            height: 48px;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            border-radius: 50%;
-            color: #fff;
-            font-size: 19px;
-        }
-
-        .information-stat-icon-green { background: #24caa1; }
-        .information-stat-icon-blue { background: #01c0c8; }
-        .information-stat-icon-purple { background: #9a68c7; }
-
-        .information-stat-card span,
-        .information-stat-card small {
-            display: block;
-            color: #aab5c9;
-        }
-
-        .information-stat-card strong {
-            display: block;
-            margin: 3px 0;
-            color: #fff;
-            font-size: 24px;
-        }
-
-        .information-stat-card small { font-size: 11px; }
-
-        .information-panel {
-            margin-bottom: 20px;
-            padding: 22px;
-            background: #1b2a47;
-        }
-
-        .information-panel-heading {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
-
-        .information-panel-heading h3 {
-            margin-bottom: 6px;
-            color: #fff;
-            font-size: 19px;
-        }
-
-        .information-panel-heading p {
-            margin: 0;
-            color: #8d93a8;
-            font-size: 12px;
-        }
-
-        .information-list-item,
-        .information-feature-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-height: 64px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, .08);
-        }
-
-        .information-list-icon,
-        .information-feature-icon {
-            display: flex;
-            width: 34px;
-            height: 34px;
-            flex: 0 0 34px;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 13px;
-        }
-
-        .information-list-icon { background: #24caa1; }
-
-        .information-list-content,
-        .information-feature-item > div { flex: 1; min-width: 0; }
-
-        .information-list-content h4,
-        .information-feature-item h4 {
-            overflow: hidden;
-            margin: 0 0 4px;
-            color: #fff;
-            font-size: 13px;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .information-list-content span,
-        .information-feature-item p {
-            margin: 0;
-            color: #8d93a8;
-            font-size: 11px;
-        }
-
-        .information-feature-icon { border-radius: 3px; }
-        .information-status { padding: 4px 7px; font-size: 10px; font-weight: 700; }
-        .information-status-active { background: rgba(36, 202, 161, .18); color: #24caa1; }
-        .information-status-muted { background: rgba(255, 255, 255, .1); color: #aab5c9; }
-
-        .information-panel-footer {
-            display: block;
-            margin-top: 17px;
-            color: #24caa1;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .information-panel-footer i { margin-left: 5px; }
-        .information-empty { padding: 28px 10px; color: #8d93a8; text-align: center; }
-        .information-empty i { display: block; margin-bottom: 8px; color: #24caa1; font-size: 25px; }
-        .information-empty p { margin: 0; }
-
-        .information-count {
-            color: #aab5c9;
-            font-size: 12px;
-        }
-
-        .table-subtext,
-        .form-hint {
-            display: block;
-            margin-top: 4px;
-            color: #8d93a8;
-            font-size: 11px;
-        }
-
-        .action-cell form { display: inline-block; margin-left: 5px; }
-        .feature-table-icon { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; margin-right: 8px; color: #fff; }
-        .information-pagination { padding-top: 18px; }
-        .information-pagination nav { text-align: right; }
-        .information-form-panel label { color: #fff; font-size: 12px; }
-        .information-form-panel .form-control { border: 1px solid rgba(255, 255, 255, .12); border-radius: 0; background: #152036; color: #fff; }
-        .information-form-panel .form-control:focus { border-color: #24caa1; box-shadow: none; }
-        .information-form-panel .checkbox { color: #aab5c9; }
-        .information-form-panel .checkbox label { color: #aab5c9; font-weight: 400; }
-        .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }
-
-        @media (max-width: 767px) {
-            .dashboard-map-frame {
-                height: 300px;
-            }
-
-            #ambon-map {
-                min-height: 300px;
-            }
-
-            .admin-panel-heading {
-                display: block;
-            }
-
-            .admin-panel-heading .btn {
-                display: inline-block;
-                margin-top: 12px;
-            }
-
-            .admin-quick-actions {
-                display: block;
-            }
-
-            .admin-quick-actions a + a {
-                margin-top: 8px;
-            }
-
-            .information-hero { padding: 20px; }
-            .information-hero-icon { font-size: 28px; }
-            .information-panel-heading { display: block; }
-            .information-panel-heading .btn { margin-top: 12px; }
-        }
-
-        @media (min-width: 1170px) {
-            .left-sidebar-pro,
-            #sidebar {
-                width: 240px;
-            }
-
-            #sidebar {
-                min-width: 240px;
-            }
-
-            .all-content-wrapper {
-                margin-left: 240px;
-            }
-
-            .mini-navbar .all-content-wrapper {
-                margin-left: 80px;
-            }
-        }
-    </style>
-
-    <script src="{{ asset('mentahan2/nalika/js/vendor/modernizr-2.8.3.min.js') }}"></script>
-    @yield('styles')
+  @yield('styles')
 </head>
-
 <body>
-    <!-- Left Sidebar Pro -->
-    <div class="left-sidebar-pro">
-        <nav id="sidebar" class="">
-            <div class="sidebar-header">
-                <a href="{{ route('dashboard') }}"><img class="main-logo" src="{{ asset('mentahan2/nalika/img/logo/logo.png') }}" alt="" /></a>
-                <strong><a href="{{ route('dashboard') }}"><img src="{{ asset('mentahan2/nalika/img/logo/logosn.png') }}" alt="" /></a></strong>
-            </div>
-            <div class="nalika-profile">
-                <div class="profile-dtl">
-                    <div style="width: 75px; height: 75px; background: #152036; border: 2px solid #242a33; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: #3b82f6; font-size: 32px;">
-                        <i class="fa fa-user-circle"></i>
-                    </div>
-                    <h2>{{ Auth::user()->name }} <span class="min-dtn">({{ ucfirst(Auth::user()->role) }})</span></h2>
-                </div>
-                <div class="profile-social-dtl">
-                    <ul class="dtl-social">
-                        <li><a href="#"><i class="icon nalika-facebook"></i></a></li>
-                        <li><a href="#"><i class="icon nalika-twitter"></i></a></li>
-                        <li><a href="#"><i class="icon nalika-linkedin"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="left-custom-menu-adp-wrap comment-scrollbar">
-                <nav class="sidebar-nav left-sidebar-menu-pro">
-                    <ul class="metismenu" id="menu1">
-                        <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                            <a title="Dashboard" href="{{ route('dashboard') }}">
-                                <i class="icon nalika-home icon-wrap"></i>
-                                <span class="mini-click-non">Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a title="Lihat Website" href="{{ route('home') }}" target="_blank">
-                                <i class="icon nalika-earth icon-wrap"></i>
-                                <span class="mini-click-non">Lihat Website</span>
-                            </a>
-                        </li>
-                        <li class="{{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}">
-                            <a class="has-arrow" href="{{ route('admin.informasi') }}" aria-expanded="{{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'true' : 'false' }}">
-                                <i class="icon nalika-mail icon-wrap"></i>
-                                <span class="mini-click-non">Kelola Informasi</span>
-                            </a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Beranda Informasi" href="{{ route('admin.informasi') }}"><span class="mini-sub-pro">Beranda Informasi</span></a></li>
-                                <li><a title="Pengumuman" href="{{ route('admin.pengumuman.index') }}"><span class="mini-sub-pro">Pengumuman</span></a></li>
-                                <li><a title="Fitur / Layanan" href="{{ route('admin.fitur.index') }}"><span class="mini-sub-pro">Fitur / Layanan</span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </nav>
-    </div>
-
-    <!-- Start Welcome area -->
-    <div class="all-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="logo-pro">
-                        <a href="{{ route('dashboard') }}"><img class="main-logo" src="{{ asset('mentahan2/nalika/img/logo/logo.png') }}" alt="" /></a>
-                    </div>
-                </div>
-            </div>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="appSidebar">
+      <div class="brand">
+        <div class="brand-logo">🏫</div>
+        <div class="brand-title-wrap">
+          <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
+          <span>Berilmu, Berkarakter, Berprestasi</span>
         </div>
-        <div class="header-advance-area">
-            <div class="header-top-area">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-top-wraper">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
-                                        <div class="menu-switcher-pro">
-                                            <button type="button" id="sidebarCollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-                                                <i class="icon nalika-menu-task"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
-                                        <div class="header-top-menu tabl-d-n hd-search-rp">
-                                            <div class="breadcome-heading">
-                                                <form role="search" class="">
-                                                    <input type="text" placeholder="Search..." class="form-control">
-                                                    <a href=""><i class="fa fa-search"></i></a>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                        <div class="header-right-info">
-                                            <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                <li class="nav-item">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                                        <i class="icon nalika-user"></i>
-                                                        <span class="admin-name">{{ Auth::user()->name }}</span>
-                                                        <i class="icon nalika-down-arrow nalika-angle-dw"></i>
-                                                    </a>
-                                                    <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                        <li><a href="{{ route('home') }}" target="_blank"><span class="icon nalika-home author-log-ic"></span> Lihat Website</a></li>
-                                                        <li>
-                                                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                                <span class="icon nalika-unlocked author-log-ic"></span> Log Out
-                                                            </a>
-                                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                                @csrf
-                                                            </form>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
 
-            <!-- Breadcome area -->
-            <div class="breadcome-area">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="breadcome-list">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <div class="breadcomb-wp">
-                                            <div class="breadcomb-icon">
-                                                <i class="icon nalika-home"></i>
-                                            </div>
-                                            <div class="breadcomb-ctn">
-                                                <h2>Dashboard Management</h2>
-                                                <p>Selamat datang di Panel Admin <span class="bread-ntd">{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <nav class="nav">
+        <a class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+          <span class="nav-item-icon"><i class="fa fa-home"></i></span> Dashboard
+        </a>
+
+        <div class="nav-title">SISTEM INFORMASI</div>
+        <a class="nav-item {{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.informasi') }}">
+          <span class="nav-item-icon"><i class="fa fa-bullhorn"></i></span> Kelola Informasi
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}" href="{{ route('admin.pengumuman.index') }}" style="padding-left: 32px; font-size: 13px;">
+          <span class="nav-item-icon"><i class="fa fa-list-alt"></i></span> Pengumuman
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.fitur.index') }}" style="padding-left: 32px; font-size: 13px;">
+          <span class="nav-item-icon"><i class="fa fa-star"></i></span> Fitur / Layanan
+        </a>
+
+        <div class="nav-title">INFORMASI LAINNYA</div>
+        <a class="nav-item" href="{{ route('pengumuman.index') }}">
+          <span class="nav-item-icon"><i class="fa fa-newspaper"></i></span> Pengumuman Publik
+        </a>
+        <a class="nav-item" href="{{ route('profil') }}">
+          <span class="nav-item-icon"><i class="fa fa-school"></i></span> Profil Sekolah
+        </a>
+        <a class="nav-item" href="{{ route('kontak') }}">
+          <span class="nav-item-icon"><i class="fa fa-envelope"></i></span> Hubungi Kami
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="school-art">📖</div>
+        <p>Pendidikan adalah investasi terbaik untuk masa depan anak bangsa.</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; width: 50%;">
+          <button class="menu-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Menu">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div class="search">
+            <span>⌕</span>
+            <input type="text" placeholder="Cari data pengumuman, fitur, atau informasi...">
+          </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="section-admin container-fluid">
-            @yield('content')
-        </div>
-
-        <!-- Footer -->
-        <div class="footer-copyright-area">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-copy-right">
-                            <p>Copyright © {{ date('Y') }} {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}. Template Nalika Bootstrap Admin.</p>
-                        </div>
-                    </div>
-                </div>
+        <div class="topbar-right-controls">
+          <div class="profile-area">
+            <div class="user-avatar-circle">
+              <i class="fa fa-user"></i>
             </div>
-        </div>
-    </div>
+            <div class="profile">
+              <strong>{{ Auth::user()->name }}</strong>
+              <small>{{ ucfirst(Auth::user()->role) }}</small>
+            </div>
+          </div>
 
-    <!-- Scripts ============================================ -->
-    <script src="{{ asset('mentahan2/nalika/js/vendor/jquery-1.12.4.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/wow.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/jquery-price-slider.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/jquery.meanmenu.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/jquery.sticky.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/jquery.scrollUp.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/scrollbar/mCustomScrollbar-active.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/metisMenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/metisMenu/metisMenu-active.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/sparkline/jquery.sparkline.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/sparkline/jquery.charts-sparkline.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/calendar/moment.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/calendar/fullcalendar.min.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/calendar/fullcalendar-active.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/flot/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/flot/curvedLines.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/flot/flot-active.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/plugins.js') }}"></script>
-    <script src="{{ asset('mentahan2/nalika/js/main.js') }}"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    @yield('scripts')
+          <a href="#" class="logout-btn-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <i class="fa fa-sign-out-alt"></i> <span>Keluar</span>
+          </a>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+          </form>
+        </div>
+      </header>
+
+      <section class="content">
+        @yield('content')
+      </section>
+    </main>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('sidebarToggleBtn');
+      const sidebar = document.getElementById('appSidebar');
+
+      if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', function() {
+          sidebar.classList.toggle('mobile-open');
+        });
+      }
+    });
+  </script>
+
+  @yield('scripts')
 </body>
-
 </html>

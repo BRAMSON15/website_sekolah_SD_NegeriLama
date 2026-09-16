@@ -24,44 +24,6 @@
       </a>
     </div>
   </div>
-
-  <!-- <div class="hero-visual" style="position: relative; display: flex; justify-content: center;">
-    <div class="hero-card-main" style="background: #ffffff; padding: 30px; border-radius: var(--radius); box-shadow: var(--shadow-lg); border: 1px solid var(--border); width: 100%; max-width: 420px; position: relative; z-index: 2;">
-      <div style="position: absolute; background: #ffffff; padding: 12px 20px; border-radius: 50px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; border: 1px solid var(--border); z-index: 3; top: -20px; left: -20px;">
-        <i class="fa-solid fa-star" style="color: var(--accent);"></i> Top 10 Sekolah Terbaik
-      </div>
-      <div style="position: absolute; background: #ffffff; padding: 12px 20px; border-radius: 50px; box-shadow: var(--shadow-md); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.85rem; border: 1px solid var(--border); z-index: 3; bottom: -20px; right: -20px;">
-        <i class="fa-solid fa-users" style="color: var(--primary);"></i> 500+ Siswa Aktif
-      </div>
-      <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-        <div style="width: 60px; height: 60px; border-radius: 50%; background: #dbeafe; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--primary);">
-          <i class="fa-solid fa-school-flag"></i>
-        </div>
-        <div>
-          <h3 style="font-size: 1.1rem; font-weight: 800;">Sistem Terpadu</h3>
-          <p style="font-size: 0.85rem; color: var(--muted);">Layanan Pendidikan Digital</p>
-        </div>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
-        <div style="background: var(--light-bg); padding: 16px; border-radius: 12px; text-align: center;">
-          <h4 style="font-size: 1.5rem; color: var(--primary); font-weight: 800;">{{ $settings['stat_kelulusan'] ?? '100%' }}</h4>
-          <p style="font-size: 0.8rem; color: var(--muted); font-weight: 600;">Kelulusan</p>
-        </div>
-        <div style="background: var(--light-bg); padding: 16px; border-radius: 12px; text-align: center;">
-          <h4 style="font-size: 1.5rem; color: var(--primary); font-weight: 800;">{{ $settings['stat_akreditasi'] ?? 'A' }}</h4>
-          <p style="font-size: 0.8rem; color: var(--muted); font-weight: 600;">Akreditasi</p>
-        </div>
-        <div style="background: var(--light-bg); padding: 16px; border-radius: 12px; text-align: center;">
-          <h4 style="font-size: 1.5rem; color: var(--primary); font-weight: 800;">{{ $settings['stat_guru'] ?? '25+' }}</h4>
-          <p style="font-size: 0.8rem; color: var(--muted); font-weight: 600;">Guru Ahli</p>
-        </div>
-        <div style="background: var(--light-bg); padding: 16px; border-radius: 12px; text-align: center;">
-          <h4 style="font-size: 1.5rem; color: var(--primary); font-weight: 800;">{{ $settings['stat_eskul'] ?? '15+' }}</h4>
-          <p style="font-size: 0.8rem; color: var(--muted); font-weight: 600;">Ekstrakurikuler</p>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </section>
 
 <!-- Quick Features Bar -->
