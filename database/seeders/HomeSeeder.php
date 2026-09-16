@@ -108,6 +108,30 @@ class HomeSeeder extends Seeder
         );
 
         \App\Models\User::updateOrCreate(
+            ['nip' => '198507122010011002'],
+            [
+                'name' => 'Budi Santoso, S.Pd',
+                'email' => 'budisantoso@sdnegerilama.sch.id',
+                'nip' => '198507122010011002',
+                'subject' => 'Matematika',
+                'role' => 'guru',
+                'password' => \Illuminate\Support\Facades\Hash::make('198507122010011002'),
+            ]
+        );
+
+        \App\Models\User::updateOrCreate(
+            ['nip' => '199003152015022001'],
+            [
+                'name' => 'Siti Aminah, M.Pd',
+                'email' => 'sitiaminah@sdnegerilama.sch.id',
+                'nip' => '199003152015022001',
+                'subject' => 'Bahasa Indonesia',
+                'role' => 'guru',
+                'password' => \Illuminate\Support\Facades\Hash::make('199003152015022001'),
+            ]
+        );
+
+        \App\Models\User::updateOrCreate(
             ['email' => 'siswa@sdnegerilama.sch.id'],
             [
                 'name' => 'Andi Pratama',

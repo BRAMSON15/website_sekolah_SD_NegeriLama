@@ -242,7 +242,9 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="appSidebar">
       <div class="brand">
-        <div class="brand-logo">🏫</div>
+        <div class="brand-logo">
+          <img src="{{ asset('mentahan2/img/logo.svg') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
         <div class="brand-title-wrap">
           <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
           <span>Berilmu, Berkarakter, Berprestasi</span>
@@ -255,6 +257,9 @@
         </a>
 
         <div class="nav-title">SISTEM INFORMASI</div>
+        <a class="nav-item {{ request()->routeIs('admin.teachers.*') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
+          <span class="nav-item-icon"><i class="fa fa-user-tie"></i></span> Kelola Akun Guru
+        </a>
         <a class="nav-item {{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.informasi') }}">
           <span class="nav-item-icon"><i class="fa fa-bullhorn"></i></span> Kelola Informasi
         </a>

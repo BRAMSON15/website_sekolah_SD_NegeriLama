@@ -19,7 +19,7 @@
       <i class="fa fa-info-circle"></i> &nbsp; Kelola Informasi Sekolah
     </a>
   </div>
-  <div class="hero-school">🏫</div>
+  <div class="hero-school"></div>
 </div>
 
 <!-- Stats Section -->

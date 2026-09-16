@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\AdminTeacherController;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -27,19 +28,34 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/guru/dashboard', [AuthController::class, 'guruDashboard'])->name('guru.dashboard');
+    
+    // Admin Routes
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
     Route::get('/admin/ppdb', [PpdbController::class, 'index'])->name('admin.ppdb.index');
+    
+    // Kelola Akun Guru (Admin Only)
+    Route::get('/admin/guru', [AdminTeacherController::class, 'index'])->name('admin.teachers.index');
+    Route::get('/admin/guru/tambah', [AdminTeacherController::class, 'create'])->name('admin.teachers.create');
+    Route::post('/admin/guru', [AdminTeacherController::class, 'store'])->name('admin.teachers.store');
+    Route::get('/admin/guru/{teacher}/edit', [AdminTeacherController::class, 'edit'])->name('admin.teachers.edit');
+    Route::put('/admin/guru/{teacher}', [AdminTeacherController::class, 'update'])->name('admin.teachers.update');
+    Route::delete('/admin/guru/{teacher}', [AdminTeacherController::class, 'destroy'])->name('admin.teachers.destroy');
+
+    // Kelola Informasi Admin
     Route::get('/admin/informasi/pengumuman', [InformationController::class, 'announcements'])->name('admin.pengumuman.index');
     Route::get('/admin/informasi/pengumuman/tambah', [InformationController::class, 'createAnnouncement'])->name('admin.pengumuman.create');
     Route::post('/admin/informasi/pengumuman', [InformationController::class, 'storeAnnouncement'])->name('admin.pengumuman.store');
     Route::get('/admin/informasi/pengumuman/{announcement}/edit', [InformationController::class, 'editAnnouncement'])->name('admin.pengumuman.edit');
     Route::put('/admin/informasi/pengumuman/{announcement}', [InformationController::class, 'updateAnnouncement'])->name('admin.pengumuman.update');
     Route::delete('/admin/informasi/pengumuman/{announcement}', [InformationController::class, 'destroyAnnouncement'])->name('admin.pengumuman.destroy');
+    
     Route::get('/admin/informasi/fitur', [InformationController::class, 'features'])->name('admin.fitur.index');
     Route::get('/admin/informasi/fitur/tambah', [InformationController::class, 'createFeature'])->name('admin.fitur.create');
     Route::post('/admin/informasi/fitur', [InformationController::class, 'storeFeature'])->name('admin.fitur.store');
     Route::get('/admin/informasi/fitur/{feature}/edit', [InformationController::class, 'editFeature'])->name('admin.fitur.edit');
     Route::put('/admin/informasi/fitur/{feature}', [InformationController::class, 'updateFeature'])->name('admin.fitur.update');
     Route::delete('/admin/informasi/fitur/{feature}', [InformationController::class, 'destroyFeature'])->name('admin.fitur.destroy');
+    
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
