@@ -166,7 +166,7 @@
 
     /* Subpage Header Banner */
     .page-header {
-      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image.png');
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image1.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;

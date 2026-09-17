@@ -22,6 +22,25 @@
   
   <style>
     /* Custom enhancements for responsiveness & theme integration */
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      flex-shrink: 0;
+      overflow: hidden;
+      padding: 4px;
+    }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
     .brand-title-wrap h2 {
       font-size: 16px;
       font-weight: 700;
@@ -71,16 +90,34 @@
       color: #d32f2f;
     }
     .dashboard-map-container {
+      position: relative;
       width: 100%;
       height: 380px;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       margin-top: 15px;
       border: 1px solid var(--line);
+      background: #f1f5fc;
+      isolation: isolate; /* Traps Leaflet's high z-index inside this container */
+      z-index: 1; /* Always beneath sidebar and topbar */
+      transform: translateZ(0); /* Fixes border-radius clipping with CSS 3D transforms */
+      contain: paint;
     }
     #ambon-map {
       width: 100%;
       height: 100%;
+      z-index: 1;
+    }
+    .dashboard-map-container .leaflet-pane,
+    .dashboard-map-container .leaflet-top,
+    .dashboard-map-container .leaflet-bottom {
+      z-index: 2 !important;
+    }
+    .dashboard-map-container .leaflet-popup-pane {
+      z-index: 5 !important;
+    }
+    .dashboard-map-container .leaflet-control {
+      z-index: 6 !important;
     }
     
     /* Legacy Nalika Subpages Compatibility CSS */
@@ -229,6 +266,138 @@
     .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 25px; }
     .checkbox { margin-top: 15px; font-size: 13px; color: #17345e; }
 
+    /* Prevention of horizontal page overflow */
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    .app {
+      max-width: 100vw;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    .main {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .content {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .two-columns, .panel {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* Sidebar and Topbar z-index priority */
+    .sidebar {
+      z-index: 1050 !important;
+    }
+    .topbar {
+      z-index: 1000 !important;
+    }
+
+    /* Hamburger Menu Toggle Button */
+    .menu-toggle-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #f1f6fc;
+      border: 1px solid var(--line);
+      color: #17345e;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 12px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .menu-toggle-btn:hover {
+      background: #e2ecf8;
+      color: #1769d9;
+    }
+
+    /* Mobile Sidebar Backdrop */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 35, 65, 0.45);
+      backdrop-filter: blur(3px);
+      z-index: 1040;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .sidebar-backdrop.active {
+      display: block;
+      opacity: 1;
+    }
+
+    @media (max-width: 992px) {
+      .menu-toggle-btn {
+        display: inline-flex !important;
+      }
+      .sidebar {
+        position: fixed !important;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 280px !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1050 !important;
+        box-shadow: 4px 0 25px rgba(0, 0, 0, 0.25);
+      }
+      .sidebar.mobile-open {
+        transform: translateX(0);
+      }
+      .sidebar .nav {
+        display: flex !important;
+        flex-direction: column;
+      }
+      .sidebar-footer {
+        display: block !important;
+      }
+      .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      .app {
+        display: block !important;
+      }
+      .dashboard-map-container {
+        height: 320px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        height: auto;
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .topbar > div:first-child {
+        width: 100% !important;
+      }
+      .topbar-right-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .search {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .content {
+        padding: 16px 14px;
+      }
+      .dashboard-map-container {
+        height: 280px;
+      }
+    }
+
     @media (max-width: 900px) {
       .information-stats { grid-template-columns: 1fr; }
       .information-panels { grid-template-columns: 1fr; }
@@ -243,7 +412,7 @@
     <aside class="sidebar" id="appSidebar">
       <div class="brand">
         <div class="brand-logo">
-          <img src="{{ asset('mentahan2/img/logo.svg') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+          <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fa-solid fa-graduation-cap\' style=\'font-size: 22px; color: #1769e0;\'></i>';">
         </div>
         <div class="brand-title-wrap">
           <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
@@ -287,6 +456,9 @@
         <p>Pendidikan adalah investasi terbaik untuk masa depan anak bangsa.</p>
       </div>
     </aside>
+
+    <!-- Mobile Sidebar Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- Main Content -->
     <main class="main">
@@ -334,11 +506,27 @@
     document.addEventListener('DOMContentLoaded', function() {
       const toggleBtn = document.getElementById('sidebarToggleBtn');
       const sidebar = document.getElementById('appSidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('mobile-open');
+        if (backdrop) {
+          backdrop.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        }
+      }
+
+      function closeSidebar() {
+        sidebar.classList.remove('mobile-open');
+        if (backdrop) {
+          backdrop.classList.remove('active');
+        }
+      }
 
       if (toggleBtn && sidebar) {
-        toggleBtn.addEventListener('click', function() {
-          sidebar.classList.toggle('mobile-open');
-        });
+        toggleBtn.addEventListener('click', toggleSidebar);
+      }
+      if (backdrop) {
+        backdrop.addEventListener('click', closeSidebar);
       }
     });
   </script>

@@ -152,13 +152,22 @@
             maxZoom: 19
         }).addTo(ambonMap);
 
-        L.marker([-3.695, 128.18]).addTo(ambonMap)
-            .bindPopup('<strong>Ambon</strong><br>Pusat Kota Ambon')
-            .openPopup();
+        const marker = L.marker([-3.695, 128.18]).addTo(ambonMap)
+            .bindPopup('<strong>Ambon</strong><br>Pusat Kota Ambon');
+            
+        marker.openPopup();
 
-        setTimeout(function () {
+        function refreshMapSize() {
             ambonMap.invalidateSize();
-        }, 200);
+        }
+
+        setTimeout(refreshMapSize, 250);
+        window.addEventListener('resize', refreshMapSize);
+
+        const mapEl = document.getElementById('ambon-map');
+        if (window.ResizeObserver && mapEl) {
+            new ResizeObserver(refreshMapSize).observe(mapEl);
+        }
     });
 </script>
 @endsection

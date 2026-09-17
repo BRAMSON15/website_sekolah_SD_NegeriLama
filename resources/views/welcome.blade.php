@@ -4,11 +4,14 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero home-hero" style="position: relative; padding: 90px 6% 120px; background-image: url('{{ asset('mentahan/img/image.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 40px; overflow: hidden;">
-  <div class="hero-content">
-    <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgb(255, 255, 255); color: var(--primary); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; border: 1px solid rgba(59, 130, 246, 0.2);">
+<section class="hero home-hero" style="position: relative; padding: 90px 6% 120px; background-image: url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 40px; overflow: hidden;">
+  <!-- Dark Dimming Overlay -->
+  <div class="hero-overlay" style="position: absolute; inset: 0; background: linear-gradient(105deg, rgba(11, 23, 44, 0.75) 0%, rgba(16, 37, 74, 0.62) 55%, rgba(11, 23, 44, 0.48) 100%); pointer-events: none; z-index: 1;"></div>
+
+  <div class="hero-content" style="position: relative; z-index: 2;">
+    <!-- <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgb(255, 255, 255); color: var(--primary); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; border: 1px solid rgba(59, 130, 246, 0.2);">
       <i class="fa-solid fa-award"></i> {{ $settings['hero_badge'] ?? 'Sekolah Penggerak & Akreditasi A' }}
-    </div>
+    </div> -->
     <h1 style="font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1.15; font-weight: 800; color: #ffffff; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);">
       {!! $settings['hero_title'] ?? 'Mewujudkan Generasi <span>Cerdas, Kreatif & Berkarakter</span>' !!}
     </h1>
