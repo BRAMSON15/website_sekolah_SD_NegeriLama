@@ -91,14 +91,23 @@
     .brand-logo {
       width: 48px;
       height: 48px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      background: #ffffff;
+      border: 1px solid var(--border);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-size: 1.5rem;
-      box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .brand-text strong {
@@ -166,7 +175,7 @@
 
     /* Subpage Header Banner */
     .page-header {
-      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image1.png');
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../../mentahan2/img/image1.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -179,11 +188,15 @@
       font-size: 2.5rem;
       font-weight: 800;
       margin-bottom: 10px;
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);
     }
 
     .page-header p {
       font-size: 1.1rem;
-      opacity: 0.9;
+      color: #eff0f0;
+      opacity: 0.95;
+      text-shadow: 0 1px 4px rgba(15, 23, 42, 0.55);
     }
 
     .page-content {

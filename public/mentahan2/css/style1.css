@@ -77,18 +77,22 @@ a {
 .logo-icon {
     width: 48px;
     height: 48px;
-
-    background: #2d76df;
-
-    border-radius: 50%;
-
+    background: #ffffff;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    padding: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
 
-    font-size: 21px;
-
-    box-shadow: 0 7px 20px rgba(0,0,0,.18);
+.logo-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .school-logo h2 {

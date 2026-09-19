@@ -6,7 +6,9 @@
   <title>@yield('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))</title>
   
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('mentahan2/nalika/img/favicon.ico') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
+  <link rel="alternate icon" type="image/png" href="{{ asset('mentahan2/img/Logo1.png') }}">
+  <link rel="shortcut icon" href="{{ asset('mentahan2/img/Logo1.png') }}">
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,8 +22,32 @@
   <!-- Custom Mentahan2 Stylesheet -->
   <link rel="stylesheet" href="{{ asset('mentahan2/css/style.css') }}">
   
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('admin_sidebar_closed') === 'true' && window.innerWidth > 992) {
+          document.documentElement.classList.add('sidebar-closed-preload');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
   <style>
+    /* Anti-flicker preload state */
+    html.sidebar-closed-preload .sidebar {
+      transform: translateX(-100%) !important;
+      transition: none !important;
+    }
+    html.sidebar-closed-preload .main {
+      margin-left: 0 !important;
+      width: 100% !important;
+      transition: none !important;
+    }
+
     /* Custom enhancements for responsiveness & theme integration */
+    .brand {
+      position: relative;
+    }
     .brand-logo {
       width: 48px;
       height: 48px;
@@ -41,15 +67,50 @@
       object-fit: contain;
       display: block;
     }
+    .brand-title-wrap {
+      flex: 1;
+      min-width: 0;
+    }
     .brand-title-wrap h2 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #ffffff;
       margin: 0 0 2px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .brand-title-wrap span {
-      font-size: 11px;
+      font-size: 10px;
       color: #9eb6d6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+    .sidebar-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      margin-left: auto;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+    .sidebar-close-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+    .sidebar-close-btn:active {
+      transform: scale(0.95);
     }
     .nav-item-icon {
       font-size: 16px;
@@ -129,14 +190,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(105deg, #e7f2ff, #cfe6ff);
+      overflow: hidden;
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       border: 1px solid #d9eafa;
       margin-bottom: 22px;
+      position: relative;
     }
-    .information-hero h2 { font-size: 24px; color: #123b72; margin-bottom: 6px; }
-    .information-hero p { color: #6682a8; font-size: 14px; margin: 0; }
-    .information-hero-icon { font-size: 55px; color: #1769d9; opacity: 0.85; }
+    .information-hero h2 { font-size: 24px; color: #ffffff; margin-bottom: 6px; font-weight: 700; }
+    .information-hero p { color: #eff0f0; font-size: 14px; margin: 0; line-height: 1.6; }
+    .information-hero-icon { font-size: 55px; color: #ffffff; opacity: 0.85; }
     .panel-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: #1769d9; display: block; margin-bottom: 5px; }
+    .information-hero .panel-eyebrow { color: #93c5fd; }
+    .hero {
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    
 
     .information-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
     .information-stat-card {
@@ -289,17 +363,45 @@
       max-width: 100%;
     }
 
-    /* Sidebar and Topbar z-index priority */
+    /* Sidebar and Topbar transition & layout */
     .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 290px;
+      transform: translateX(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 1050 !important;
     }
     .topbar {
       z-index: 1000 !important;
     }
+    .main {
+      margin-left: 290px;
+      width: calc(100% - 290px);
+      min-width: 0;
+      max-width: 100%;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Topbar Controls & Toggle Button */
+    .topbar-left-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      max-width: 520px;
+    }
+    .topbar-left-controls .search {
+      flex: 1;
+      width: auto;
+      max-width: 460px;
+    }
 
     /* Hamburger Menu Toggle Button */
     .menu-toggle-btn {
-      display: none;
+      display: inline-flex !important;
       align-items: center;
       justify-content: center;
       width: 40px;
@@ -310,13 +412,39 @@
       color: #17345e;
       font-size: 16px;
       cursor: pointer;
-      margin-right: 12px;
       flex-shrink: 0;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .menu-toggle-btn:hover {
       background: #e2ecf8;
       color: #1769d9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(23, 105, 217, 0.12);
+    }
+    .menu-toggle-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Desktop Sidebar Closed State */
+    @media (min-width: 993px) {
+      body.sidebar-closed .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      body.sidebar-closed .main {
+        margin-left: 0 !important;
+        width: 100% !important;
+      }
+      body.sidebar-closed .menu-toggle-btn {
+        background: #1769d9;
+        color: #ffffff;
+        border-color: #1769d9;
+        box-shadow: 0 4px 12px rgba(23, 105, 217, 0.25);
+      }
+      body.sidebar-closed .menu-toggle-btn:hover {
+        background: #1254b3;
+        border-color: #1254b3;
+      }
     }
 
     /* Mobile Sidebar Backdrop */
@@ -336,9 +464,6 @@
     }
 
     @media (max-width: 992px) {
-      .menu-toggle-btn {
-        display: inline-flex !important;
-      }
       .sidebar {
         position: fixed !important;
         left: 0;
@@ -418,6 +543,9 @@
           <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
           <span>Berilmu, Berkarakter, Berprestasi</span>
         </div>
+        <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Tutup Sidebar" title="Tutup Sidebar">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
       </div>
 
       <nav class="nav">
@@ -463,9 +591,9 @@
     <!-- Main Content -->
     <main class="main">
       <header class="topbar">
-        <div style="display: flex; align-items: center; width: 50%;">
-          <button class="menu-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Menu">
-            <i class="fa fa-bars"></i>
+        <div class="topbar-left-controls">
+          <button class="menu-toggle-btn" id="sidebarToggleBtn" aria-label="Buka/Tutup Sidebar" title="Buka/Tutup Sidebar">
+            <i class="fa-solid fa-bars"></i>
           </button>
           <div class="search">
             <span>⌕</span>
@@ -505,29 +633,103 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const toggleBtn = document.getElementById('sidebarToggleBtn');
+      const closeBtn = document.getElementById('sidebarCloseBtn');
       const sidebar = document.getElementById('appSidebar');
       const backdrop = document.getElementById('sidebarBackdrop');
 
+      const isMobile = function() {
+        return window.innerWidth <= 992;
+      };
+
+      // Restore saved desktop state from localStorage
+      const savedClosedState = localStorage.getItem('admin_sidebar_closed') === 'true';
+      if (!isMobile() && savedClosedState) {
+        document.body.classList.add('sidebar-closed');
+      }
+      document.documentElement.classList.remove('sidebar-closed-preload');
+
+      function updateToggleTooltip() {
+        if (!toggleBtn) return;
+        const isClosed = isMobile()
+          ? !sidebar.classList.contains('mobile-open')
+          : document.body.classList.contains('sidebar-closed');
+
+        const titleText = isClosed ? 'Buka Sidebar' : 'Tutup Sidebar';
+        toggleBtn.setAttribute('title', titleText);
+        toggleBtn.setAttribute('aria-label', titleText);
+      }
+
       function toggleSidebar() {
-        sidebar.classList.toggle('mobile-open');
-        if (backdrop) {
-          backdrop.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+        if (isMobile()) {
+          const isOpen = sidebar.classList.toggle('mobile-open');
+          if (backdrop) {
+            backdrop.classList.toggle('active', isOpen);
+          }
+        } else {
+          document.body.classList.toggle('sidebar-closed');
+          const isClosed = document.body.classList.contains('sidebar-closed');
+          localStorage.setItem('admin_sidebar_closed', isClosed ? 'true' : 'false');
+          // Trigger resize for Leaflet map & responsive components
+          setTimeout(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 320);
         }
+        updateToggleTooltip();
       }
 
       function closeSidebar() {
-        sidebar.classList.remove('mobile-open');
-        if (backdrop) {
-          backdrop.classList.remove('active');
+        if (isMobile()) {
+          sidebar.classList.remove('mobile-open');
+          if (backdrop) {
+            backdrop.classList.remove('active');
+          }
+        } else {
+          document.body.classList.add('sidebar-closed');
+          localStorage.setItem('admin_sidebar_closed', 'true');
+          setTimeout(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 320);
         }
+        updateToggleTooltip();
       }
 
-      if (toggleBtn && sidebar) {
+      if (toggleBtn) {
         toggleBtn.addEventListener('click', toggleSidebar);
+      }
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeSidebar);
       }
       if (backdrop) {
         backdrop.addEventListener('click', closeSidebar);
       }
+
+      // Close on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          if (isMobile() && sidebar.classList.contains('mobile-open')) {
+            closeSidebar();
+          }
+        }
+      });
+
+      // Handle screen resize between mobile and desktop
+      let prevIsMobile = isMobile();
+      window.addEventListener('resize', function() {
+        const currentlyMobile = isMobile();
+        if (currentlyMobile !== prevIsMobile) {
+          prevIsMobile = currentlyMobile;
+          if (currentlyMobile) {
+            sidebar.classList.remove('mobile-open');
+            if (backdrop) backdrop.classList.remove('active');
+          } else {
+            const isClosed = localStorage.getItem('admin_sidebar_closed') === 'true';
+            document.body.classList.toggle('sidebar-closed', isClosed);
+          }
+          updateToggleTooltip();
+        }
+      });
+
+      updateToggleTooltip();
     });
   </script>
 

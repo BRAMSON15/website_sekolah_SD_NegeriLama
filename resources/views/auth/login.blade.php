@@ -7,8 +7,8 @@
   <div style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 460px;">
     
     <div style="text-align: center; margin-bottom: 30px;">
-      <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.8rem; margin: 0 auto 16px; box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);">
-        <i class="fa-solid fa-graduation-cap"></i>
+      <div style="width: 68px; height: 68px; background: #ffffff; border: 1px solid var(--border); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); padding: 8px; overflow: hidden;">
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" style="width: 100%; height: 100%; object-fit: contain;">
       </div>
       <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--dark); margin-bottom: 6px;">Portal Masuk</h2>
       <p style="font-size: 0.9rem; color: var(--muted);">Masuk ke sistem akademis {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</p>

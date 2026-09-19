@@ -211,6 +211,7 @@ a { text-decoration: none; color: inherit; }
   padding: 22px 30px 40px;
 }
 
+/* bagian admin */
 .hero {
   min-height: 188px;
   border-radius: 16px;
@@ -219,7 +220,7 @@ a { text-decoration: none; color: inherit; }
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
-  background-image: url(../img/image1.png);
+  background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -239,8 +240,48 @@ a { text-decoration: none; color: inherit; }
   line-height: 1.7;
   max-width: 530px;
   margin-bottom: 17px;
-  /* background-image: url(/mentahan2/img/image.png); */
+}
 
+.information-hero {
+  min-height: 140px;
+  border-radius: 16px;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('../img/image1.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #d9eafa;
+  margin-bottom: 22px;
+  position: relative;
+}
+.information-hero h2 {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.information-hero p {
+  color: #eff0f0;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.6;
+}
+.information-hero .panel-eyebrow {
+  color: #93c5fd;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-bottom: 5px;
+}
+.information-hero-icon {
+  font-size: 55px;
+  color: #ffffff;
+  opacity: 0.85;
 }
 
 .primary-btn {

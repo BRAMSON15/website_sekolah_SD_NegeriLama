@@ -4,12 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'SD Negeri Lama')</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
+  <link rel="alternate icon" type="image/png" href="{{ asset('mentahan2/img/Logo1.png') }}">
+  <link rel="shortcut icon" href="{{ asset('mentahan2/img/Logo1.png') }}">
+
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="{{asset('mentahan/css/style2.css')}}">
+  <style>
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      background: #ffffff !important;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .page-header {
+      background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}') !important;
+      background-size: cover !important;
+      background-position: center !important;
+      background-repeat: no-repeat !important;
+      color: #ffffff !important;
+    }
+    .page-header h1 {
+      color: #ffffff !important;
+      text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);
+    }
+    .page-header p {
+      color: #eff0f0 !important;
+      text-shadow: 0 1px 4px rgba(15, 23, 42, 0.55);
+    }
+  </style>
   @yield('styles')
 </head>
 <body>
@@ -32,7 +74,7 @@
   <header class="navbar">
     <a href="{{ route('home') }}" class="brand">
       <div class="brand-logo">
-        <i class="fa-solid fa-graduation-cap"></i>
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
       </div>
       <div class="brand-text">
         <strong>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</strong>
@@ -70,7 +112,12 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <h3><i class="fa-solid fa-graduation-cap"></i> {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h3>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+          <div style="width: 42px; height: 42px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 4px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #ffffff;">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h3>
+        </div>
         <p>Sekolah Dasar unggulan yang mencetak generasi bertakwa, cerdas, berkarakter, dan siap menghadapi era digital.</p>
       </div>
 
