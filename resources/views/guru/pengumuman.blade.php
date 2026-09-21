@@ -40,8 +40,8 @@
 
     <div style="display: flex; flex-direction: column; gap: 16px;">
         @forelse($announcements as $announcement)
-        <div style="display: flex; gap: 18px; padding: 18px 20px; border-radius: 12px; background: var(--background); border: 1px solid var(--border);">
-            <div style="background: var(--primary); color: #fff; border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 70px; display: flex; flex-direction: column; justify-content: center; height: fit-content;">
+        <div class="announcement-item">
+            <div class="announcement-date">
                 <span style="font-size: 1.4rem; font-weight: 800; line-height: 1;">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</span>
                 <span style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; margin-top: 4px;">{{ $announcement->published_at ? $announcement->published_at->format('M Y') : date('M Y') }}</span>
             </div>

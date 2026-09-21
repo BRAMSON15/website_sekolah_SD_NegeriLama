@@ -11,7 +11,7 @@
 </div>
 @endif
 
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 22px;">
     <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
         <i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan upload:
@@ -136,23 +136,23 @@
 </div>
 
 <!-- MODAL UNGGAH MATERI -->
-<div id="modalMateri" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(2px);">
-    <div style="background: #ffffff; width: 100%; max-width: 540px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.25); animation: modalFadeIn 0.25s ease;">
-        <div style="background: #2875dc; color: #ffffff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
+<div id="modalMateri" class="modal-overlay">
+    <div class="modal-dialog">
+        <div class="modal-header" style="background: #2875dc;">
             <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem;">
                 <i class="fa-solid fa-cloud-arrow-up"></i> Unggah Materi Baru
             </div>
             <button type="button" onclick="closeModalMateri()" style="background: transparent; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer; line-height: 1;">&times;</button>
         </div>
 
-        <form action="{{ route('guru.materi.store') }}" method="POST" enctype="multipart/form-data" style="padding: 24px;">
+        <form action="{{ route('guru.materi.store') }}" method="POST" enctype="multipart/form-data" class="modal-body-scroll">
             @csrf
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Judul Materi / Modul *</label>
                 <input type="text" name="title" required placeholder="Contoh: Modul Matematika Pecahan & Desimal" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; box-sizing: border-box;">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+            <div class="modal-form-row">
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mata Pelajaran *</label>
                     <input type="text" name="subject" required placeholder="Contoh: Matematika" value="{{ Auth::user()->subject ?: 'Matematika' }}" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; box-sizing: border-box;">

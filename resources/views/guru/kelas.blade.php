@@ -11,7 +11,7 @@
 </div>
 @endif
 
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 22px;">
     <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
         <i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan input:
@@ -75,7 +75,7 @@
 </div>
 
 <!-- CLASS CARDS -->
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 30px;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px; margin-bottom: 25px;">
     @foreach($classes as $class)
     @php
         $isSelected = ($class['name'] === $selectedClass);
@@ -181,8 +181,8 @@
             </div>
         </div>
 
-        <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px;">
+            <table style="width: 100%; min-width: 580px; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
                 <thead>
                     <tr style="background: #f8fafc; border-bottom: 2px solid var(--border);">
                         <th style="padding: 12px 16px; color: var(--muted); font-weight: 700; width: 50px;">No</th>
@@ -242,8 +242,8 @@
             </table>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
-            <button type="submit" style="background: #16a34a; color: white; border: none; padding: 12px 26px; border-radius: 9px; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);">
+        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <button type="submit" style="background: #16a34a; color: white; border: none; padding: 12px 26px; border-radius: 9px; font-weight: 700; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25); box-sizing: border-box;">
                 <i class="fa-solid fa-floppy-disk"></i> Simpan Presensi {{ $selectedClass }}
             </button>
         </div>

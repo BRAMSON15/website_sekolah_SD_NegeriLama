@@ -51,6 +51,107 @@
       color: #eff0f0 !important;
       text-shadow: 0 1px 4px rgba(15, 23, 42, 0.55);
     }
+
+    /* Responsive Header & Brand for Tablets & Mobile */
+    @media (max-width: 768px) {
+      .navbar {
+        height: 68px !important;
+        padding: 0 16px !important;
+      }
+      .brand {
+        gap: 10px !important;
+        text-decoration: none !important;
+      }
+      .brand-logo {
+        width: 42px !important;
+        height: 42px !important;
+        border-radius: 10px !important;
+        padding: 3px !important;
+      }
+      .brand-text strong {
+        font-size: 1rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+      }
+      .brand-text span {
+        font-size: 0.65rem !important;
+        letter-spacing: 0.5px !important;
+        white-space: nowrap !important;
+      }
+      .btn-login {
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px !important;
+        gap: 6px !important;
+        white-space: nowrap !important;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .navbar {
+        height: 62px !important;
+        padding: 0 12px !important;
+      }
+      .brand {
+        gap: 8px !important;
+        min-width: 0 !important;
+      }
+      .brand-logo {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 8px !important;
+        padding: 2px !important;
+      }
+      .brand-text {
+        min-width: 0 !important;
+      }
+      .brand-text strong {
+        font-size: 0.85rem !important;
+        line-height: 1.15 !important;
+        letter-spacing: -0.2px !important;
+        white-space: nowrap !important;
+      }
+      .brand-text span {
+        font-size: 0.58rem !important;
+        letter-spacing: 0.2px !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+      }
+      .btn-login {
+        padding: 6px 12px !important;
+        font-size: 0.78rem !important;
+        border-radius: 7px !important;
+        gap: 5px !important;
+        white-space: nowrap !important;
+      }
+      .btn-login i {
+        font-size: 0.8rem !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .navbar {
+        height: 58px !important;
+        padding: 0 8px !important;
+      }
+      .brand {
+        gap: 6px !important;
+      }
+      .brand-logo {
+        width: 32px !important;
+        height: 32px !important;
+      }
+      .brand-text strong {
+        font-size: 0.78rem !important;
+      }
+      .brand-text span {
+        font-size: 0.52rem !important;
+      }
+      .btn-login {
+        padding: 5px 10px !important;
+        font-size: 0.72rem !important;
+      }
+    }
   </style>
   @yield('styles')
 </head>

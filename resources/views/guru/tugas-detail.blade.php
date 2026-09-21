@@ -11,7 +11,7 @@
 </div>
 @endif
 
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 22px;">
     <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
         <i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan simpan nilai:
@@ -84,12 +84,12 @@
             $validGrades = $grades->whereNotNull('grade');
             $avgScore = $validGrades->count() > 0 ? round($validGrades->avg('grade'), 1) : '-';
         @endphp
-        <div style="display: flex; gap: 14px;">
-            <div style="background: #f8fafc; border: 1px solid var(--border); padding: 14px 20px; border-radius: 12px; text-align: center;">
+        <div style="display: flex; gap: 14px; flex-wrap: wrap; width: 100%;">
+            <div style="flex: 1; min-width: 130px; background: #f8fafc; border: 1px solid var(--border); padding: 14px 20px; border-radius: 12px; text-align: center;">
                 <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">{{ $assignment->submitted_count }} / {{ $students->count() }}</div>
                 <div style="font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Siswa Dinilai</div>
             </div>
-            <div style="background: #f8fafc; border: 1px solid var(--border); padding: 14px 20px; border-radius: 12px; text-align: center;">
+            <div style="flex: 1; min-width: 130px; background: #f8fafc; border: 1px solid var(--border); padding: 14px 20px; border-radius: 12px; text-align: center;">
                 <div style="font-size: 1.5rem; font-weight: 800; color: #16a34a;">{{ $avgScore }}</div>
                 <div style="font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase;">Rata-rata Kelas</div>
             </div>
@@ -118,8 +118,8 @@
     <form action="{{ route('guru.tugas.nilai', $assignment->id) }}" method="POST">
         @csrf
 
-        <div style="overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 24px;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 24px;">
+            <table style="width: 100%; min-width: 620px; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
                 <thead>
                     <tr style="background: #f8fafc; border-bottom: 2px solid var(--border);">
                         <th style="padding: 12px 16px; color: var(--muted); font-weight: 700; width: 50px;">No</th>
@@ -191,7 +191,7 @@
             </table>
         </div>
 
-        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px;">
+        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; flex-wrap: wrap;">
             <a href="{{ route('guru.tugas') }}" style="padding: 12px 20px; border: 1px solid #cbd5e1; background: #f8fafc; color: #475569; border-radius: 9px; font-weight: 700; font-size: 13px; text-decoration: none;">
                 Kembali
             </a>

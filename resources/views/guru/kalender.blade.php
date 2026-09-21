@@ -51,8 +51,8 @@
 
             <div style="display: flex; flex-direction: column; gap: 16px;">
                 @foreach($events as $event)
-                <div style="display: flex; gap: 16px; padding: 18px; border-radius: 12px; background: var(--background); border-left: 4px solid {{ $event['badge_color'] }};">
-                    <div style="min-width: 90px; text-align: center; background: #fff; padding: 10px; border-radius: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center;">
+                <div class="agenda-item" style="border-left: 4px solid {{ $event['badge_color'] }};">
+                    <div class="agenda-date">
                         <span style="font-size: 1.3rem; font-weight: 800; color: var(--primary); line-height: 1;">{{ date('d', strtotime($event['date'])) }}</span>
                         <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-top: 4px;">{{ date('M Y', strtotime($event['date'])) }}</span>
                     </div>

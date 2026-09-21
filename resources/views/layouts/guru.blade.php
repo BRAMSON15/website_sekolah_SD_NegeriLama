@@ -207,15 +207,53 @@
                 left: 0;
                 top: 0;
                 height: 100vh;
-                transform: translateX(-100%);
-                box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
+                width: min(285px, 84vw) !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1050 !important;
+                box-shadow: 6px 0 35px rgba(0, 0, 0, 0.35);
+                padding: 24px 14px !important;
+                display: flex !important;
+                flex-direction: column !important;
             }
             body.sidebar-open .sidebar {
-                transform: translateX(0);
+                transform: translateX(0) !important;
+            }
+            .sidebar .school-logo {
+                display: flex !important;
+                justify-content: flex-start !important;
+                padding: 0 8px 24px !important;
+            }
+            .sidebar .school-logo > div:last-child {
+                display: block !important;
+            }
+            .sidebar .menu-item span {
+                display: inline !important;
+            }
+            .sidebar .menu-item b {
+                display: flex !important;
+            }
+            .sidebar .sidebar-quote {
+                display: block !important;
+            }
+            .sidebar .menu-item {
+                justify-content: flex-start !important;
+                padding: 0 16px !important;
             }
             .main {
                 margin-left: 0 !important;
                 width: 100% !important;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr !important;
+                gap: 18px;
+            }
+            .left-content,
+            .right-content {
+                width: 100%;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 18px;
             }
         }
 
@@ -235,7 +273,372 @@
         .logout-link-btn:hover {
             background: #fde8e8;
         }
+
+        /* Guru Portal Mobile Responsiveness Enhancements */
+        @media (max-width: 768px) {
+            .topbar {
+                height: auto;
+                min-height: 64px;
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .topbar-left-wrap {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .search {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            .top-right {
+                width: 100%;
+                justify-content: space-between;
+                gap: 10px;
+            }
+            .welcome {
+                min-height: auto;
+                padding: 22px 18px !important;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 14px;
+            }
+            .welcome-text {
+                max-width: 100% !important;
+            }
+            .welcome h1 {
+                font-size: 21px !important;
+                line-height: 1.3;
+            }
+            .welcome p {
+                font-size: 13px !important;
+                line-height: 1.6;
+            }
+            .teacher-illustration {
+                display: none !important;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+                margin: 16px 0;
+            }
+            .stat-card {
+                padding: 16px 14px;
+                min-height: auto;
+                border-radius: 12px;
+            }
+            .stat-card h2 {
+                font-size: 20px;
+            }
+            .content {
+                padding: 16px 14px 35px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .topbar {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            .topbar-left-wrap {
+                gap: 8px;
+            }
+            .menu-toggle-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 15px;
+                border-radius: 8px;
+            }
+            .search {
+                height: 38px;
+                padding: 0 12px;
+            }
+            .search input {
+                font-size: 12px;
+            }
+            .top-right {
+                gap: 8px;
+            }
+            .profile {
+                gap: 8px;
+            }
+            .profile-photo {
+                width: 34px;
+                height: 34px;
+                font-size: 13px;
+            }
+            .profile-info strong {
+                font-size: 12px;
+                max-width: 120px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            }
+            .profile-info small {
+                font-size: 10px;
+                max-width: 120px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            }
+            .profile > i {
+                display: none;
+            }
+            .logout-link-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                border-radius: 7px;
+                gap: 4px;
+            }
+            .content {
+                padding: 12px 10px 30px;
+            }
+            .welcome {
+                padding: 18px 14px !important;
+                border-radius: 12px;
+                gap: 10px;
+            }
+            .welcome h1 {
+                font-size: 18px !important;
+            }
+            .welcome p {
+                font-size: 12px !important;
+            }
+            .stats {
+                grid-template-columns: 1fr !important;
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 14px;
+                min-height: auto;
+            }
+            .section-card {
+                padding: 16px 12px;
+                border-radius: 12px;
+            }
+            .section-header {
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 14px;
+            }
+            .section-header h2,
+            .section-title h2 {
+                font-size: 14px;
+            }
+            .video-bottom {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .watch-button {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            .quick-actions .quick-item {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            .quick-item strong {
+                font-size: 12px;
+            }
+            .quick-item span {
+                font-size: 10px;
+            }
+            .material {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            .materials {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .profile-info {
+                display: none;
+            }
+        }
+
+        /* Modal Responsive Utility Classes */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            backdrop-filter: blur(3px);
+            box-sizing: border-box;
+        }
+        .modal-dialog {
+            background: #ffffff;
+            width: 100%;
+            max-width: 560px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            max-height: 92vh;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .modal-header {
+            padding: 16px 20px;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-body-scroll {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: calc(92vh - 65px);
+            -webkit-overflow-scrolling: touch;
+            box-sizing: border-box;
+        }
+        .modal-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 576px) {
+            .modal-overlay {
+                padding: 8px;
+                align-items: flex-end;
+            }
+            .modal-dialog {
+                max-height: 94vh;
+                border-radius: 16px 16px 0 0;
+            }
+            .modal-header {
+                padding: 14px 16px;
+            }
+            .modal-body-scroll {
+                padding: 16px 14px;
+                max-height: calc(94vh - 60px);
+            }
+            .modal-form-row {
+                grid-template-columns: 1fr !important;
+                gap: 12px;
+            }
+        }
+
+        /* Agenda & Announcement Responsive Items */
+        .agenda-item {
+            display: flex;
+            gap: 16px;
+            padding: 18px;
+            border-radius: 12px;
+            background: var(--background);
+        }
+        .agenda-date {
+            min-width: 90px;
+            text-align: center;
+            background: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .announcement-item {
+            display: flex;
+            gap: 18px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            background: var(--background);
+            border: 1px solid var(--border);
+        }
+        .announcement-date {
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px 14px;
+            text-align: center;
+            min-width: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: fit-content;
+        }
+        @media (max-width: 576px) {
+            .agenda-item {
+                flex-direction: column !important;
+                gap: 12px !important;
+                padding: 14px !important;
+            }
+            .agenda-date {
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 8px !important;
+                width: fit-content !important;
+                padding: 6px 12px !important;
+            }
+            .announcement-item {
+                flex-direction: column !important;
+                gap: 12px !important;
+                padding: 14px !important;
+            }
+            .announcement-date {
+                flex-direction: row !important;
+                align-items: center !important;
+                gap: 8px !important;
+                padding: 6px 12px !important;
+                width: fit-content !important;
+            }
+        }
+
+        /* Video Section UI Elements */
+        .video-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-top: 14px;
+        }
+        .watch-button {
+            background: #1769e0;
+            color: #fff;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            transition: 0.2s;
+        }
+        .watch-button:hover {
+            background: #1252b0;
+            color: #fff;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .tags span {
+            background: #f1f5fa;
+            color: var(--muted);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
     </style>
+
+    @yield('styles')
 </head>
 
 <body>

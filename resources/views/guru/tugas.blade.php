@@ -11,7 +11,7 @@
 </div>
 @endif
 
-@if($errors->any())
+@if(isset($errors) && $errors->any())
 <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 14px 18px; border-radius: 12px; margin-bottom: 22px;">
     <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
         <i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan input tugas:
@@ -118,7 +118,7 @@
                 </p>
             </div>
 
-            <div style="display: flex; gap: 10px; align-items: center;">
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                 <a href="{{ route('guru.tugas.detail', $asg->id) }}" style="background: #2875dc; color: #fff; text-decoration: none; padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(40, 117, 220, 0.2);">
                     <i class="fa-solid fa-user-check"></i> Periksa & Input Nilai ({{ $asg->submitted_count }}/{{ $asg->total_students }})
                 </a>
@@ -155,23 +155,23 @@
 </div>
 
 <!-- MODAL BUAT TUGAS -->
-<div id="modalTugas" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(2px);">
-    <div style="background: #ffffff; width: 100%; max-width: 560px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.25);">
-        <div style="background: #ea580c; color: #ffffff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center;">
+<div id="modalTugas" class="modal-overlay">
+    <div class="modal-dialog">
+        <div class="modal-header" style="background: #ea580c;">
             <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem;">
                 <i class="fa-solid fa-plus-circle"></i> Buat Tugas / Evaluasi Baru
             </div>
             <button type="button" onclick="closeModalTugas()" style="background: transparent; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer; line-height: 1;">&times;</button>
         </div>
 
-        <form action="{{ route('guru.tugas.store') }}" method="POST" style="padding: 24px;">
+        <form action="{{ route('guru.tugas.store') }}" method="POST" class="modal-body-scroll">
             @csrf
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Judul Tugas / Ulangan *</label>
                 <input type="text" name="title" required placeholder="Contoh: Penilaian Harian Bab 2: Operasi Hitung Campuran" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; box-sizing: border-box;">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+            <div class="modal-form-row">
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Mata Pelajaran *</label>
                     <input type="text" name="subject" required placeholder="Contoh: Matematika" value="{{ Auth::user()->subject ?: 'Matematika' }}" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; box-sizing: border-box;">
