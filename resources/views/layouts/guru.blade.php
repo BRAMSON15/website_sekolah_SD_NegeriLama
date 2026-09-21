@@ -30,13 +30,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
+    <!-- Font Awesome & Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <!-- Custom Mentahan2 Guru Stylesheet -->
     <link rel="stylesheet" href="{{ asset('mentahan2/css/style1.css') }}">
     
     <style>
+        /* Enhanced Stat Icons (Bootstrap Icons Support) */
+        .stat-icon {
+            font-size: 20px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+        }
+        .stat-icon i {
+            font-size: 20px !important;
+            line-height: 1 !important;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* Smooth Layout Transitions */
         .sidebar {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);

@@ -15,8 +15,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome & Leaflet -->
+  <!-- FontAwesome, Bootstrap Icons, & Leaflet -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   
   <!-- Custom Mentahan2 Stylesheet -->
@@ -210,7 +211,50 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-    
+
+    /* Enhanced Bootstrap Icons in Stat Cards & Features */
+    .stat-icon {
+      font-size: 22px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+    }
+    .stat-icon i {
+      font-size: 22px !important;
+      line-height: 1 !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-card .arrow {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .feature-icon {
+      font-size: 24px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .feature-icon i {
+      font-size: 24px !important;
+      line-height: 1 !important;
+    }
+    .feature > b {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .mini-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .mini-icon i {
+      line-height: 1 !important;
+    }
 
     .information-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 25px; }
     .information-stat-card {

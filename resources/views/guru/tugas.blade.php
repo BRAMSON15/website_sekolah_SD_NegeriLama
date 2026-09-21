@@ -49,28 +49,28 @@
 <!-- STATS -->
 <div class="stats" style="margin-bottom: 25px;">
     <div class="stat-card orange">
-        <div class="stat-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+        <div class="stat-icon"><i class="bi bi-hourglass-split"></i></div>
         <h2>{{ $activeCount }}</h2>
         <p>Tugas Berjalan (Aktif)</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-clock"></i> Belum Selesai Dinilai</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-clock"></i> Belum Selesai Dinilai</span>
     </div>
     <div class="stat-card green">
-        <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+        <div class="stat-icon"><i class="bi bi-check2-circle"></i></div>
         <h2>{{ $completedCount }}</h2>
         <p>Selesai Dinilai</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-circle-check"></i> Sudah Tuntas Diisi</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-check-circle-fill"></i> Sudah Tuntas Diisi</span>
     </div>
     <div class="stat-card blue">
-        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
         <h2>{{ $totalSubmissions }}</h2>
         <p>Total Pengumpulan Dinilai</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-chart-simple"></i> Lembar Nilai Siswa</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-bar-chart-fill"></i> Lembar Nilai Siswa</span>
     </div>
     <div class="stat-card purple">
-        <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+        <div class="stat-icon"><i class="bi bi-award-fill"></i></div>
         <h2>{{ count($assignments) }}</h2>
         <p>Total Tugas / Ulangan</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-thumbs-up"></i> Seluruh Kelas</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-hand-thumbs-up-fill"></i> Seluruh Kelas</span>
     </div>
 </div>
 

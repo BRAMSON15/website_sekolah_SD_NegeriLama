@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
     Route::get('/admin/ppdb', [PpdbController::class, 'index'])->name('admin.ppdb.index');
+    Route::get('/admin/ppdb/export/pdf', [PpdbController::class, 'exportPdf'])->name('admin.ppdb.export.pdf');
+    Route::get('/admin/ppdb/export/excel', [PpdbController::class, 'exportExcel'])->name('admin.ppdb.export.excel');
     
     // Kelola Akun Guru (Admin Only)
     Route::get('/admin/guru', [AdminTeacherController::class, 'index'])->name('admin.teachers.index');

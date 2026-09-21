@@ -37,49 +37,49 @@
 <div class="stats">
     <div class="stat-card blue">
         <div class="stat-icon">
-            <i class="fa-solid fa-users"></i>
+            <i class="bi bi-people-fill"></i>
         </div>
         <h2>{{ $stats['classes'] ?? 3 }}</h2>
         <p>Kelas yang Diampu</p>
         <a href="{{ route('guru.kelas') }}">
             Lihat Detail
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 
     <div class="stat-card green">
         <div class="stat-icon">
-            <i class="fa-solid fa-book-open"></i>
+            <i class="bi bi-book-half"></i>
         </div>
         <h2>{{ $stats['materials'] ?? 0 }}</h2>
         <p>Materi Pembelajaran</p>
         <a href="{{ route('guru.materi') }}">
             Kelola Materi
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 
     <div class="stat-card purple">
         <div class="stat-icon">
-            <i class="fa-solid fa-play"></i>
+            <i class="bi bi-play-circle-fill"></i>
         </div>
         <h2>{{ $stats['videos'] ?? 0 }}</h2>
         <p>Video Edukasi</p>
         <a href="{{ route('guru.video') }}">
             Lihat Semua
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 
     <div class="stat-card orange">
         <div class="stat-icon">
-            <i class="fa-solid fa-clipboard-list"></i>
+            <i class="bi bi-clipboard-check-fill"></i>
         </div>
         <h2>{{ $stats['assignments'] ?? 0 }}</h2>
         <p>Tugas / Penilaian</p>
         <a href="{{ route('guru.tugas') }}">
             Kelola Tugas
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="bi bi-arrow-right"></i>
         </a>
     </div>
 </div>
@@ -222,46 +222,46 @@
             <div class="quick-actions">
                 <a href="{{ route('guru.materi') }}" class="quick-item">
                     <div class="quick-icon blue">
-                        <i class="fa-solid fa-file-circle-plus"></i>
+                        <i class="bi bi-file-earmark-plus-fill"></i>
                     </div>
                     <div>
                         <strong>Buat Materi Baru</strong>
                         <span>Unggah materi pembelajaran</span>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="bi bi-chevron-right"></i>
                 </a>
 
                 <a href="{{ route('guru.video') }}" class="quick-item">
                     <div class="quick-icon purple">
-                        <i class="fa-solid fa-video"></i>
+                        <i class="bi bi-camera-video-fill"></i>
                     </div>
                     <div>
                         <strong>Unggah Video Edukasi</strong>
                         <span>Tambah video pembelajaran</span>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="bi bi-chevron-right"></i>
                 </a>
 
                 <a href="{{ route('guru.tugas') }}" class="quick-item">
                     <div class="quick-icon orange">
-                        <i class="fa-solid fa-clipboard-list"></i>
+                        <i class="bi bi-card-checklist"></i>
                     </div>
                     <div>
                         <strong>Buat Tugas</strong>
                         <span>Atur tugas untuk siswa</span>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="bi bi-chevron-right"></i>
                 </a>
 
                 <a href="{{ route('guru.pengumuman') }}" class="quick-item">
                     <div class="quick-icon green">
-                        <i class="fa-solid fa-calendar-days"></i>
+                        <i class="bi bi-megaphone-fill"></i>
                     </div>
                     <div>
                         <strong>Pengumuman Sekolah</strong>
                         <span>Info dan berita sekolah</span>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i class="bi bi-chevron-right"></i>
                 </a>
             </div>
         </div>

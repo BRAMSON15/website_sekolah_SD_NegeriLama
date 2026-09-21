@@ -49,28 +49,28 @@
 <!-- STATS -->
 <div class="stats" style="margin-bottom: 30px;">
     <div class="stat-card blue">
-        <div class="stat-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+        <div class="stat-icon"><i class="bi bi-easel2-fill"></i></div>
         <h2>{{ count($classes) }}</h2>
         <p>Kelas Diampu</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-check"></i> Aktif Semester Ini</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-check-circle-fill"></i> Aktif Semester Ini</span>
     </div>
     <div class="stat-card green">
-        <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="stat-icon"><i class="bi bi-mortarboard-fill"></i></div>
         <h2>{{ $totalStudents }}</h2>
         <p>Total Siswa Terdaftar</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-user-group"></i> Seluruh Kelas</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-people-fill"></i> Seluruh Kelas</span>
     </div>
     <div class="stat-card purple">
-        <div class="stat-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+        <div class="stat-icon"><i class="bi bi-calendar-check-fill"></i></div>
         <h2>{{ $presentPercentage }}%</h2>
         <p>Tingkat Kehadiran</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-calendar-day"></i> {{ $selectedClass }} ({{ date('d M Y', strtotime($date)) }})</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-calendar-day"></i> {{ $selectedClass }} ({{ date('d M Y', strtotime($date)) }})</span>
     </div>
     <div class="stat-card orange">
-        <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+        <div class="stat-icon"><i class="bi bi-star-fill"></i></div>
         <h2>{{ Auth::user()->subject ?: 'Wali Kelas' }}</h2>
         <p>Mata Pelajaran Utama</p>
-        <span style="font-size: 11px; color: var(--muted);"><i class="fa-solid fa-award"></i> Kurikulum Merdeka</span>
+        <span style="font-size: 11px; color: var(--muted);"><i class="bi bi-award-fill"></i> Kurikulum Merdeka</span>
     </div>
 </div>
 

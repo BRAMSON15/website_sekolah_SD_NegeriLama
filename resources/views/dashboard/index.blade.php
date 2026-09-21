@@ -25,43 +25,43 @@
 <!-- Stats Section -->
 <div class="stats">
   <article class="stat-card blue">
-    <div class="stat-icon">📢</div>
+    <div class="stat-icon"><i class="bi bi-megaphone-fill"></i></div>
     <div>
       <span>Total Pengumuman</span>
       <strong>{{ $stats['announcements'] }}</strong>
       <small>↗ <em>{{ $stats['activeAnnouncements'] }} Aktif</em></small>
     </div>
-    <a href="{{ route('admin.pengumuman.index') }}" class="arrow">→</a>
+    <a href="{{ route('admin.pengumuman.index') }}" class="arrow"><i class="bi bi-arrow-right"></i></a>
   </article>
 
   <article class="stat-card green">
-    <div class="stat-icon">⭐</div>
+    <div class="stat-icon"><i class="bi bi-grid-fill"></i></div>
     <div>
       <span>Fitur / Layanan</span>
       <strong>{{ $stats['features'] }}</strong>
       <small>↗ <em>Terbuka Publik</em></small>
     </div>
-    <a href="{{ route('admin.fitur.index') }}" class="arrow">→</a>
+    <a href="{{ route('admin.fitur.index') }}" class="arrow"><i class="bi bi-arrow-right"></i></a>
   </article>
 
   <article class="stat-card purple">
-    <div class="stat-icon">⚙</div>
+    <div class="stat-icon"><i class="bi bi-gear-wide-connected"></i></div>
     <div>
       <span>Pengaturan Sistem</span>
       <strong>{{ $stats['settings'] }}</strong>
       <small>↗ <em>Terverifikasi</em></small>
     </div>
-    <a href="{{ route('admin.informasi') }}" class="arrow">→</a>
+    <a href="{{ route('admin.informasi') }}" class="arrow"><i class="bi bi-arrow-right"></i></a>
   </article>
 
   <article class="stat-card orange">
-    <div class="stat-icon">👤</div>
+    <div class="stat-icon"><i class="bi bi-person-badge-fill"></i></div>
     <div>
       <span>Peran Pengguna</span>
       <strong>{{ ucfirst(Auth::user()->role) }}</strong>
       <small>Status: Active</small>
     </div>
-    <span class="arrow">→</span>
+    <span class="arrow"><i class="bi bi-arrow-right"></i></span>
   </article>
 </div>
 
@@ -76,14 +76,14 @@
     @forelse($recentAnnouncements as $item)
     <div class="announcement">
       <div class="mini-icon {{ $loop->index % 2 == 0 ? 'purple-bg' : 'blue-bg' }}">
-        {{ $loop->index % 2 == 0 ? '🎉' : '📢' }}
+        <i class="bi {{ $loop->index % 2 == 0 ? 'bi-bell-fill' : 'bi-megaphone-fill' }}" style="font-size: 16px; color: {{ $loop->index % 2 == 0 ? '#8c6ce5' : '#1769d9' }};"></i>
       </div>
       <div>
         <strong>{{ $item->title }}</strong>
         <span><i class="fa fa-calendar-alt"></i> {{ $item->published_at ? $item->published_at->format('d M Y') : 'Draft' }}</span>
         <p>{{ Str::limit(strip_tags($item->content), 65) }}</p>
       </div>
-      <a href="{{ route('admin.pengumuman.index') }}" style="text-decoration: none; color: inherit;"><b>›</b></a>
+      <a href="{{ route('admin.pengumuman.index') }}" style="text-decoration: none; color: inherit; display: inline-flex; align-items: center;"><i class="bi bi-chevron-right" style="font-size: 13px; color: #6885aa;"></i></a>
     </div>
     @empty
     <div style="padding: 30px; text-align: center; color: var(--muted);">
@@ -108,29 +108,29 @@
 
 <!-- Feature Grid Section -->
 <div class="feature-grid">
-  <a href="{{ route('admin.pengumuman.index') }}" class="feature blue-feature">
-    <div class="feature-icon">📢</div>
+  <a href="{{ route('admin.pengumuman.index') }}" class="feature blue-feature" style="text-decoration: none;">
+    <div class="feature-icon"><i class="bi bi-megaphone-fill"></i></div>
     <div>
       <strong>Kelola Pengumuman</strong>
       <p>Buat, edit, dan publikasikan informasi terbaru untuk publik.</p>
     </div>
-    <b>→</b>
+    <b><i class="bi bi-arrow-right"></i></b>
   </a>
-  <a href="{{ route('admin.fitur.index') }}" class="feature green-feature">
-    <div class="feature-icon">⭐</div>
+  <a href="{{ route('admin.fitur.index') }}" class="feature green-feature" style="text-decoration: none;">
+    <div class="feature-icon"><i class="bi bi-grid-fill"></i></div>
     <div>
       <strong>Layanan & Fitur</strong>
       <p>Atur daftar program unggulan dan fasilitas sekolah.</p>
     </div>
-    <b>→</b>
+    <b><i class="bi bi-arrow-right"></i></b>
   </a>
-  <a href="{{ route('admin.informasi') }}" class="feature purple-feature">
-    <div class="feature-icon">⚙</div>
+  <a href="{{ route('admin.informasi') }}" class="feature purple-feature" style="text-decoration: none;">
+    <div class="feature-icon"><i class="bi bi-gear-wide-connected"></i></div>
     <div>
       <strong>Pusat Informasi</strong>
       <p>Akses ringkasan lengkap data dan modul pengelolaan.</p>
     </div>
-    <b>→</b>
+    <b><i class="bi bi-arrow-right"></i></b>
   </a>
 </div>
 @endsection
