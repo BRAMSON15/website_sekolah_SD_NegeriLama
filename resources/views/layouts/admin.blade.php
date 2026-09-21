@@ -566,16 +566,29 @@
         <a class="nav-item {{ request()->routeIs('admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.fitur.index') }}" style="padding-left: 32px; font-size: 13px;">
           <span class="nav-item-icon"><i class="fa fa-star"></i></span> Fitur / Layanan
         </a>
+        <div class="nav-title">KELOLA KONTEN WEBSITE</div>
+        <a class="nav-item {{ request()->routeIs('admin.website.profil*') ? 'active' : '' }}" href="{{ route('admin.website.profil') }}">
+          <span class="nav-item-icon"><i class="fa fa-school"></i></span> Kelola Profil
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.website.akademik*') ? 'active' : '' }}" href="{{ route('admin.website.akademik') }}">
+          <span class="nav-item-icon"><i class="fa fa-book-open"></i></span> Kelola Akademik
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.website.fasilitas*') ? 'active' : '' }}" href="{{ route('admin.website.fasilitas') }}">
+          <span class="nav-item-icon"><i class="fa fa-building-columns"></i></span> Kelola Fasilitas
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.website.ppdb*') ? 'active' : '' }}" href="{{ route('admin.website.ppdb') }}">
+          <span class="nav-item-icon"><i class="fa fa-id-card"></i></span> Kelola PPDB
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.ppdb.*') ? 'active' : '' }}" href="{{ route('admin.ppdb.index') }}" style="padding-left: 32px; font-size: 13px;">
+          <span class="nav-item-icon"><i class="fa fa-users"></i></span> Data Pendaftar PPDB
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.website.kontak*') ? 'active' : '' }}" href="{{ route('admin.website.kontak') }}">
+          <span class="nav-item-icon"><i class="fa fa-address-book"></i></span> Kelola Kontak
+        </a>
 
-        <div class="nav-title">INFORMASI LAINNYA</div>
-        <a class="nav-item" href="{{ route('pengumuman.index') }}">
-          <span class="nav-item-icon"><i class="fa fa-newspaper"></i></span> Pengumuman Publik
-        </a>
-        <a class="nav-item" href="{{ route('profil') }}">
-          <span class="nav-item-icon"><i class="fa fa-school"></i></span> Profil Sekolah
-        </a>
-        <a class="nav-item" href="{{ route('kontak') }}">
-          <span class="nav-item-icon"><i class="fa fa-envelope"></i></span> Hubungi Kami
+        <div class="nav-title">LIHAT WEBSITE PUBLIK</div>
+        <a class="nav-item" href="{{ route('home') }}" target="_blank">
+          <span class="nav-item-icon"><i class="fa fa-globe"></i></span> Buka Beranda Utama <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px; margin-left: 4px; opacity: 0.7;"></i>
         </a>
       </nav>
 

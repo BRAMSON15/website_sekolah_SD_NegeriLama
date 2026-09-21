@@ -41,7 +41,7 @@
         </div>
         <h2>5</h2>
         <p>Kelas yang Diampu</p>
-        <a href="#">
+        <a href="{{ route('guru.kelas') }}">
             Lihat Detail
             <i class="fa-solid fa-arrow-right"></i>
         </a>
@@ -53,7 +53,7 @@
         </div>
         <h2>12</h2>
         <p>Materi Pembelajaran</p>
-        <a href="#">
+        <a href="{{ route('guru.materi') }}">
             Kelola Materi
             <i class="fa-solid fa-arrow-right"></i>
         </a>
@@ -65,7 +65,7 @@
         </div>
         <h2>8</h2>
         <p>Video Edukasi</p>
-        <a href="#">
+        <a href="{{ route('guru.video') }}">
             Lihat Semua
             <i class="fa-solid fa-arrow-right"></i>
         </a>
@@ -77,7 +77,7 @@
         </div>
         <h2>15</h2>
         <p>Tugas / Penilaian</p>
-        <a href="#">
+        <a href="{{ route('guru.tugas') }}">
             Kelola Tugas
             <i class="fa-solid fa-arrow-right"></i>
         </a>
@@ -102,7 +102,7 @@
                         <p>Tonton video pembelajaran untuk memperdalam materi yang diajarkan.</p>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('guru.video') }}">
                     Lihat Semua
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -180,7 +180,7 @@
                         <p>Materi yang baru ditambahkan minggu ini</p>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{{ route('guru.materi') }}">
                     Lihat Semua
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -233,7 +233,7 @@
                 <h2>
                     <i class="fa-solid fa-users"></i> Kelas Saya
                 </h2>
-                <a href="#">
+                <a href="{{ route('guru.kelas') }}">
                     Lihat Semua <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -280,7 +280,7 @@
             </div>
 
             <div class="quick-actions">
-                <a href="#" class="quick-item">
+                <a href="{{ route('guru.materi') }}" class="quick-item">
                     <div class="quick-icon blue">
                         <i class="fa-solid fa-file-circle-plus"></i>
                     </div>
@@ -291,7 +291,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
 
-                <a href="#" class="quick-item">
+                <a href="{{ route('guru.video') }}" class="quick-item">
                     <div class="quick-icon purple">
                         <i class="fa-solid fa-video"></i>
                     </div>
@@ -302,7 +302,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
 
-                <a href="#" class="quick-item">
+                <a href="{{ route('guru.tugas') }}" class="quick-item">
                     <div class="quick-icon orange">
                         <i class="fa-solid fa-clipboard-list"></i>
                     </div>
@@ -313,7 +313,7 @@
                     <i class="fa-solid fa-chevron-right"></i>
                 </a>
 
-                <a href="{{ route('pengumuman.index') }}" class="quick-item">
+                <a href="{{ route('guru.pengumuman') }}" class="quick-item">
                     <div class="quick-icon green">
                         <i class="fa-solid fa-calendar-days"></i>
                     </div>

@@ -1,42 +1,72 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('title', 'Data Pendaftar PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Data Pendaftar PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
-<div class="page-header">
-  <h1>Data Pendaftar PPDB</h1>
-  <p>Kelola data pendaftar peserta didik baru</p>
-</div>
+<div class="information-home">
+    <div class="information-hero">
+        <div>
+            <span class="panel-eyebrow">PENERIMAAN PESERTA DIDIK BARU</span>
+            <h2>Kelola Data PPDB</h2>
+            <p>Data calon peserta didik baru yang mendaftar melalui sistem PPDB online {{ $settings['school_name'] ?? 'SD Negeri Lama' }}.</p>
+        </div>
+        <a href="{{ route('ppdb') }}" target="_blank" class="btn btn-primary">
+            <i class="fa fa-external-link-alt"></i> Halaman PPDB Publik
+        </a>
+    </div>
 
-<div class="page-content">
-  <div class="card-box" style="overflow-x: auto;">
-    <table style="width: 100%; border-collapse: collapse; min-width: 760px;">
-      <thead>
-        <tr style="border-bottom: 2px solid var(--border); text-align: left;">
-          <th style="padding: 12px 10px;">Nomor Pendaftaran</th>
-          <th style="padding: 12px 10px;">Nama Siswa</th>
-          <th style="padding: 12px 10px;">Orang Tua/Wali</th>
-          <th style="padding: 12px 10px;">Kontak</th>
-          <th style="padding: 12px 10px;">Tanggal</th>
-          <th style="padding: 12px 10px;">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @forelse($registrations as $registration)
-          <tr style="border-bottom: 1px solid var(--border);">
-            <td style="padding: 14px 10px; color: var(--primary); font-weight: 700;">{{ $registration->registration_number }}</td>
-            <td style="padding: 14px 10px;">{{ $registration->student_name }}</td>
-            <td style="padding: 14px 10px;">{{ $registration->parent_name }}</td>
-            <td style="padding: 14px 10px;">{{ $registration->phone }}</td>
-            <td style="padding: 14px 10px;">{{ $registration->created_at->format('d/m/Y') }}</td>
-            <td style="padding: 14px 10px;"><span style="background: #fef3c7; color: #92400e; padding: 5px 9px; border-radius: 20px; font-size: .78rem; font-weight: 700;">{{ ucfirst($registration->status) }}</span></td>
-          </tr>
-        @empty
-          <tr><td colspan="6" style="padding: 24px; text-align: center; color: var(--muted);">Belum ada pendaftar.</td></tr>
-        @endforelse
-      </tbody>
-    </table>
-    <div style="margin-top: 20px;">{{ $registrations->links() }}</div>
-  </div>
+    <div class="information-panel admin-table-panel">
+        <div class="information-panel-heading">
+            <div>
+                <span class="panel-eyebrow">DATA PENDAFTAR</span>
+                <h4>Daftar Calon Siswa Terdaftar</h4>
+            </div>
+            <span class="information-count">{{ $registrations->total() }} Pendaftar</span>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nomor Pendaftaran</th>
+                        <th>Nama Siswa</th>
+                        <th>Orang Tua/Wali</th>
+                        <th>Kontak</th>
+                        <th>Tanggal</th>
+                        <th class="text-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($registrations as $registration)
+                    <tr>
+                        <td>
+                            <code style="background: #eef4ff; color: #1769d9; padding: 4px 8px; border-radius: 6px; font-weight: 700;">{{ $registration->registration_number }}</code>
+                        </td>
+                        <td>
+                            <strong>{{ $registration->student_name }}</strong>
+                            <small class="table-subtext">{{ $registration->gender === 'L' ? 'Laki-laki' : 'Perempuan' }} &bull; Asal: {{ $registration->previous_school ?? 'TK/PAUD' }}</small>
+                        </td>
+                        <td>{{ $registration->parent_name }}</td>
+                        <td>{{ $registration->phone }}</td>
+                        <td>{{ $registration->created_at ? $registration->created_at->format('d M Y') : '-' }}</td>
+                        <td class="text-right">
+                            <span class="information-status information-status-active">{{ ucfirst($registration->status) }}</span>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center" style="padding: 24px; color: #8aa0bc;">Belum ada calon siswa yang mendaftar.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if($registrations->hasPages())
+        <div style="margin-top: 20px;">
+            {{ $registrations->links() }}
+        </div>
+        @endif
+    </div>
 </div>
 @endsection

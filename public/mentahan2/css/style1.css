@@ -384,12 +384,12 @@ a {
 
     border-radius: 16px;
 
-    background:
-        linear-gradient(
-            100deg,
-            #edf6ff,
-            #e8f1fd
-        );
+    background-image: linear-gradient(rgba(15, 23, 42, 0.60), rgba(30, 64, 175, 0.60)), url("../img/image1.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 25px rgba(23, 105, 217, 0.18);
 
     padding: 27px 30px;
 
@@ -411,12 +411,16 @@ a {
 .welcome h1 {
     font-size: 20px;
     margin-bottom: 11px;
+    color: #ffffff;
+    font-weight: 800;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .welcome p {
-    color: #486486;
+    color: #f1f5f9;
     font-size: 13px;
     line-height: 1.7;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 

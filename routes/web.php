@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\AdminTeacherController;
+use App\Http\Controllers\AdminWebsiteController;
+use App\Http\Controllers\GuruController;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -28,7 +30,15 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-    Route::get('/guru/dashboard', [AuthController::class, 'guruDashboard'])->name('guru.dashboard');
+
+    // Guru Portal Routes
+    Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+    Route::get('/guru/kelas', [GuruController::class, 'kelas'])->name('guru.kelas');
+    Route::get('/guru/materi', [GuruController::class, 'materi'])->name('guru.materi');
+    Route::get('/guru/video', [GuruController::class, 'video'])->name('guru.video');
+    Route::get('/guru/tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
+    Route::get('/guru/kalender', [GuruController::class, 'kalender'])->name('guru.kalender');
+    Route::get('/guru/pengumuman', [GuruController::class, 'pengumuman'])->name('guru.pengumuman');
     
     // Admin Routes
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
@@ -57,5 +67,21 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/informasi/fitur/{feature}', [InformationController::class, 'updateFeature'])->name('admin.fitur.update');
     Route::delete('/admin/informasi/fitur/{feature}', [InformationController::class, 'destroyFeature'])->name('admin.fitur.destroy');
     
+    // Kelola Konten Halaman Website (Profil, Akademik, Fasilitas, PPDB, Kontak)
+    Route::get('/admin/kelola/profil', [AdminWebsiteController::class, 'profil'])->name('admin.website.profil');
+    Route::post('/admin/kelola/profil', [AdminWebsiteController::class, 'updateProfil'])->name('admin.website.profil.update');
+
+    Route::get('/admin/kelola/akademik', [AdminWebsiteController::class, 'akademik'])->name('admin.website.akademik');
+    Route::post('/admin/kelola/akademik', [AdminWebsiteController::class, 'updateAkademik'])->name('admin.website.akademik.update');
+
+    Route::get('/admin/kelola/fasilitas', [AdminWebsiteController::class, 'fasilitas'])->name('admin.website.fasilitas');
+    Route::post('/admin/kelola/fasilitas', [AdminWebsiteController::class, 'updateFasilitas'])->name('admin.website.fasilitas.update');
+
+    Route::get('/admin/kelola/ppdb', [AdminWebsiteController::class, 'ppdb'])->name('admin.website.ppdb');
+    Route::post('/admin/kelola/ppdb', [AdminWebsiteController::class, 'updatePpdb'])->name('admin.website.ppdb.update');
+
+    Route::get('/admin/kelola/kontak', [AdminWebsiteController::class, 'kontak'])->name('admin.website.kontak');
+    Route::post('/admin/kelola/kontak', [AdminWebsiteController::class, 'updateKontak'])->name('admin.website.kontak.update');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
