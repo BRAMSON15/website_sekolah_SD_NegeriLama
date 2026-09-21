@@ -3,6 +3,14 @@
 @section('title', 'Kalender Akademik - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
 
 @section('content')
+<!-- NOTIFICATION ALERTS -->
+@if(session('success'))
+<div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 14px 18px; border-radius: 12px; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; font-weight: 600; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);">
+    <i class="fa-solid fa-circle-check" style="font-size: 1.3rem; color: #16a34a;"></i>
+    <span>{{ session('success') }}</span>
+</div>
+@endif
+
 <!-- BREADCRUMB / HERO -->
 <div class="welcome" style="margin-bottom: 25px;">
     <div class="welcome-text">
@@ -36,7 +44,7 @@
                     </div>
                     <div>
                         <h2>Agenda & Kegiatan Terdekat</h2>
-                        <p>Kegiatan akademik dan operasional sekolah bulan ini</p>
+                        <p>Kegiatan akademik dan operasional sekolah semester ganjil</p>
                     </div>
                 </div>
             </div>
@@ -71,11 +79,11 @@
                 <h2><i class="fa-solid fa-file-arrow-down" style="color: var(--primary);"></i> Berkas Kalender</h2>
             </div>
             <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 18px;">
-                Unduh file resmi Kalender Pendidikan (Kaldik) Provinsi Maluku / Kota Ambon Tahun Ajaran {{ date('Y') }}/{{ date('Y') + 1 }} format PDF.
+                Unduh file resmi Kalender Pendidikan (Kaldik) {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }} Tahun Ajaran {{ date('Y') }}/{{ date('Y') + 1 }} lengkap dengan seluruh jadwal kegiatan semester ganjil dan genap.
             </p>
-            <button type="button" onclick="alert('Mengunduh Kalender Pendidikan PDF resmi...');" style="width: 100%; background: #2875dc; color: #fff; border: none; padding: 12px; border-radius: 9px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <i class="fa-solid fa-download"></i> Unduh Kaldik PDF (1.2 MB)
-            </button>
+            <a href="{{ route('guru.kalender.download') }}" style="width: 100%; background: #2875dc; color: #fff; text-decoration: none; padding: 13px; border-radius: 9px; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; box-shadow: 0 4px 12px rgba(40, 117, 220, 0.25);">
+                <i class="fa-solid fa-download"></i> Unduh Kaldik Resmi (TA {{ date('Y') }}/{{ date('Y') + 1 }})
+            </a>
         </div>
 
         <div class="section-card quick-card">
@@ -83,9 +91,10 @@
                 <h2><i class="fa-solid fa-circle-info" style="color: #ea580c;"></i> Informasi Penting</h2>
             </div>
             <ul style="font-size: 0.85rem; color: var(--muted); line-height: 1.8; padding-left: 18px; margin: 0;">
-                <li>Setiap hari Senin seluruh guru dan siswa wajib mengikuti Upacara Bendera.</li>
-                <li>Projek Penguatan Profil Pelajar Pancasila (P5) dilaksanakan terjadwal setiap Jumat pagi.</li>
-                <li>Pengisian nilai rapor tengah semester ditutup H-3 sebelum penerimaan rapor.</li>
+                <li>Setiap hari Senin seluruh guru dan siswa wajib mengikuti Upacara Bendera di halaman sekolah.</li>
+                <li>Projek Penguatan Profil Pelajar Pancasila (P5) dilaksanakan terjadwal setiap hari Jumat pagi.</li>
+                <li>Pengisian nilai rapor tengah semester ditutup H-3 sebelum jadwal pembagian rapor.</li>
+                <li>Pertemuan evaluasi bulanan dewan guru diadakan pada pekan pertama setiap bulan.</li>
             </ul>
         </div>
     </div>

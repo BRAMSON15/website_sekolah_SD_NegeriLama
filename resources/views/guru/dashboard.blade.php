@@ -4,7 +4,7 @@
 
 @section('content')
 @if (session('success'))
-<div style="background: #ddf7ed; border: 1px solid #27a879; color: #1e7e5a; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 600;">
+<div style="background: #ddf7ed; border: 1px solid #27a879; color: #1e7e5a; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
     <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
 </div>
 @endif
@@ -39,7 +39,7 @@
         <div class="stat-icon">
             <i class="fa-solid fa-users"></i>
         </div>
-        <h2>5</h2>
+        <h2>{{ $stats['classes'] ?? 3 }}</h2>
         <p>Kelas yang Diampu</p>
         <a href="{{ route('guru.kelas') }}">
             Lihat Detail
@@ -51,7 +51,7 @@
         <div class="stat-icon">
             <i class="fa-solid fa-book-open"></i>
         </div>
-        <h2>12</h2>
+        <h2>{{ $stats['materials'] ?? 0 }}</h2>
         <p>Materi Pembelajaran</p>
         <a href="{{ route('guru.materi') }}">
             Kelola Materi
@@ -63,7 +63,7 @@
         <div class="stat-icon">
             <i class="fa-solid fa-play"></i>
         </div>
-        <h2>8</h2>
+        <h2>{{ $stats['videos'] ?? 0 }}</h2>
         <p>Video Edukasi</p>
         <a href="{{ route('guru.video') }}">
             Lihat Semua
@@ -75,7 +75,7 @@
         <div class="stat-icon">
             <i class="fa-solid fa-clipboard-list"></i>
         </div>
-        <h2>15</h2>
+        <h2>{{ $stats['assignments'] ?? 0 }}</h2>
         <p>Tugas / Penilaian</p>
         <a href="{{ route('guru.tugas') }}">
             Kelola Tugas
@@ -108,64 +108,38 @@
                 </a>
             </div>
 
+            @if(isset($featuredVideo) && $featuredVideo)
             <!-- VIDEO PLAYER -->
-            <div class="video-player">
-                <div class="video-thumbnail">
-                    <div class="video-content">
-                        <div class="video-teacher">
-                            <div class="person-head"></div>
-                            <div class="person-body"></div>
-                        </div>
-
-                        <div class="whiteboard">
-                            <h3>{{ Auth::user()->subject ?: 'Materi Pelajaran' }}</h3>
-                            <p>Pembelajaran Interaktif</p>
-                            <span>SD NEGERI LAMA</span>
-                        </div>
-                    </div>
-
-                    <button class="play-button" id="btnPlayVideo">
-                        <i class="fa-solid fa-play"></i>
-                    </button>
-
-                    <div class="video-controls">
-                        <div class="progress">
-                            <span></span>
-                        </div>
-                        <div class="control-bottom">
-                            <span>
-                                <i class="fa-solid fa-play"></i> 0:00 / 10:24
-                            </span>
-                            <span>
-                                <i class="fa-solid fa-volume-high"></i>
-                                <i class="fa-solid fa-gear"></i>
-                                <i class="fa-solid fa-expand"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+            <div style="border-radius: 16px; overflow: hidden; position: relative; background: #000; margin-bottom: 16px; aspect-ratio: 16/9; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                <iframe src="{{ $featuredVideo->embed_url }}?rel=0&modestbranding=1" style="width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <div class="video-info">
-                <h3>Konsep Dasar {{ Auth::user()->subject ?: 'Materi Pembelajaran' }}</h3>
-                <p>
-                    Video ini membahas konsep dasar, rumus penyelesaian, serta contoh soal yang mudah dipahami oleh peserta didik.
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 6px;">{{ $featuredVideo->title }}</h3>
+                <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px;">
+                    {{ $featuredVideo->description }}
                 </p>
 
                 <div class="video-bottom">
                     <div class="tags">
-                        <span>{{ Auth::user()->subject ?: 'Pelajaran' }}</span>
-                        <span>Kelas V</span>
+                        <span>{{ $featuredVideo->subject }}</span>
+                        <span>{{ $featuredVideo->class_level }}</span>
                         <span>
-                            <i class="fa-regular fa-clock"></i> 10:24
+                            <i class="fa-regular fa-clock"></i> {{ $featuredVideo->duration }}
+                        </span>
+                        <span>
+                            <i class="fa-regular fa-eye"></i> {{ $featuredVideo->views_count }}x ditonton
                         </span>
                     </div>
 
-                    <button class="watch-button">
-                        <i class="fa-solid fa-play"></i> Tonton Sekarang
-                    </button>
+                    <a href="{{ route('guru.video', ['play' => $featuredVideo->id]) }}" class="watch-button" style="text-decoration: none;">
+                        <i class="fa-solid fa-play"></i> Putar Lengkap
+                    </a>
                 </div>
             </div>
+            @else
+            <p style="color: var(--muted); font-size: 0.9rem;">Belum ada video edukasi yang ditambahkan.</p>
+            @endif
         </div>
 
         <!-- MATERI -->
@@ -177,7 +151,7 @@
                     </div>
                     <div>
                         <h2>Materi Pembelajaran Terbaru</h2>
-                        <p>Materi yang baru ditambahkan minggu ini</p>
+                        <p>Materi dan modul ajar yang siap diunduh peserta didik</p>
                     </div>
                 </div>
                 <a href="{{ route('guru.materi') }}">
@@ -187,38 +161,22 @@
             </div>
 
             <div class="materials">
+                @forelse($recentMaterials as $mat)
                 <div class="material">
                     <div class="material-icon green">
-                        <i class="fa-solid fa-square-root-variable"></i>
+                        <i class="fa-solid fa-file-lines"></i>
                     </div>
-                    <div>
-                        <h3>Modul Tematik & Karakter Siswa</h3>
-                        <p>{{ Auth::user()->subject ?: 'Umum' }} • Kelas V</p>
+                    <div style="flex: 1;">
+                        <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">{{ $mat->title }}</h3>
+                        <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">{{ $mat->subject }} • {{ $mat->class_level }} • {{ $mat->file_type }} ({{ $mat->file_size }})</p>
                     </div>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="{{ route('guru.materi.download', $mat->id) }}" title="Unduh Materi" style="color: var(--primary); padding: 8px; font-size: 1.1rem;">
+                        <i class="fa-solid fa-download"></i>
+                    </a>
                 </div>
-
-                <div class="material">
-                    <div class="material-icon blue">
-                        <i class="fa-solid fa-shapes"></i>
-                    </div>
-                    <div>
-                        <h3>Latihan Soal & Ringkasan Bab 3</h3>
-                        <p>{{ Auth::user()->subject ?: 'Umum' }} • Kelas IV</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-
-                <div class="material">
-                    <div class="material-icon purple">
-                        <i class="fa-solid fa-chart-pie"></i>
-                    </div>
-                    <div>
-                        <h3>Panduan Evaluasi Pembelajaran</h3>
-                        <p>{{ Auth::user()->subject ?: 'Umum' }} • Kelas VI</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
+                @empty
+                <p style="color: var(--muted); font-size: 0.9rem;">Belum ada materi pembelajaran yang diunggah.</p>
+                @endforelse
             </div>
         </div>
 
@@ -239,35 +197,17 @@
             </div>
 
             <div class="classes">
-                <div class="class-item">
-                    <div class="class-icon cyan">IV</div>
+                @foreach($classesList as $c)
+                <a href="{{ route('guru.kelas', ['class' => $c['name']]) }}" class="class-item" style="text-decoration: none;">
+                    <div class="class-icon {{ $c['badge_color'] }}">{{ $c['badge'] }}</div>
                     <div class="class-info">
-                        <strong>Kelas 4A</strong>
-                        <span>{{ Auth::user()->subject ?: 'Guru Pengajar' }}</span>
+                        <strong>{{ $c['name'] }}</strong>
+                        <span>{{ $c['subject'] }}</span>
                     </div>
-                    <small>28 siswa</small>
+                    <small>{{ $c['students_count'] }} siswa</small>
                     <i class="fa-solid fa-chevron-right"></i>
-                </div>
-
-                <div class="class-item">
-                    <div class="class-icon purple">V</div>
-                    <div class="class-info">
-                        <strong>Kelas 5A</strong>
-                        <span>{{ Auth::user()->subject ?: 'Guru Pengajar' }}</span>
-                    </div>
-                    <small>30 siswa</small>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-
-                <div class="class-item">
-                    <div class="class-icon orange">VI</div>
-                    <div class="class-info">
-                        <strong>Kelas 6B</strong>
-                        <span>{{ Auth::user()->subject ?: 'Guru Pengajar' }}</span>
-                    </div>
-                    <small>26 siswa</small>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
+                </a>
+                @endforeach
             </div>
         </div>
 
@@ -329,22 +269,4 @@
     </div>
 
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const btnPlay = document.getElementById("btnPlayVideo");
-        if (btnPlay) {
-            btnPlay.addEventListener("click", function () {
-                this.classList.toggle("playing");
-                if (this.classList.contains("playing")) {
-                    this.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                } else {
-                    this.innerHTML = '<i class="fa-solid fa-play"></i>';
-                }
-            });
-        }
-    });
-</script>
 @endsection

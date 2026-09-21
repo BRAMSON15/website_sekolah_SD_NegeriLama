@@ -33,11 +33,32 @@ Route::middleware('auth')->group(function () {
 
     // Guru Portal Routes
     Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+    
+    // Kelas & Presensi
     Route::get('/guru/kelas', [GuruController::class, 'kelas'])->name('guru.kelas');
+    Route::post('/guru/kelas/presensi', [GuruController::class, 'simpanPresensi'])->name('guru.kelas.presensi');
+
+    // Materi Pembelajaran
     Route::get('/guru/materi', [GuruController::class, 'materi'])->name('guru.materi');
+    Route::post('/guru/materi', [GuruController::class, 'storeMateri'])->name('guru.materi.store');
+    Route::get('/guru/materi/{material}/download', [GuruController::class, 'downloadMateri'])->name('guru.materi.download');
+    Route::delete('/guru/materi/{material}', [GuruController::class, 'destroyMateri'])->name('guru.materi.destroy');
+
+    // Video Edukasi
     Route::get('/guru/video', [GuruController::class, 'video'])->name('guru.video');
+    Route::post('/guru/video', [GuruController::class, 'storeVideo'])->name('guru.video.store');
+    Route::delete('/guru/video/{video}', [GuruController::class, 'destroyVideo'])->name('guru.video.destroy');
+
+    // Tugas & Penilaian
     Route::get('/guru/tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
+    Route::post('/guru/tugas', [GuruController::class, 'storeTugas'])->name('guru.tugas.store');
+    Route::get('/guru/tugas/{assignment}', [GuruController::class, 'detailTugas'])->name('guru.tugas.detail');
+    Route::post('/guru/tugas/{assignment}/nilai', [GuruController::class, 'simpanNilai'])->name('guru.tugas.nilai');
+    Route::delete('/guru/tugas/{assignment}', [GuruController::class, 'destroyTugas'])->name('guru.tugas.destroy');
+
+    // Kalender & Pengumuman
     Route::get('/guru/kalender', [GuruController::class, 'kalender'])->name('guru.kalender');
+    Route::get('/guru/kalender/download', [GuruController::class, 'downloadKaldik'])->name('guru.kalender.download');
     Route::get('/guru/pengumuman', [GuruController::class, 'pengumuman'])->name('guru.pengumuman');
     
     // Admin Routes
