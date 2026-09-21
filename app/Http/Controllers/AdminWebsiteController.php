@@ -3,38 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SchoolSetting;
+use App\Services\WebsiteContentService;
 use App\Models\PpdbRegistration;
 
 class AdminWebsiteController extends Controller
 {
-    /**
-     * Retrieve all settings as key-value array.
-     */
-    private function getSettings(): array
-    {
-        return SchoolSetting::pluck('value', 'key')->toArray();
-    }
-
-    /**
-     * Helper to batch update or create settings.
-     */
-    private function saveSettings(array $data): void
-    {
-        foreach ($data as $key => $value) {
-            SchoolSetting::updateOrCreate(
-                ['key' => $key],
-                ['value' => is_array($value) ? json_encode($value) : $value]
-            );
-        }
-    }
+    public function __construct(
+        protected WebsiteContentService $websiteService
+    ) {}
 
     /* -------------------------------------------------------------
      * 1. PROFIL SEKOLAH (Visi, Misi, Sambutan, Sejarah)
      * ------------------------------------------------------------- */
     public function profil()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         return view('admin.website.profil', compact('settings'));
     }
 
@@ -51,7 +34,7 @@ class AdminWebsiteController extends Controller
             'principal_message'  => ['required', 'string'],
         ]);
 
-        $this->saveSettings($validated);
+        $this->websiteService->saveSettings($validated);
 
         return redirect()->route('admin.website.profil')->with('success', 'Konten Profil Sekolah, Visi & Misi berhasil disimpan.');
     }
@@ -61,7 +44,7 @@ class AdminWebsiteController extends Controller
      * ------------------------------------------------------------- */
     public function akademik()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         return view('admin.website.akademik', compact('settings'));
     }
 
@@ -73,7 +56,7 @@ class AdminWebsiteController extends Controller
             'extracurriculars'   => ['required', 'string'],
         ]);
 
-        $this->saveSettings($validated);
+        $this->websiteService->saveSettings($validated);
 
         return redirect()->route('admin.website.akademik')->with('success', 'Konten Akademik & Ekstrakurikuler berhasil disimpan.');
     }
@@ -83,24 +66,8 @@ class AdminWebsiteController extends Controller
      * ------------------------------------------------------------- */
     public function fasilitas()
     {
-        $settings = $this->getSettings();
-
-        // Decode existing facilities JSON or use standard defaults
-        $facilities = [];
-        if (!empty($settings['facilities_data'])) {
-            $facilities = json_decode($settings['facilities_data'], true) ?: [];
-        }
-
-        if (empty($facilities)) {
-            $facilities = [
-                ['title' => 'Laboratorium Komputer', 'icon' => 'fa-solid fa-desktop', 'desc' => 'Dilengkapi perangkat PC terbaru dan koneksi internet cepat untuk ANBK dan literasi digital.'],
-                ['title' => 'Perpustakaan Digital', 'icon' => 'fa-solid fa-book-bookmark', 'desc' => 'Koleksi ribuan buku pelajaran, novel anak, dan e-book yang dapat diakses siswa kapan saja.'],
-                ['title' => 'Laboratorium IPA', 'icon' => 'fa-solid fa-flask', 'desc' => 'Fasilitas praktek sains lengkap untuk melatih rasa ingin tahu dan eksperimen sains siswa.'],
-                ['title' => 'Lapangan Olahraga', 'icon' => 'fa-solid fa-volleyball', 'desc' => 'Lapangan serbaguna untuk upacara, sepak bola, bola voli, basket, dan kegiatan senam bersama.'],
-                ['title' => 'Musholla Sekolah', 'icon' => 'fa-solid fa-mosque', 'desc' => 'Tempat ibadah bersih dan nyaman untuk kegiatan sholat dzuhur berjamaah dan hafalan Al-Qur\'an.'],
-                ['title' => 'Kantin Sehat', 'icon' => 'fa-solid fa-utensils', 'desc' => 'Menyediakan jajanan dan makanan bergizi yang terjamin kebersihan dan kesehatannya.'],
-            ];
-        }
+        $settings = $this->websiteService->getSettings();
+        $facilities = $this->websiteService->getFacilitiesData();
 
         return view('admin.website.fasilitas', compact('settings', 'facilities'));
     }
@@ -114,11 +81,7 @@ class AdminWebsiteController extends Controller
             'facilities.*.desc'  => ['required', 'string', 'max:300'],
         ]);
 
-        $facilitiesData = array_values($request->facilities);
-
-        $this->saveSettings([
-            'facilities_data' => $facilitiesData,
-        ]);
+        $this->websiteService->updateFacilities($request->facilities);
 
         return redirect()->route('admin.website.fasilitas')->with('success', 'Daftar Fasilitas Sekolah berhasil diperbarui.');
     }
@@ -128,7 +91,7 @@ class AdminWebsiteController extends Controller
      * ------------------------------------------------------------- */
     public function ppdb()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $totalApplicants = PpdbRegistration::count();
 
         return view('admin.website.ppdb', compact('settings', 'totalApplicants'));
@@ -151,7 +114,7 @@ class AdminWebsiteController extends Controller
             'ppdb_step_4_desc'   => ['required', 'string', 'max:255'],
         ]);
 
-        $this->saveSettings($validated);
+        $this->websiteService->saveSettings($validated);
 
         return redirect()->route('admin.website.ppdb')->with('success', 'Pengaturan dan Informasi PPDB berhasil disimpan.');
     }
@@ -161,7 +124,7 @@ class AdminWebsiteController extends Controller
      * ------------------------------------------------------------- */
     public function kontak()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         return view('admin.website.kontak', compact('settings'));
     }
 
@@ -177,7 +140,7 @@ class AdminWebsiteController extends Controller
             'maps_embed'  => ['nullable', 'string'],
         ]);
 
-        $this->saveSettings($validated);
+        $this->websiteService->saveSettings($validated);
 
         return redirect()->route('admin.website.kontak')->with('success', 'Informasi Kontak dan Lokasi berhasil disimpan.');
     }

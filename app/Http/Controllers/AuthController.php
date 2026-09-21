@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Announcement;
-use App\Models\Feature;
-use App\Models\SchoolSetting;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Services\DashboardService;
+use App\Services\WebsiteContentService;
 
 class AuthController extends Controller
 {
-    private function getSettings()
-    {
-        return SchoolSetting::pluck('value', 'key')->toArray();
-    }
+    public function __construct(
+        protected DashboardService $dashboardService,
+        protected WebsiteContentService $websiteService
+    ) {}
 
     public function showLoginForm()
     {
@@ -23,7 +22,7 @@ class AuthController extends Controller
             return $this->redirectBasedOnRole();
         }
 
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         return view('auth.login', compact('settings'));
     }
 
@@ -34,10 +33,10 @@ class AuthController extends Controller
         if ($loginType === 'guru') {
             $request->validate([
                 'name' => ['required', 'string'],
-                'nip' => ['required', 'string'],
+                'nip'  => ['required', 'string'],
             ], [
                 'name.required' => 'Nama lengkap guru wajib diisi.',
-                'nip.required' => 'NIP wajib diisi sebagai kata sandi.',
+                'nip.required'  => 'NIP wajib diisi sebagai kata sandi.',
             ]);
 
             // Cari user guru berdasarkan nama (case-insensitive & whitespace trimmed)
@@ -68,7 +67,7 @@ class AuthController extends Controller
             ])->withInput();
         } else {
             $credentials = $request->validate([
-                'email' => ['required', 'email'],
+                'email'    => ['required', 'email'],
                 'password' => ['required'],
             ]);
 
@@ -108,39 +107,35 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $user = Auth::user();
 
         if ($user->role === 'guru') {
             return redirect()->route('guru.dashboard');
         }
 
-        $stats = [
-            'announcements' => Announcement::count(),
-            'activeAnnouncements' => Announcement::where('is_active', true)->count(),
-            'features' => Feature::count(),
-            'settings' => SchoolSetting::count(),
-        ];
-        $recentAnnouncements = Announcement::latest('published_at')->take(5)->get();
+        $dashboardData = $this->dashboardService->getAdminDashboardData();
+        $stats = $dashboardData['stats'];
+        $recentAnnouncements = $dashboardData['recentAnnouncements'];
 
         return view('dashboard.index', compact('settings', 'user', 'stats', 'recentAnnouncements'));
     }
 
     public function information()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $user = Auth::user();
-        $announcementCount = Announcement::count();
-        $featureCount = Feature::count();
-        $announcements = Announcement::latest('published_at')->take(5)->get();
-        $features = Feature::orderBy('order')->take(6)->get();
+        $hubData = $this->dashboardService->getInformationHubData();
 
-        return view('information.index', compact('settings', 'user', 'announcements', 'features', 'announcementCount', 'featureCount'));
+        return view('information.index', array_merge([
+            'settings' => $settings,
+            'user'     => $user,
+        ], $hubData));
     }
 
     public function guruDashboard()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $user = Auth::user();
 
         return view('guru.dashboard', compact('settings', 'user'));
