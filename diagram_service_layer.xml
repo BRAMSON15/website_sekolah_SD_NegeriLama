@@ -1,0 +1,164 @@
+<?xml version="1.0" ?>
+<mxfile host="app.diagrams.net" modified="2026-09-24T15:30:00.000Z" agent="Antigravity" version="22.1.16" type="device">
+  <diagram id="service-layer-sdnl" name="Arsitektur Service Layer - SD Negeri Lama">
+    <mxGraphModel dx="1422" dy="850" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1050" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title_box" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;b&gt;DIAGRAM ARSITEKTUR SERVICE LAYER (CLEAN ARCHITECTURE)&lt;/b&gt;&lt;/font&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 13px; color: #64748B;&quot;&gt;Sistem Informasi Manajemen Sekolah Terpadu, PPDB Online &amp; Portal Guru - SD Negeri Lama (Laravel 13)&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="300" y="20" width="800" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer_client" value="&lt;b&gt;1. CLIENT / USER INTERFACE LAYER (Bootstrap 5 Responsive &amp; Mobile UI)&lt;/b&gt;" style="swimlane;html=1;startSize=28;rounded=1;arcSize=4;fillColor=#F0F9FF;strokeColor=#0284C7;strokeWidth=2;fontColor=#0369A1;fontSize=12;align=left;spacingLeft=15;" parent="1" vertex="1">
+          <mxGeometry x="40" y="90" width="1320" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer_controller" value="&lt;b&gt;2. PRESENTATION / CONTROLLER LAYER (app/Http/Controllers &amp; Routes)&lt;/b&gt;" style="swimlane;html=1;startSize=28;rounded=1;arcSize=4;fillColor=#FAF5FF;strokeColor=#9333EA;strokeWidth=2;fontColor=#7E22CE;fontSize=12;align=left;spacingLeft=15;" parent="1" vertex="1">
+          <mxGeometry x="40" y="230" width="1320" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer_service" value="&lt;b&gt;3. SERVICE LAYER / BUSINESS LOGIC LAYER (app/Services) — [PUSAT ATURAN BISNIS]&lt;/b&gt;" style="swimlane;html=1;startSize=32;rounded=1;arcSize=4;fillColor=#ECFDF5;strokeColor=#059669;strokeWidth=3;fontColor=#047857;fontSize=13;align=left;spacingLeft=15;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="390" width="1320" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer_model" value="&lt;b&gt;4. DATA PERSISTENCE / ORM LAYER (app/Models — Eloquent ORM)&lt;/b&gt;" style="swimlane;html=1;startSize=28;rounded=1;arcSize=4;fillColor=#FFFBEB;strokeColor=#D97706;strokeWidth=2;fontColor=#B45309;fontSize=12;align=left;spacingLeft=15;" parent="1" vertex="1">
+          <mxGeometry x="40" y="650" width="1320" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="layer_infra" value="&lt;b&gt;5. INFRASTRUCTURE &amp; STORAGE LAYER (MySQL, Local Disk, Dompdf &amp; Ngrok)&lt;/b&gt;" style="swimlane;html=1;startSize=28;rounded=1;arcSize=4;fillColor=#F8FAFC;strokeColor=#475569;strokeWidth=2;fontColor=#334155;fontSize=12;align=left;spacingLeft=15;" parent="1" vertex="1">
+          <mxGeometry x="40" y="800" width="1320" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_ppdb" value="&lt;b&gt;Wali Murid / Pendaftar&lt;/b&gt;&lt;br/&gt;Formulir PPDB Online &amp; Bukti Registrasi PDF&lt;br/&gt;&lt;i&gt;(Mobile &amp; Desktop View)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="125" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_guru" value="&lt;b&gt;Dewan Guru Pengajar&lt;/b&gt;&lt;br/&gt;Portal Presensi, Materi Ajar &amp; Nilai Siswa&lt;br/&gt;&lt;i&gt;(Mobile Card &amp; Tablet View)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="125" width="270" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_admin" value="&lt;b&gt;Administrator Sekolah&lt;/b&gt;&lt;br/&gt;Dashboard Rekap, Verifikasi &amp; Master Setting&lt;br/&gt;&lt;i&gt;(Admin Dashboard UI)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="730" y="125" width="270" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="c_public" value="&lt;b&gt;Pengunjung Publik&lt;/b&gt;&lt;br/&gt;Profil Sekolah, Galeri, Fasilitas &amp; Pengumuman&lt;br/&gt;&lt;i&gt;(Web Portal Beranda)&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="125" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="ctrl_ppdb" value="&lt;b&gt;PpdbController&lt;/b&gt;&lt;br/&gt;• index(), store()&lt;br/&gt;• exportPdf(), exportExcel()&lt;br/&gt;• updateStatus()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=1.5;fontColor=#3B0764;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="270" width="260" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="ctrl_guru" value="&lt;b&gt;GuruController&lt;/b&gt;&lt;br/&gt;• dashboard(), myClasses()&lt;br/&gt;• storeAttendance()&lt;br/&gt;• uploadMaterial(), gradeTask()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=1.5;fontColor=#3B0764;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="270" width="270" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="ctrl_admin" value="&lt;b&gt;AdminController&lt;/b&gt;&lt;br/&gt;• dashboard(), stats()&lt;br/&gt;• manageAnnouncements()&lt;br/&gt;• updateSettings()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=1.5;fontColor=#3B0764;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="730" y="270" width="270" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="ctrl_home" value="&lt;b&gt;HomeController&lt;/b&gt;&lt;br/&gt;• index(), profile()&lt;br/&gt;• facilities(), gallery()&lt;br/&gt;• announcements()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;strokeWidth=1.5;fontColor=#3B0764;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="270" width="260" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="srv_ppdb" value="&lt;b&gt;PpdbService&lt;/b&gt;&lt;br/&gt;&lt;div style=&quot;text-align: left; font-size: 10px; line-height: 1.3;&quot;&gt;• &lt;b&gt;generateRegistrationNumber()&lt;/b&gt;: Unique RegNo&lt;br/&gt;• &lt;b&gt;register(array $data)&lt;/b&gt;: Simpan Pendaftar Baru&lt;br/&gt;• &lt;b&gt;generatePdfExport($settings)&lt;/b&gt;: Render Dompdf&lt;br/&gt;• &lt;b&gt;exportExcelData()&lt;/b&gt;: Rekapitulasi Rombel&lt;br/&gt;• &lt;b&gt;updateRegistrationStatus()&lt;/b&gt;: Validasi Seleksi&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontColor=#064E3B;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="435" width="260" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="srv_guru" value="&lt;b&gt;GuruService&lt;/b&gt;&lt;br/&gt;&lt;div style=&quot;text-align: left; font-size: 10px; line-height: 1.3;&quot;&gt;• &lt;b&gt;getDashboardData($user)&lt;/b&gt;: Agregasi Statistik Guru&lt;br/&gt;• &lt;b&gt;getKelasData(Request, $user)&lt;/b&gt;: Data Rombel&lt;br/&gt;• &lt;b&gt;recordAttendance(array $records)&lt;/b&gt;: Presensi Siswa&lt;br/&gt;• &lt;b&gt;uploadMateri(Request)&lt;/b&gt;: Manajemen File Modul&lt;br/&gt;• &lt;b&gt;curateVideo(Request)&lt;/b&gt;: Filter Video Edukasi&lt;br/&gt;• &lt;b&gt;gradeAssignment()&lt;/b&gt;: Evaluasi Standar KKM 75&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontColor=#064E3B;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="435" width="270" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="srv_dash" value="&lt;b&gt;DashboardService&lt;/b&gt;&lt;br/&gt;&lt;div style=&quot;text-align: left; font-size: 10px; line-height: 1.3;&quot;&gt;• &lt;b&gt;getAdminDashboardData()&lt;/b&gt;: Metrik Statistik Terpadu&lt;br/&gt;• &lt;b&gt;getInformationHubData()&lt;/b&gt;: Feed Berita &amp; Agenda&lt;br/&gt;• &lt;b&gt;calculateRombelRatios()&lt;/b&gt;: Rasio Siswa-Guru&lt;br/&gt;• &lt;b&gt;getActivityLogs()&lt;/b&gt;: Riwayat Aktivitas Sistem&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontColor=#064E3B;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="730" y="435" width="270" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="srv_content" value="&lt;b&gt;WebsiteContentService&lt;/b&gt;&lt;br/&gt;&lt;div style=&quot;text-align: left; font-size: 10px; line-height: 1.3;&quot;&gt;• &lt;b&gt;getLandingPageData()&lt;/b&gt;: Visi-Misi, Profil ANBK&lt;br/&gt;• &lt;b&gt;getSchoolSettings()&lt;/b&gt;: Identitas &amp; Kontak Resmi&lt;br/&gt;• &lt;b&gt;filterActiveAnnouncements()&lt;/b&gt;: Berita Terbit&lt;br/&gt;• &lt;b&gt;sanitizePublicInputs()&lt;/b&gt;: Validasi Input Publik&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D1FAE5;strokeColor=#059669;strokeWidth=2;fontColor=#064E3B;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="435" width="260" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_ppdb" value="&lt;b&gt;PpdbRegistration&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Attributes: id, reg_number, full_name, nisn, gender, status, birth_date&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontColor=#78350F;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="80" y="690" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_guru" value="&lt;b&gt;Student, Attendance, Assignment, Grade&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;LearningMaterial, EducationalVideo&lt;br/&gt;Relasi: Student hasMany Attendance, Assignment hasMany Grade&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontColor=#78350F;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="690" width="270" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_admin" value="&lt;b&gt;Announcement, Feature, SchoolSetting&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;User, Role, ActivityLog&lt;br/&gt;Relasi: User hasMany ActivityLog, Feature scopeActive&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontColor=#78350F;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="730" y="690" width="270" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="m_public" value="&lt;b&gt;SchoolSetting, Feature, Gallery&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Data Identitas Sekolah, Akreditasi A, Laboratorium Komputer ANBK &amp; Sarpras&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;strokeWidth=1.5;fontColor=#78350F;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="1060" y="690" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="db_mysql" value="&lt;b&gt;MySQL Database Server&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Engine: InnoDB (UTF-8)&lt;br/&gt;Tabel: ppdb_registrations, students, attendances, materials, assignments, users&lt;/font&gt;" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#E2E8F0;strokeColor=#475569;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry x="240" y="835" width="280" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fs_storage" value="&lt;b&gt;Storage File System&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;storage/app/public/&lt;br/&gt;• Modul Ajar PDF / DOCX&lt;br/&gt;• Foto Profil &amp; Banner Sekolah&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#475569;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="840" width="240" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_dompdf" value="&lt;b&gt;Dompdf Library&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Render Bukti Registrasi &amp; Rekapitulasi Data Format PDF A4 / Landscape&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#475569;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="830" y="840" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="ext_ngrok" value="&lt;b&gt;Ngrok Tunneling&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size: 10px;&quot;&gt;Reverse Proxy HTTPS Tunnel untuk Pengujian Live Perangkat Mobile Pengguna&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E2E8F0;strokeColor=#475569;strokeWidth=1.5;fontColor=#0F172A;fontSize=11;shadow=1;" parent="1" vertex="1">
+          <mxGeometry x="1090" y="840" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="1. HTTP Request (POST/GET)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=10;fontColor=#1E40AF;" parent="1" edge="1" source="c_ppdb" target="ctrl_ppdb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="1. HTTP Request (Presensi/Materi)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=10;fontColor=#1E40AF;" parent="1" edge="1" source="c_guru" target="ctrl_guru">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="1. HTTP Request (Dashboard)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=10;fontColor=#1E40AF;" parent="1" edge="1" source="c_admin" target="ctrl_admin">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="1. HTTP Request (View Portal)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=2;fontSize=10;fontColor=#1E40AF;" parent="1" edge="1" source="c_public" target="ctrl_home">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="2. Delegasi Logika Bisnis" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2.5;fontSize=10;fontColor=#6B21A8;" parent="1" edge="1" source="ctrl_ppdb" target="srv_ppdb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="2. Delegasi Logika Pengajaran" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2.5;fontSize=10;fontColor=#6B21A8;" parent="1" edge="1" source="ctrl_guru" target="srv_guru">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="2. Delegasi Kalkulasi Metrik" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2.5;fontSize=10;fontColor=#6B21A8;" parent="1" edge="1" source="ctrl_admin" target="srv_dash">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="2. Delegasi Ekstraksi Konten" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333EA;strokeWidth=2.5;fontSize=10;fontColor=#6B21A8;" parent="1" edge="1" source="ctrl_home" target="srv_content">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="3. Create / Query Data" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="srv_ppdb" target="m_ppdb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="3. Eloquent Relations &amp; Query" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="srv_guru" target="m_guru">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="3. Aggregation Query (count/sum)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="srv_dash" target="m_admin">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" value="3. Get Active Settings" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="srv_content" target="m_public">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e13" value="4. SQL Execution" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="m_ppdb" target="db_mysql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e14" value="4. SQL Execution" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="m_guru" target="db_mysql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e15" value="4. SQL Execution" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="m_admin" target="db_mysql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e16" value="4. SQL Execution" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=2;fontSize=10;fontColor=#92400E;" parent="1" edge="1" source="m_public" target="db_mysql">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e17" value="Cetak PDF Laporan" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=1.5;fontSize=9;fontColor=#065F46;" parent="1" edge="1" source="srv_ppdb" target="ext_dompdf">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="615"/>
+              <mxPoint x="320" y="780"/>
+              <mxPoint x="945" y="780"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e18" value="Simpan Berkas Materi" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=1.5;fontSize=9;fontColor=#065F46;" parent="1" edge="1" source="srv_guru" target="fs_storage">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="580" y="615"/>
+              <mxPoint x="580" y="785"/>
+              <mxPoint x="680" y="785"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e19" value="Akses Mobile Via Tunnel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0284C7;strokeWidth=1.5;dashed=1;fontSize=9;fontColor=#0369A1;" parent="1" edge="1" source="c_public" target="ext_ngrok">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1340" y="185"/>
+              <mxPoint x="1340" y="875"/>
+              <mxPoint x="1320" y="875"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
