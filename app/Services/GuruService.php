@@ -214,33 +214,108 @@ class GuruService
     }
 
     /* -------------------------------------------------------------
-     * 4. VIDEO EDUKASI
+     * 4. VIDEO EDUKASI (YOUTUBE & GOOGLE DRIVE)
      * ------------------------------------------------------------- */
     public function getVideoGallery(Request $request): array
     {
-        $videos = EducationalVideo::latest()->get();
-        $activeVideoId = $request->get('play');
-        $activeVideo = $videos->firstWhere('id', $activeVideoId) ?: $videos->first();
+        $query = EducationalVideo::query();
 
-        if ($activeVideo) {
+        if ($request->filled('search')) {
+            $keyword = trim($request->get('search'));
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%{$keyword}%")
+                  ->orWhere('subject', 'like', "%{$keyword}%")
+                  ->orWhere('description', 'like', "%{$keyword}%");
+            });
+        }
+
+        if ($request->filled('class_level') && $request->get('class_level') !== 'Semua Kelas') {
+            $query->where('class_level', $request->get('class_level'));
+        }
+
+        if ($request->filled('source_type') && in_array($request->get('source_type'), ['youtube', 'google_drive'])) {
+            $query->where('source_type', $request->get('source_type'));
+        }
+
+        $videos = $query->latest()->get();
+
+        $activeVideoId = $request->get('play');
+        $activeVideo = $videos->firstWhere('id', $activeVideoId) ?: ($videos->first() ?: EducationalVideo::latest()->first());
+
+        if ($activeVideo && $request->has('play')) {
             $activeVideo->increment('views_count');
         }
 
-        return compact('videos', 'activeVideo');
+        $allVideos = EducationalVideo::all();
+        $stats = [
+            'total'        => $allVideos->count(),
+            'youtube'      => $allVideos->where('source_type', 'youtube')->count(),
+            'google_drive' => $allVideos->where('source_type', 'google_drive')->count(),
+            'views'        => $allVideos->sum('views_count'),
+        ];
+
+        return compact('videos', 'activeVideo', 'stats');
+    }
+
+    public function sanitizeVideoUrl(string $url): string
+    {
+        $url = trim($url);
+        if (preg_match('/src=["\']([^"\']+)["\']/', $url, $matches)) {
+            $url = $matches[1];
+        }
+
+        return $url;
+    }
+
+    public function detectSourceType(string $url, ?string $selectedType = null): string
+    {
+        if ($selectedType && in_array($selectedType, ['youtube', 'google_drive'])) {
+            return $selectedType;
+        }
+
+        if (str_contains($url, 'drive.google.com') || str_contains($url, 'docs.google.com')) {
+            return 'google_drive';
+        }
+
+        return 'youtube';
     }
 
     public function storeVideo(array $data, int $userId): EducationalVideo
     {
+        $rawUrl = $this->sanitizeVideoUrl($data['video_url'] ?? $data['youtube_url'] ?? '');
+        $sourceType = $this->detectSourceType($rawUrl, $data['source_type'] ?? null);
+
         return EducationalVideo::create([
             'user_id'     => $userId,
             'title'       => $data['title'],
             'subject'     => $data['subject'],
             'class_level' => $data['class_level'],
-            'youtube_url' => $data['youtube_url'],
+            'source_type' => $sourceType,
+            'video_url'   => $rawUrl,
+            'youtube_url' => $rawUrl,
             'duration'    => $data['duration'],
             'description' => $data['description'] ?? 'Video edukasi pembelajaran interaktif.',
             'views_count' => 0,
         ]);
+    }
+
+    public function updateVideo(EducationalVideo $video, array $data): EducationalVideo
+    {
+        $rawUrl = $this->sanitizeVideoUrl($data['video_url'] ?? $data['youtube_url'] ?? $video->effective_url);
+        $sourceType = $this->detectSourceType($rawUrl, $data['source_type'] ?? null);
+
+        $video->update([
+            'title'       => $data['title'],
+            'subject'     => $data['subject'],
+            'class_level' => $data['class_level'],
+            'source_type' => $sourceType,
+            'video_url'   => $rawUrl,
+            'youtube_url' => $rawUrl,
+            'duration'    => $data['duration'],
+            'description' => $data['description'] ?? $video->description,
+        ]);
+
+        return $video;
     }
 
     public function deleteVideo(EducationalVideo $video): void

@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     // Video Edukasi
     Route::get('/guru/video', [GuruController::class, 'video'])->name('guru.video');
     Route::post('/guru/video', [GuruController::class, 'storeVideo'])->name('guru.video.store');
+    Route::put('/guru/video/{video}', [GuruController::class, 'updateVideo'])->name('guru.video.update');
     Route::delete('/guru/video/{video}', [GuruController::class, 'destroyVideo'])->name('guru.video.destroy');
 
     // Tugas & Penilaian

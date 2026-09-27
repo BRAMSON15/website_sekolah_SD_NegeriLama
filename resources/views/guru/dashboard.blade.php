@@ -111,11 +111,16 @@
             @if(isset($featuredVideo) && $featuredVideo)
             <!-- VIDEO PLAYER -->
             <div style="border-radius: 16px; overflow: hidden; position: relative; background: #000; margin-bottom: 16px; aspect-ratio: 16/9; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
-                <iframe src="{{ $featuredVideo->embed_url }}?rel=0&modestbranding=1" style="width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="{{ $featuredVideo->is_youtube ? $featuredVideo->embed_url . '?rel=0&modestbranding=1' : $featuredVideo->embed_url }}" style="width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
             <div class="video-info">
-                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 6px;">{{ $featuredVideo->title }}</h3>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+                    <span style="display: inline-flex; align-items: center; gap: 5px; background: {{ $featuredVideo->source_badge['bg_color'] }}; color: {{ $featuredVideo->source_badge['color'] }}; border: 1px solid {{ $featuredVideo->source_badge['border'] }}; padding: 2px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 700;">
+                        <i class="{{ $featuredVideo->source_badge['icon'] }}"></i> {{ $featuredVideo->source_badge['label'] }}
+                    </span>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0;">{{ $featuredVideo->title }}</h3>
+                </div>
                 <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px;">
                     {{ $featuredVideo->description }}
                 </p>

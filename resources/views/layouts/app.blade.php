@@ -601,7 +601,7 @@
         <p>Sekolah Dasar unggulan yang mencetak generasi bertakwa, cerdas, berkarakter, dan siap menghadapi era digital.</p>
       </div>
 
-      <div class="footer-col">
+      <!-- <div class="footer-col">
         <h4>Navigasi</h4>
         <ul>
           <li><a href="{{ route('home') }}">Beranda</a></li>
@@ -609,9 +609,9 @@
           <li><a href="{{ route('akademik') }}">Akademik</a></li>
           <li><a href="{{ route('ppdb') }}">Informasi PPDB</a></li>
         </ul>
-      </div>
+      </div> -->
 
-      <div class="footer-col">
+      <!-- <div class="footer-col">
         <h4>Layanan</h4>
         <ul>
           <li><a href="#">Portal Siswa</a></li>
@@ -619,7 +619,7 @@
           <li><a href="#">Perpustakaan Online</a></li>
           <li><a href="#">E-Learning</a></li>
         </ul>
-      </div>
+      </div> -->
 
       <div class="footer-col">
         <h4>Kontak Kami</h4>

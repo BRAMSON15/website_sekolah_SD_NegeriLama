@@ -113,21 +113,44 @@ class GuruController extends Controller
             'title'       => ['required', 'string', 'max:200'],
             'subject'     => ['required', 'string', 'max:100'],
             'class_level' => ['required', 'string', 'max:50'],
-            'youtube_url' => ['required', 'url'],
-            'duration'    => ['required', 'string', 'max:20'],
-            'description' => ['nullable', 'string', 'max:500'],
+            'source_type' => ['nullable', 'string', 'in:auto,youtube,google_drive'],
+            'video_url'   => ['required', 'string', 'max:1000'],
+            'duration'    => ['required', 'string', 'max:30'],
+            'description' => ['nullable', 'string', 'max:1000'],
         ]);
 
         $video = $this->guruService->storeVideo($validated, Auth::id());
+        $sourceLabel = $video->is_drive ? 'Google Drive' : 'YouTube';
 
-        return redirect()->route('guru.video', ['play' => $video->id])->with('success', 'Video edukasi berhasil ditambahkan!');
+        return redirect()->route('guru.video', ['play' => $video->id])
+            ->with('success', "Video edukasi ({$sourceLabel}) berhasil ditambahkan ke koleksi pembelajaran!");
+    }
+
+    public function updateVideo(Request $request, EducationalVideo $video)
+    {
+        $validated = $request->validate([
+            'title'       => ['required', 'string', 'max:200'],
+            'subject'     => ['required', 'string', 'max:100'],
+            'class_level' => ['required', 'string', 'max:50'],
+            'source_type' => ['nullable', 'string', 'in:auto,youtube,google_drive'],
+            'video_url'   => ['required', 'string', 'max:1000'],
+            'duration'    => ['required', 'string', 'max:30'],
+            'description' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $this->guruService->updateVideo($video, $validated);
+        $sourceLabel = $video->is_drive ? 'Google Drive' : 'YouTube';
+
+        return redirect()->route('guru.video', ['play' => $video->id])
+            ->with('success', "Video edukasi ({$sourceLabel}) '{$video->title}' berhasil diperbarui!");
     }
 
     public function destroyVideo(EducationalVideo $video)
     {
+        $title = $video->title;
         $this->guruService->deleteVideo($video);
 
-        return redirect()->route('guru.video')->with('success', 'Video edukasi berhasil dihapus.');
+        return redirect()->route('guru.video')->with('success', "Video edukasi '{$title}' berhasil dihapus.");
     }
 
     /* -------------------------------------------------------------
