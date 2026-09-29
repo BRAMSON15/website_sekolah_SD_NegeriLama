@@ -22,10 +22,8 @@ class HomeController extends Controller
         $settings = $this->getSettings();
         $announcements = Announcement::active()->take(5)->get();
         $features = Feature::orderBy('order', 'asc')->get();
-        $featuredVideos = EducationalVideo::with('user')->latest()->take(3)->get();
-        $featuredMaterials = LearningMaterial::with('user')->latest()->take(3)->get();
 
-        return view('welcome', compact('settings', 'announcements', 'features', 'featuredVideos', 'featuredMaterials'));
+        return view('welcome', compact('settings', 'announcements', 'features'));
     }
 
     public function profil()

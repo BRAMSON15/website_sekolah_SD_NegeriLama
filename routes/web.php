@@ -8,6 +8,7 @@ use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\AdminTeacherController;
 use App\Http\Controllers\AdminWebsiteController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\SiswaController;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -21,16 +22,20 @@ Route::get('/ppdb/berhasil/{registration}', [PpdbController::class, 'success'])-
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [HomeController::class, 'detailPengumuman'])->name('pengumuman.show');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
-Route::get('/materi/{material}/download', [HomeController::class, 'downloadMateri'])->name('materi.download');
+Route::get('/materi/{material}/download', [SiswaController::class, 'downloadMateri'])->name('materi.download')->middleware('auth');
+Route::post('/siswa/akses-nisn', [SiswaController::class, 'aksesNisn'])->name('siswa.akses.nisn');
 
-// Authentication Routes
-Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-});
+// Authentication Routes (Accessible to guests and authenticated users who want to switch roles)
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+
+    // Portal Siswa Routes (Khusus Siswa Terdaftar)
+    Route::get('/siswa/beranda', [SiswaController::class, 'beranda'])->name('siswa.beranda');
+    Route::get('/siswa/materi/{material}/download', [SiswaController::class, 'downloadMateri'])->name('siswa.materi.download');
 
     // Guru Portal Routes
     Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
@@ -107,6 +112,4 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/kelola/kontak', [AdminWebsiteController::class, 'kontak'])->name('admin.website.kontak');
     Route::post('/admin/kelola/kontak', [AdminWebsiteController::class, 'updateKontak'])->name('admin.website.kontak.update');
-
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

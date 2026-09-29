@@ -14,7 +14,58 @@
   <!-- ============================================================== -->
   <!-- 1. PUSAT VIDEO & MATERI PEMBELAJARAN DIGITAL                   -->
   <!-- ============================================================== -->
+  @guest
+  <!-- PEMBERITAHUAN MEDIA PEMBELAJARAN DIGITAL (KHUSUS SISWA TERDAFTAR) -->
+  <div class="card-box" style="margin-bottom: 35px; padding: 40px 30px; border-radius: 18px; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); border: 1.5px solid #bfdbfe; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.05); text-align: center;">
+    <div style="width: 64px; height: 64px; background: #dbeafe; color: var(--primary); border-radius: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 16px;">
+      <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+    <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--dark); margin: 0 0 10px 0;">
+      Media Video Edukasi & Modul Pembelajaran Khusus Siswa
+    </h2>
+    <p style="color: var(--muted); font-size: 0.98rem; max-width: 650px; margin: 0 auto 24px; line-height: 1.6;">
+      Video pembelajaran interaktif dan file bahan ajar bapak/ibu guru dilindungi dan dapat diakses oleh <strong>peserta didik terdaftar</strong> melalui Portal Belajar Siswa.
+    </p>
+    <!-- Form Input NISN Siswa Terdaftar -->
+    <form action="{{ route('siswa.akses.nisn') }}" method="POST" style="max-width: 540px; margin: 0 auto 16px;">
+      @csrf
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+        <div style="flex: 1; min-width: 250px; position: relative;">
+          <i class="fa-solid fa-id-badge" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #3b82f6; font-size: 1.15rem;"></i>
+          <input type="text" name="nisn" value="{{ old('nisn') }}" placeholder="Masukkan Nomor NISN Terdaftar..." required autofocus style="width: 100%; box-sizing: border-box; padding: 13px 18px 13px 46px; border: 2px solid #bfdbfe; border-radius: 12px; font-size: 0.95rem; font-family: inherit; outline: none; background: #ffffff; color: #1e293b; font-weight: 600; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08); transition: border-color 0.2s;">
+        </div>
+        <button type="submit" class="btn-login" style="padding: 13px 24px; font-size: 0.95rem; border-radius: 12px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk Ruang Belajar
+        </button>
+      </div>
+
+      @if(session('error_nisn'))
+      <div style="margin-top: 14px; background: #fef2f2; border: 1.5px solid #fecaca; color: #b91c1c; padding: 10px 18px; border-radius: 10px; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 8px; text-align: left;">
+        <i class="fa-solid fa-circle-exclamation" style="font-size: 1.1rem; color: #ef4444; flex-shrink: 0;"></i>
+        <span>{{ session('error_nisn') }}</span>
+      </div>
+      @endif
+
+      <div style="margin-top: 12px; font-size: 0.82rem; color: #64748b;">
+        <i class="fa-solid fa-circle-info" style="color: #3b82f6; margin-right: 4px;"></i>
+        Akses khusus peserta didik aktif SD Negeri Lama. (Contoh NISN: <code>009123401</code>)
+      </div>
+    </form>
+
+    <div style="margin-top: 8px;">
+      <a href="{{ route('kontak') }}" style="background: transparent; color: var(--muted); padding: 6px 14px; border-radius: 8px; font-size: 0.82rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        <i class="fa-solid fa-circle-question"></i> Belum tahu nomor NISN Anda? Hubungi Guru / Sekolah
+      </a>
+    </div>
+  </div>
+  @else
   <div class="card-box" style="margin-bottom: 35px; padding: 30px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); border: 1px solid var(--border);">
+    <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px 20px; border-radius: 10px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+      <span style="font-size: 0.9rem; color: #1e40af;"><i class="fa-solid fa-circle-check" style="color: #2563eb;"></i> Anda sedang masuk sebagai <strong>{{ Auth::user()->name }}</strong>.</span>
+      <a href="{{ route('siswa.beranda') }}" style="font-weight: 700; font-size: 0.88rem; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        Buka Tampilan Ruang Belajar <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
     <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 2px solid var(--light-bg);">
       <div>
         <div style="display: inline-flex; align-items: center; gap: 8px; background: #e0f2fe; color: #0284c7; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;">
@@ -269,6 +320,7 @@
     </div>
     @endif
   </div>
+  @endguest
 
   <!-- ============================================================== -->
   <!-- 2. KURIKULUM MERDEKA                                           -->

@@ -60,9 +60,34 @@
     .nav-actions {
       display: flex !important;
       align-items: center !important;
-      gap: 12px !important;
+      gap: 10px !important;
       flex-shrink: 0 !important;
       flex-wrap: nowrap !important;
+    }
+    .btn-nav-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 14px;
+      height: 42px;
+      border-radius: 10px;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      color: #dc2626;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      white-space: nowrap;
+    }
+    .btn-nav-logout:hover {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.15);
     }
 
     /* Subpage Layout Grids */
@@ -131,6 +156,13 @@
         display: inline-flex !important;
         align-items: center !important;
       }
+      .nav-actions .btn-nav-logout {
+        padding: 0 10px !important;
+        height: 38px !important;
+        font-size: 0.8rem !important;
+        border-radius: 9px !important;
+        gap: 5px !important;
+      }
     }
 
     @media (max-width: 576px) {
@@ -175,6 +207,21 @@
         font-size: 0.95rem !important;
         margin: 0 !important;
       }
+      .nav-actions .btn-nav-logout {
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        border-radius: 8px !important;
+        justify-content: center !important;
+        gap: 0 !important;
+      }
+      .nav-actions .btn-nav-logout .btn-logout-text {
+        display: none !important;
+      }
+      .nav-actions .btn-nav-logout i {
+        font-size: 0.95rem !important;
+        margin: 0 !important;
+      }
       .mobile-nav-toggle {
         width: 36px !important;
         height: 36px !important;
@@ -202,6 +249,10 @@
         font-size: 0.5rem !important;
       }
       .nav-actions .btn-login {
+        width: 34px !important;
+        height: 34px !important;
+      }
+      .nav-actions .btn-nav-logout {
         width: 34px !important;
         height: 34px !important;
       }
@@ -709,6 +760,11 @@
 
     <nav class="nav-menu">
       <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Beranda</a>
+      @auth
+        @if(Auth::user()->role === 'siswa')
+          <a href="{{ route('siswa.beranda') }}" class="{{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="color: #2563eb; font-weight: 700;"><i class="fa-solid fa-graduation-cap"></i> Ruang Belajar</a>
+        @endif
+      @endauth
       <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-school"></i> Profil</a>
       <a href="{{ route('akademik') }}" class="{{ request()->routeIs('akademik') ? 'active' : '' }}"><i class="fa-solid fa-book-open"></i> Akademik</a>
       <a href="{{ route('fasilitas') }}" class="{{ request()->routeIs('fasilitas') ? 'active' : '' }}"><i class="fa-solid fa-building"></i> Fasilitas</a>
@@ -718,17 +774,35 @@
 
     <div class="nav-actions">
       @auth
-        <a class="btn-login" href="{{ route('dashboard') }}" title="Masuk Dashboard">
-          <i class="fa-solid fa-gauge"></i>
-          <span class="btn-login-text">Dashboard</span>
-        </a>
+        @if(Auth::user()->role === 'siswa')
+          <a class="btn-login" href="{{ route('siswa.beranda') }}" title="Ruang Belajar Siswa">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span class="btn-login-text">Ruang Belajar</span>
+          </a>
+        @elseif(Auth::user()->role === 'guru')
+          <a class="btn-login" href="{{ route('guru.dashboard') }}" title="Dashboard Guru">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span class="btn-login-text">Portal Guru</span>
+          </a>
+        @else
+          <a class="btn-login" href="{{ route('dashboard') }}" title="Masuk Dashboard">
+            <i class="fa-solid fa-gauge"></i>
+            <span class="btn-login-text">Dashboard</span>
+          </a>
+        @endif
+
+        <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline-flex;">
+          @csrf
+          <button type="submit" class="btn-nav-logout" title="Keluar dari akun">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span class="btn-logout-text">Keluar</span>
+          </button>
+        </form>
       @else
-        @if(!request()->routeIs('login'))
-        <a class="btn-login" href="{{ route('login') }}" title="Portal Login">
+        <a class="btn-login" href="{{ route('login') }}" title="Portal Login Guru & Admin">
           <i class="fa-solid fa-right-to-bracket"></i>
           <span class="btn-login-text">Portal Login</span>
         </a>
-        @endif
       @endauth
 
       <!-- Mobile Menu Toggle Button -->
@@ -745,6 +819,16 @@
           <span class="mobile-nav-school">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</span>
         </div>
 
+        @auth
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="min-width: 0; flex: 1;">
+            <div style="font-size: 0.68rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Masuk Sebagai:</div>
+            <div style="font-size: 0.86rem; font-weight: 700; color: #1e3a8a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ Auth::user()->name }}</div>
+          </div>
+          <span style="font-size: 0.7rem; font-weight: 800; background: #2563eb; color: #ffffff; padding: 2px 8px; border-radius: 999px;">{{ strtoupper(Auth::user()->role) }}</span>
+        </div>
+        @endauth
+
         <a href="{{ route('home') }}" class="mobile-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
           <div class="mobile-nav-icon"><i class="fa-solid fa-house"></i></div>
           <div class="mobile-nav-text">
@@ -753,6 +837,19 @@
           </div>
           <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </a>
+
+        @auth
+          @if(Auth::user()->role === 'siswa')
+          <a href="{{ route('siswa.beranda') }}" class="mobile-nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="background: #eff6ff; border: 1px solid #bfdbfe;">
+            <div class="mobile-nav-icon" style="background: #2563eb; color: #fff;"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="mobile-nav-text">
+              <span class="title" style="color: #1e40af; font-weight: 800;">Ruang Belajar Siswa</span>
+              <span class="desc">Akses video edukasi & modul materi</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow-icon" style="color: #2563eb;"></i>
+          </a>
+          @endif
+        @endauth
 
         <a href="{{ route('profil') }}" class="mobile-nav-link {{ request()->routeIs('profil') ? 'active' : '' }}">
           <div class="mobile-nav-icon"><i class="fa-solid fa-school"></i></div>
@@ -803,9 +900,31 @@
 
         <div class="mobile-nav-footer">
           @auth
-            <a class="mobile-btn-portal" href="{{ route('dashboard') }}">
-              <i class="fa-solid fa-gauge"></i> Masuk ke Dashboard
-            </a>
+            @if(Auth::user()->role === 'siswa')
+              <a class="mobile-btn-portal" href="{{ route('siswa.beranda') }}">
+                <i class="fa-solid fa-graduation-cap"></i> Masuk Ruang Belajar Siswa
+              </a>
+            @elseif(Auth::user()->role === 'guru')
+              <a class="mobile-btn-portal" href="{{ route('guru.dashboard') }}">
+                <i class="fa-solid fa-chalkboard-user"></i> Masuk Portal Guru
+              </a>
+            @else
+              <a class="mobile-btn-portal" href="{{ route('dashboard') }}">
+                <i class="fa-solid fa-gauge"></i> Masuk ke Dashboard
+              </a>
+            @endif
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+              <a href="{{ route('login') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; font-weight: 700; font-size: 0.82rem; padding: 10px 12px; border-radius: 9px; text-decoration: none;">
+                <i class="fa-solid fa-users-gear"></i> Ganti Role
+              </a>
+              <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; font-weight: 700; font-size: 0.82rem; padding: 10px 12px; border-radius: 9px; cursor: pointer;">
+                  <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                </button>
+              </form>
+            </div>
           @else
             <a class="mobile-btn-portal" href="{{ route('login') }}">
               <i class="fa-solid fa-right-to-bracket"></i> Portal Login Guru & Admin
