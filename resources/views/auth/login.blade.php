@@ -143,29 +143,6 @@
         <i class="fa-solid fa-right-to-bracket"></i> Masuk Admin
       </button>
     </form>
-
-    <!-- Interactive Quick Credentials Guide (Guru & Admin) -->
-    <div style="margin-top: 24px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 12px 14px; font-size: 0.8rem; color: #475569;">
-      <div style="font-weight: 700; color: #1e293b; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
-        <i class="fa-solid fa-circle-info" style="color: #2563eb;"></i> Akun Uji Coba:
-      </div>
-      <div id="hint-guru">
-        <strong>Guru:</strong> Nama / NIP: <code>198507122010011002</code> (Budi Santoso) &bull; Sandi: <code>198507122010011002</code>
-      </div>
-      <div id="hint-admin" style="display: none;">
-        <strong>Admin:</strong> Email: <code>admin@sdnegerilama.sch.id</code> &bull; Sandi: <code>password123</code>
-      </div>
-    </div>
-
-    <!-- Student NISN Access Information Box -->
-    <div style="margin-top: 20px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 12px 14px; text-align: center; font-size: 0.84rem; color: #1e40af;">
-      <i class="fa-solid fa-graduation-cap" style="color: #2563eb; margin-right: 6px;"></i> Siswa ingin mengakses materi & video? <a href="{{ route('akademik') }}" style="color: #1d4ed8; font-weight: 700; text-decoration: underline;">Masukkan NISN di Halaman Akademik</a>
-    </div>
-
-    <div style="margin-top: 20px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px;">
-      Belum terdaftar atau lupa akun? Hubungi <a href="{{ route('kontak') }}" style="color: var(--primary); font-weight: 700;">Administrator / Pengelola Sekolah</a>
-    </div>
-
   </div>
 </div>
 

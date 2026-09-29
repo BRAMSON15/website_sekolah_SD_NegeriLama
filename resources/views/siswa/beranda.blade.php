@@ -267,109 +267,7 @@
     </a>
   </div>
   @endif
-
 </section>
-
-<!-- Pesan Pembimbing / Panduan Belajar Siswa -->
-<section class="principal-section" style="padding: 80px 6%; background: #ffffff;" id="panduan-belajar">
-  <div class="principal-grid" style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 50px; align-items: center;">
-    <div style="position: relative; text-align: center;">
-      <div style="width: 280px; height: 320px; background: linear-gradient(135deg, #1e40af, #3b82f6); border-radius: 24px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; box-shadow: var(--shadow-lg);">
-        <i class="fa-solid fa-user-graduate" style="font-size: 5rem; margin-bottom: 10px;"></i>
-        <span style="font-weight: 700; font-size: 1.1rem;">Belajar Mandiri</span>
-        <span style="font-size: 0.8rem; opacity: 0.85; margin-top: 4px;">Generasi Berprestasi</span>
-      </div>
-    </div>
-    <div>
-      <span style="color: var(--primary); font-weight: 700; font-size: 1rem; margin-bottom: 16px; display: block;">
-        <i class="fa-solid fa-lightbulb"></i> PANDUAN BELAJAR MANDIRI
-      </span>
-      <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 12px;">Raih Prestasi Terbaik dengan Belajar Teratur</h2>
-      <p style="color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 20px;">
-        "Kunci keberhasilan belajar adalah konsistensi dan rasa ingin tahu. Manfaatkan video pembelajaran ini untuk mengulang penjelasan materi yang belum dipahami di kelas, serta pelajari modul latihan agar semakin menguasai topik bahasan."
-      </p>
-      <div style="font-size: 1.1rem; font-weight: 800; color: var(--dark);">Tim Dewan Guru {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</div>
-      <div style="font-size: 0.85rem; color: var(--muted);">Pendampingan Belajar Digital Peserta Didik</div>
-    </div>
-  </div>
-</section>
-
-<!-- Pusat Informasi & Pengumuman Siswa -->
-<section class="information-section" style="padding: 80px 6%;" id="pengumuman-siswa">
-  <div style="text-align: center; margin-bottom: 45px;">
-    <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 8px;">Pusat Informasi & Pengumuman Siswa</h2>
-    <p style="color: var(--muted); font-size: 1rem;">Informasi agenda sekolah, jadwal belajar, dan pengumuman terbaru untuk peserta didik</p>
-  </div>
-
-  <div class="information-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
-    <!-- Main Column: Announcements -->
-    <div>
-      <div class="announcement-panel" style="background: var(--card-bg); border-radius: var(--radius); padding: 28px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--light-bg);">
-          <h3 style="font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; color: var(--dark);">
-            <i class="fa-solid fa-bullhorn" style="color: var(--primary);"></i> Pengumuman Sekolah Terbaru
-          </h3>
-          <a href="{{ route('pengumuman.index') }}" style="font-size: 0.85rem; font-weight: 700; color: var(--primary); text-decoration: none;">Lihat Semua <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 16px;">
-          @forelse($announcements as $announcement)
-          <div class="announcement-item" style="display: flex; gap: 16px; padding: 16px; border-radius: 12px; background: var(--light-bg);">
-            <div style="background: var(--primary); color: #fff; border-radius: 10px; padding: 10px 14px; text-align: center; min-width: 65px; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0;">
-              <span style="font-size: 1.3rem; font-weight: 800; line-height: 1;">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</span>
-              <span style="font-size: 0.7rem; text-transform: uppercase; font-weight: 700;">{{ $announcement->published_at ? $announcement->published_at->format('M') : date('M') }}</span>
-            </div>
-            <div>
-              <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: var(--dark);">
-                <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="text-decoration: none; color: inherit;">{{ $announcement->title }}</a>
-              </h4>
-              <p style="font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin: 0;">{{ Str::limit($announcement->content, 120) }}</p>
-            </div>
-          </div>
-          @empty
-          <p style="color: var(--muted); font-size: 0.9rem;">Belum ada pengumuman terbaru.</p>
-          @endforelse
-        </div>
-      </div>
-    </div>
-
-    <!-- Sidebar Column: Quick Access -->
-    <div>
-      <div class="quick-access-panel" style="background: var(--card-bg); border-radius: var(--radius); padding: 28px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--light-bg);">
-          <h3 style="font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; color: var(--dark);">
-            <i class="fa-solid fa-compass" style="color: var(--primary);"></i> Navigasi Siswa
-          </h3>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <a href="{{ route('akademik') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark); text-decoration: none;">
-            <span><i class="fa-solid fa-calendar-days" style="color: var(--primary); width: 20px;"></i> Kurikulum & Ekskul</span>
-            <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
-          </a>
-          <a href="{{ route('fasilitas') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark); text-decoration: none;">
-            <span><i class="fa-solid fa-laptop-code" style="color: var(--primary); width: 20px;"></i> Laboratorium & Fasilitas</span>
-            <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
-          </a>
-          <a href="{{ route('profil') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark); text-decoration: none;">
-            <span><i class="fa-solid fa-school" style="color: var(--primary); width: 20px;"></i> Profil Sekolah</span>
-            <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
-          </a>
-          <a href="{{ route('kontak') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark); text-decoration: none;">
-            <span><i class="fa-solid fa-phone" style="color: var(--primary); width: 20px;"></i> Hubungi Guru / Sekolah</span>
-            <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
-          </a>
-          <form action="{{ route('logout') }}" method="POST" style="margin-top: 6px;">
-            @csrf
-            <button type="submit" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; border-radius: 10px; font-weight: 700; font-size: 0.88rem; cursor: pointer;">
-              <i class="fa-solid fa-right-from-bracket"></i> Keluar Portal Siswa
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============================================================== -->
 <!-- POPUP MODAL PEMUTAR VIDEO EDUKASI SISWA                        -->
 <!-- ============================================================== -->
@@ -411,7 +309,6 @@
     </div>
   </div>
 </div>
-
 <script>
   function playStudentVideo(title, embedUrl, subject, classLevel, platform) {
     const modal = document.getElementById('modalStudentVideo');
