@@ -28,7 +28,7 @@
     }
   @endphp
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px;">
     @foreach($facilities as $item)
     <div class="card-box">
       <div style="font-size: 2.5rem; color: var(--primary); margin-bottom: 12px;"><i class="{{ $item['icon'] ?? 'fa-solid fa-school' }}"></i></div>

@@ -3,8 +3,23 @@
 @section('title', 'Login Portal - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
-<div style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-  <div style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 460px;">
+<style>
+  @media (max-width: 576px) {
+    .login-page-wrap {
+      padding: 24px 12px !important;
+      min-height: auto !important;
+    }
+    .login-card-box {
+      padding: 24px 16px !important;
+      border-radius: 14px !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+</style>
+
+<div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="login-card-box" style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 460px; box-sizing: border-box;">
     
     <div style="text-align: center; margin-bottom: 30px;">
       <div style="width: 68px; height: 68px; background: #ffffff; border: 1px solid var(--border); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); padding: 8px; overflow: hidden;">

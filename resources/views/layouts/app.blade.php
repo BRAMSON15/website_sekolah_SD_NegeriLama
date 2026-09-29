@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="{{asset('mentahan/css/style2.css')}}">
   <style>
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
     .brand-logo {
       width: 48px;
       height: 48px;
@@ -52,86 +56,136 @@
       text-shadow: 0 1px 4px rgba(15, 23, 42, 0.55);
     }
 
+    /* Header Action Controls */
+    .nav-actions {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      flex-shrink: 0 !important;
+      flex-wrap: nowrap !important;
+    }
+
+    /* Subpage Layout Grids */
+    .kontak-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .announcement-detail-grid {
+      display: grid;
+      grid-template-columns: 2.5fr 1fr;
+      gap: 30px;
+    }
+
     /* Responsive Header & Brand for Tablets & Mobile */
     @media (max-width: 768px) {
       .navbar {
-        height: 68px !important;
-        padding: 0 16px !important;
+        height: 64px !important;
+        padding: 0 14px !important;
       }
       .brand {
         gap: 10px !important;
+        min-width: 0 !important;
+        flex: 1 !important;
+        overflow: hidden !important;
         text-decoration: none !important;
       }
       .brand-logo {
-        width: 42px !important;
-        height: 42px !important;
-        border-radius: 10px !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 9px !important;
         padding: 3px !important;
+        flex-shrink: 0 !important;
+      }
+      .brand-text {
+        min-width: 0 !important;
+        flex: 1 !important;
+        overflow: hidden !important;
       }
       .brand-text strong {
-        font-size: 1rem !important;
+        font-size: 0.92rem !important;
         line-height: 1.2 !important;
         white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
       }
       .brand-text span {
-        font-size: 0.65rem !important;
-        letter-spacing: 0.5px !important;
+        font-size: 0.62rem !important;
+        letter-spacing: 0.4px !important;
         white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
       }
-      .btn-login {
-        padding: 8px 16px !important;
-        font-size: 0.85rem !important;
-        border-radius: 8px !important;
+      .nav-actions {
+        gap: 8px !important;
+        flex-shrink: 0 !important;
+      }
+      .nav-actions .btn-login {
+        padding: 0 14px !important;
+        height: 38px !important;
+        font-size: 0.82rem !important;
+        border-radius: 9px !important;
         gap: 6px !important;
         white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
       }
     }
 
     @media (max-width: 576px) {
       .navbar {
-        height: 62px !important;
-        padding: 0 12px !important;
+        height: 60px !important;
+        padding: 0 10px !important;
       }
       .brand {
         gap: 8px !important;
-        min-width: 0 !important;
       }
       .brand-logo {
-        width: 38px !important;
-        height: 38px !important;
+        width: 36px !important;
+        height: 36px !important;
         border-radius: 8px !important;
         padding: 2px !important;
       }
-      .brand-text {
-        min-width: 0 !important;
-      }
       .brand-text strong {
-        font-size: 0.85rem !important;
+        font-size: 0.82rem !important;
         line-height: 1.15 !important;
         letter-spacing: -0.2px !important;
-        white-space: nowrap !important;
       }
       .brand-text span {
-        font-size: 0.58rem !important;
+        font-size: 0.54rem !important;
         letter-spacing: 0.2px !important;
-        line-height: 1.1 !important;
-        white-space: nowrap !important;
       }
-      .btn-login {
-        padding: 6px 12px !important;
-        font-size: 0.78rem !important;
-        border-radius: 7px !important;
-        gap: 5px !important;
-        white-space: nowrap !important;
+      .nav-actions {
+        gap: 6px !important;
       }
-      .btn-login i {
-        font-size: 0.8rem !important;
+      /* On mobile screens, hide text in header login button to prevent overlap & keep 36x36px icon */
+      .nav-actions .btn-login {
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        border-radius: 8px !important;
+        justify-content: center !important;
+        gap: 0 !important;
+      }
+      .nav-actions .btn-login .btn-login-text {
+        display: none !important;
+      }
+      .nav-actions .btn-login i {
+        font-size: 0.95rem !important;
+        margin: 0 !important;
+      }
+      .mobile-nav-toggle {
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1rem !important;
+        border-radius: 8px !important;
       }
     }
 
     @media (max-width: 360px) {
       .navbar {
-        height: 58px !important;
+        height: 56px !important;
         padding: 0 8px !important;
       }
       .brand {
@@ -142,14 +196,175 @@
         height: 32px !important;
       }
       .brand-text strong {
-        font-size: 0.78rem !important;
+        font-size: 0.76rem !important;
       }
       .brand-text span {
-        font-size: 0.52rem !important;
+        font-size: 0.5rem !important;
       }
-      .btn-login {
-        padding: 5px 10px !important;
-        font-size: 0.72rem !important;
+      .nav-actions .btn-login {
+        width: 34px !important;
+        height: 34px !important;
+      }
+      .mobile-nav-toggle {
+        width: 34px !important;
+        height: 34px !important;
+        font-size: 0.9rem !important;
+        border-radius: 6px !important;
+      }
+    }
+
+    /* Comprehensive Mobile Adaptation for Beranda & Public Pages */
+    @media (max-width: 768px) {
+      .home-hero {
+        padding: 40px 5% 60px !important;
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+      .home-hero h1 {
+        font-size: clamp(1.75rem, 6.5vw, 2.4rem) !important;
+        line-height: 1.25 !important;
+        margin-bottom: 14px !important;
+      }
+      .home-hero p {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 22px !important;
+      }
+      .home-hero .hero-buttons {
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+      }
+      .home-hero .hero-buttons a {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 12px 18px !important;
+        font-size: 0.92rem !important;
+      }
+      .home-features {
+        margin-top: 14px !important;
+        padding: 0 5% !important;
+      }
+      .features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+      }
+      .features-grid > div {
+        padding: 16px 14px !important;
+        border-radius: 12px !important;
+      }
+      .principal-section {
+        padding: 45px 5% !important;
+      }
+      .principal-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+      .principal-grid > div:first-child > div {
+        width: 220px !important;
+        height: 250px !important;
+        margin: 0 auto !important;
+      }
+      .principal-grid h2 {
+        font-size: 1.45rem !important;
+        line-height: 1.35 !important;
+        margin-bottom: 12px !important;
+      }
+      .principal-grid p {
+        font-size: 0.92rem !important;
+        line-height: 1.7 !important;
+        margin-bottom: 18px !important;
+      }
+      .information-section {
+        padding: 45px 5% !important;
+      }
+      .information-section > div:first-child {
+        margin-bottom: 24px !important;
+      }
+      .information-section h2 {
+        font-size: 1.5rem !important;
+      }
+      .information-section p {
+        font-size: 0.9rem !important;
+      }
+      .information-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+      .announcement-panel, .quick-access-panel {
+        padding: 18px 14px !important;
+        border-radius: 14px !important;
+      }
+      .announcement-item {
+        padding: 12px 10px !important;
+        gap: 12px !important;
+      }
+      .learning-media-section {
+        padding: 45px 5% !important;
+      }
+      .learning-media-section > div:first-child {
+        margin-bottom: 24px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 14px !important;
+      }
+      .learning-media-section h2 {
+        font-size: 1.5rem !important;
+        line-height: 1.3 !important;
+      }
+      .learning-media-section p {
+        font-size: 0.9rem !important;
+      }
+      .learning-filter-scroll {
+        display: flex !important;
+        gap: 8px !important;
+        overflow-x: auto !important;
+        width: 100% !important;
+        padding-bottom: 6px !important;
+        -webkit-overflow-scrolling: touch !important;
+        flex-wrap: nowrap !important;
+      }
+      .learning-filter-scroll a {
+        flex-shrink: 0 !important;
+        padding: 8px 14px !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+      }
+      .learning-showcase-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      /* Subpage Layouts Mobile Adaptation (Kontak, Pengumuman, Fasilitas, PPDB, Akademik) */
+      .page-header {
+        padding: 42px 5% !important;
+      }
+      .page-header h1 {
+        font-size: clamp(1.6rem, 5.5vw, 2.2rem) !important;
+        margin-bottom: 8px !important;
+      }
+      .page-header p {
+        font-size: 0.92rem !important;
+        line-height: 1.5 !important;
+      }
+      .page-content {
+        padding: 30px 4% !important;
+      }
+      .card-box {
+        padding: 22px 18px !important;
+        border-radius: 14px !important;
+        margin-bottom: 20px !important;
+      }
+      .card-box iframe {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .kontak-grid,
+      .announcement-detail-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
       }
     }
 
@@ -432,6 +647,22 @@
         height: 32px;
         font-size: 0.9rem;
       }
+      .page-header {
+        padding: 32px 4% !important;
+      }
+      .page-content {
+        padding: 20px 3% !important;
+      }
+      .card-box {
+        padding: 18px 14px !important;
+      }
+      .announcement-archive-item {
+        gap: 12px !important;
+      }
+      .announcement-archive-badge {
+        min-width: 60px !important;
+        padding: 10px 8px !important;
+      }
     }
 
     @media (max-width: 360px) {
@@ -487,13 +718,17 @@
 
     <div class="nav-actions">
       @auth
-        <a class="btn-login" href="{{ route('dashboard') }}">
-          <i class="fa-solid fa-gauge"></i> Dashboard
+        <a class="btn-login" href="{{ route('dashboard') }}" title="Masuk Dashboard">
+          <i class="fa-solid fa-gauge"></i>
+          <span class="btn-login-text">Dashboard</span>
         </a>
       @else
-        <a class="btn-login" href="{{ route('login') }}">
-          <i class="fa-solid fa-right-to-bracket"></i> Portal Login
+        @if(!request()->routeIs('login'))
+        <a class="btn-login" href="{{ route('login') }}" title="Portal Login">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span class="btn-login-text">Portal Login</span>
         </a>
+        @endif
       @endauth
 
       <!-- Mobile Menu Toggle Button -->

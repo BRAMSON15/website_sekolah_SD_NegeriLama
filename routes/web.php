@@ -21,6 +21,7 @@ Route::get('/ppdb/berhasil/{registration}', [PpdbController::class, 'success'])-
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [HomeController::class, 'detailPengumuman'])->name('pengumuman.show');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
+Route::get('/materi/{material}/download', [HomeController::class, 'downloadMateri'])->name('materi.download');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

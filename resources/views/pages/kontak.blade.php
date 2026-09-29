@@ -9,39 +9,39 @@
 </div>
 
 <div class="page-content">
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+  <div class="kontak-grid">
     <div class="card-box">
       <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-address-card"></i> Informasi Kontak</h2>
       <div style="display: flex; flex-direction: column; gap: 20px;">
         <div style="display: flex; gap: 16px; align-items: flex-start;">
-          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="fa-solid fa-location-dot"></i></div>
-          <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">Alamat Sekolah</h4>
-            <p style="color: var(--muted); font-size: 0.95rem;">{{ $settings['address'] ?? 'Jl. Pendidikan No. 45, Indonesia' }}</p>
+          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-location-dot"></i></div>
+          <div style="min-width: 0; flex: 1;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">Alamat Sekolah</h4>
+            <p style="color: var(--muted); font-size: 0.95rem; margin: 0; word-break: break-word;">{{ $settings['address'] ?? 'Jl. Pendidikan No. 45, Indonesia' }}</p>
           </div>
         </div>
 
         <div style="display: flex; gap: 16px; align-items: flex-start;">
-          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="fa-solid fa-phone"></i></div>
-          <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">Telepon / Whatsapp</h4>
-            <p style="color: var(--muted); font-size: 0.95rem;">{{ $settings['phone'] ?? '(021) 555-0192' }}</p>
+          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-phone"></i></div>
+          <div style="min-width: 0; flex: 1;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">Telepon / Whatsapp</h4>
+            <p style="color: var(--muted); font-size: 0.95rem; margin: 0;">{{ $settings['phone'] ?? '(021) 555-0192' }}</p>
           </div>
         </div>
 
         <div style="display: flex; gap: 16px; align-items: flex-start;">
-          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="fa-solid fa-envelope"></i></div>
-          <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">Email Resmi</h4>
-            <p style="color: var(--muted); font-size: 0.95rem;">{{ $settings['email'] ?? 'info@sdnegerilama.sch.id' }}</p>
+          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-envelope"></i></div>
+          <div style="min-width: 0; flex: 1;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">Email Resmi</h4>
+            <p style="color: var(--muted); font-size: 0.95rem; margin: 0; word-break: break-word;">{{ $settings['email'] ?? 'info@sdnegerilama.sch.id' }}</p>
           </div>
         </div>
 
         @if(!empty($settings['facebook']) || !empty($settings['instagram']) || !empty($settings['youtube']))
         <div style="display: flex; gap: 16px; align-items: flex-start;">
-          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;"><i class="fa-solid fa-share-nodes"></i></div>
-          <div>
-            <h4 style="font-size: 1rem; font-weight: 700;">Media Sosial</h4>
+          <div style="width: 44px; height: 44px; background: #dbeafe; color: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;"><i class="fa-solid fa-share-nodes"></i></div>
+          <div style="min-width: 0; flex: 1;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 4px;">Media Sosial</h4>
             <div style="display: flex; gap: 14px; margin-top: 8px; font-size: 1.3rem;">
               @if(!empty($settings['facebook']))
                 <a href="{{ $settings['facebook'] }}" target="_blank" style="color: #1877f2;" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
@@ -64,17 +64,17 @@
       <form action="#" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
         <div>
           <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">Nama Lengkap</label>
-          <input type="text" placeholder="Masukkan nama Anda" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
+          <input type="text" placeholder="Masukkan nama Anda" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
         </div>
         <div>
           <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">Email / No. HP</label>
-          <input type="text" placeholder="Masukkan kontak Anda" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
+          <input type="text" placeholder="Masukkan kontak Anda" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
         </div>
         <div>
           <label style="display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 6px;">Pesan / Pertanyaan</label>
-          <textarea rows="4" placeholder="Tuliskan pesan Anda..." style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;"></textarea>
+          <textarea rows="4" placeholder="Tuliskan pesan Anda..." style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;"></textarea>
         </div>
-        <button type="button" class="btn-login" style="border: none; cursor: pointer; justify-content: center; padding: 12px;"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</button>
+        <button type="button" class="btn-login" style="border: none; cursor: pointer; justify-content: center; padding: 12px; width: 100%; box-sizing: border-box;"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</button>
       </form>
     </div>
   </div>
@@ -86,7 +86,7 @@
       @if(str_contains($settings['maps_embed'], '<iframe'))
         {!! $settings['maps_embed'] !!}
       @else
-        <iframe src="{{ $settings['maps_embed'] }}" width="100%" height="380" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="{{ $settings['maps_embed'] }}" width="100%" height="380" style="border:0; border-radius: 8px; max-width: 100%;" allowfullscreen="" loading="lazy"></iframe>
       @endif
     </div>
   </div>

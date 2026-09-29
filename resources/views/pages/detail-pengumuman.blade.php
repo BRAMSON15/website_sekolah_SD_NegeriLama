@@ -9,7 +9,7 @@
 </div>
 
 <div class="page-content">
-  <div style="display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px;">
+  <div class="announcement-detail-grid">
     <div class="card-box">
       <div style="font-size: 1.05rem; color: var(--dark); line-height: 1.8; white-space: pre-line;">
         {{ $announcement->content }}

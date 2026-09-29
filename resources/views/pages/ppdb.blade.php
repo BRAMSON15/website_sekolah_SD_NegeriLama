@@ -67,7 +67,7 @@
 
   <div class="card-box">
     <h2 style="font-size: 1.3rem; color: var(--dark); margin-bottom: 16px;"><i class="fa-solid fa-timeline"></i> Alur Pendaftaran</h2>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; text-align: center;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; text-align: center;">
       <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
         <div style="width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800;">1</div>
         <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_1_title'] ?? 'Isi Formulir' }}</h4>

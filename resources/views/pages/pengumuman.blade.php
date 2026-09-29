@@ -12,17 +12,17 @@
   <div class="card-box">
     <div style="display: flex; flex-direction: column; gap: 20px;">
       @forelse($announcements as $announcement)
-      <div style="display: flex; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
-        <div style="background: var(--primary); color: #fff; border-radius: 12px; padding: 12px 18px; text-align: center; min-width: 80px; align-self: flex-start;">
-          <div style="font-size: 1.5rem; font-weight: 800; line-height: 1;">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</div>
-          <div style="font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">{{ $announcement->published_at ? $announcement->published_at->format('M Y') : date('M Y') }}</div>
+      <div class="announcement-archive-item" style="display: flex; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+        <div class="announcement-archive-badge" style="background: var(--primary); color: #fff; border-radius: 12px; padding: 12px 16px; text-align: center; min-width: 70px; align-self: flex-start; flex-shrink: 0;">
+          <div style="font-size: 1.4rem; font-weight: 800; line-height: 1;">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</div>
+          <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; margin-top: 4px;">{{ $announcement->published_at ? $announcement->published_at->format('M Y') : date('M Y') }}</div>
         </div>
-        <div>
-          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">
-            <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--dark); hover:color: var(--primary);">{{ $announcement->title }}</a>
+        <div style="min-width: 0; flex: 1;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; line-height: 1.35;">
+            <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--dark); text-decoration: none;">{{ $announcement->title }}</a>
           </h3>
-          <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 12px;">{{ Str::limit($announcement->content, 180) }}</p>
-          <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--primary); font-weight: 700; font-size: 0.85rem;">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
+          <p style="color: var(--muted); font-size: 0.92rem; margin-bottom: 12px; line-height: 1.5;">{{ Str::limit($announcement->content, 180) }}</p>
+          <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--primary); font-weight: 700; font-size: 0.85rem; text-decoration: none;">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
         </div>
       </div>
       @empty

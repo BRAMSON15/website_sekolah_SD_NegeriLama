@@ -12,10 +12,10 @@
     <!-- <div class="hero-badge" style="display: inline-flex; align-items: center; gap: 8px; background: rgb(255, 255, 255); color: var(--primary); padding: 6px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px; border: 1px solid rgba(59, 130, 246, 0.2);">
       <i class="fa-solid fa-award"></i> {{ $settings['hero_badge'] ?? 'Sekolah Penggerak & Akreditasi A' }}
     </div> -->
-    <h1 style="font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1.15; font-weight: 800; color: #ffffff; margin-bottom: 20px; letter-spacing: -1px; text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);">
+    <h1 style="font-size: clamp(1.75rem, 5.5vw, 3.2rem); line-height: 1.2; font-weight: 800; color: #ffffff; margin-bottom: 18px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);">
       {!! $settings['hero_title'] ?? 'Mewujudkan Generasi <span>Cerdas, Kreatif & Berkarakter</span>' !!}
     </h1>
-    <p style="font-size: 1.1rem; color: #ffffff; margin-bottom: 32px; max-width: 580px; text-shadow: 0 2px 6px rgba(15, 23, 42, 0.55);">
+    <p style="font-size: clamp(0.92rem, 2.5vw, 1.1rem); color: #ffffff; margin-bottom: 28px; max-width: 580px; text-shadow: 0 2px 6px rgba(15, 23, 42, 0.55); line-height: 1.6;">
       {{ $settings['hero_description'] ?? 'Selamat datang di portal resmi SD Negeri Lama.' }}
     </p>
     <div class="hero-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
@@ -153,4 +153,140 @@
     </div>
   </div>
 </section>
+
+@if((isset($featuredVideos) && $featuredVideos->isNotEmpty()) || (isset($featuredMaterials) && $featuredMaterials->isNotEmpty()))
+<!-- ============================================================== -->
+<!-- VIDEO PEMBELAJARAN & BAHAN AJAR DIGITAL SHOWCASE               -->
+<!-- ============================================================== -->
+<section class="learning-media-section" style="padding: 80px 6%; background: #ffffff; border-top: 1px solid var(--border);">
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
+    <div>
+      <span style="color: var(--primary); font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 8px;">
+        <i class="fa-solid fa-graduation-cap"></i> MEDIA PEMBELAJARAN DIGITAL
+      </span>
+      <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--dark); margin: 0 0 8px 0;">
+        Video Edukasi & Materi Pelajaran
+      </h2>
+      <p style="color: var(--muted); font-size: 1rem; margin: 0; max-width: 600px;">
+        Materi pembelajaran interaktif dan modul ajar persembahan bapak/ibu guru untuk menunjang kegiatan belajar mandiri peserta didik.
+      </p>
+    </div>
+
+    <div class="learning-filter-scroll" style="display: flex; gap: 10px; flex-wrap: wrap;">
+      <a href="{{ route('akademik', ['tab' => 'all']) }}" style="padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.88rem; text-decoration: none; background: var(--light-bg); color: var(--dark); border: 1px solid var(--border);">
+        <i class="fa-solid fa-shapes"></i> Semua Media
+      </a>
+      <a href="{{ route('akademik', ['tab' => 'video']) }}" style="padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.88rem; text-decoration: none; background: #fee2e2; color: #dc2626; border: 1px solid #fecaca;">
+        <i class="fa-brands fa-youtube"></i> Video Edukasi
+      </a>
+      <a href="{{ route('akademik', ['tab' => 'materi']) }}" style="padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.88rem; text-decoration: none; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd;">
+        <i class="fa-solid fa-file-arrow-down"></i> File Materi
+      </a>
+      <a href="{{ route('akademik') }}" class="btn-login" style="padding: 10px 20px; font-size: 0.88rem; border-radius: 10px;">
+        Lihat Semua <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="learning-showcase-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+    
+    @foreach($featuredVideos as $video)
+    <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="position: relative; height: 160px; background: #0f172a; overflow: hidden;">
+          @if($video->thumbnail_url)
+            <img src="{{ $video->thumbnail_url }}" alt="{{ $video->title }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, {{ $video->is_drive ? '#0369a1, #0284c7' : '#991b1b, #ef4444' }}); align-items: center; justify-content: center; flex-direction: column; color: white;">
+              <i class="{{ $video->source_badge['icon'] }}" style="font-size: 2.5rem; margin-bottom: 6px;"></i>
+              <span style="font-size: 0.8rem; font-weight: 700;">{{ $video->source_badge['label'] }}</span>
+            </div>
+          @else
+            <div style="width: 100%; height: 100%; background: linear-gradient(135deg, {{ $video->is_drive ? '#0284c7, #38bdf8' : '#dc2626, #f87171' }}); display: flex; align-items: center; justify-content: center; flex-direction: column; color: white;">
+              <i class="{{ $video->source_badge['icon'] }}" style="font-size: 2.5rem; margin-bottom: 6px;"></i>
+              <span style="font-size: 0.8rem; font-weight: 700;">{{ $video->source_badge['label'] }}</span>
+            </div>
+          @endif
+
+          <span style="position: absolute; top: 8px; right: 8px; background: {{ $video->is_drive ? 'rgba(2, 132, 199, 0.92)' : 'rgba(220, 38, 38, 0.92)' }}; color: #ffffff; padding: 2px 7px; border-radius: 5px; font-size: 0.7rem; font-weight: 700;">
+            <i class="{{ $video->source_badge['icon'] }}"></i> {{ $video->source_badge['label'] }}
+          </span>
+
+          <span style="position: absolute; bottom: 8px; right: 8px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">
+            {{ $video->duration }}
+          </span>
+        </div>
+
+        <div style="padding: 16px;">
+          <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+            <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
+              {{ $video->class_level }}
+            </span>
+            <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
+              {{ $video->subject }}
+            </span>
+          </div>
+          <h4 style="font-size: 0.98rem; font-weight: 700; color: var(--dark); margin: 0 0 6px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.8em;">
+            {{ $video->title }}
+          </h4>
+          <p style="font-size: 0.82rem; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            {{ $video->description ?: 'Video materi pembelajaran interaktif.' }}
+          </p>
+        </div>
+      </div>
+
+      <div style="padding: 12px 16px; background: var(--light-bg); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.75rem; color: var(--muted);">
+          <i class="fa-regular fa-eye"></i> {{ number_format($video->views_count, 0, ',', '.') }} tayangan
+        </span>
+        <a href="{{ route('akademik', ['tab' => 'video', 'search' => $video->title]) }}" style="font-size: 0.8rem; font-weight: 700; color: var(--primary); text-decoration: none;">
+          Tonton di Akademik <i class="fa-solid fa-play" style="font-size: 0.7rem;"></i>
+        </a>
+      </div>
+    </div>
+    @endforeach
+
+   
+    @foreach($featuredMaterials as $material)
+    <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="width: 42px; height: 42px; border-radius: 10px; background: {{ $material->icon_color }}15; color: {{ $material->icon_color }}; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+            <i class="{{ $material->icon }}"></i>
+          </div>
+          <span style="background: #f1f5f9; color: #475569; padding: 3px 8px; border-radius: 15px; font-size: 0.72rem; font-weight: 700;">
+            {{ $material->file_size ?: 'Dokumen Digital' }}
+          </span>
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 6px;">
+          <span style="background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
+            {{ $material->class_level }}
+          </span>
+          <span style="background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700;">
+            {{ $material->subject }}
+          </span>
+        </div>
+
+        <h4 style="font-size: 0.98rem; font-weight: 700; color: var(--dark); margin: 0 0 6px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.8em;">
+          {{ $material->title }}
+        </h4>
+        <p style="font-size: 0.82rem; color: var(--muted); margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          {{ $material->description ?: 'Bahan ajar materi mandiri untuk peserta didik.' }}
+        </p>
+      </div>
+
+      <div style="border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 0.75rem; color: var(--muted);">
+          <i class="fa-solid fa-download"></i> {{ number_format($material->downloads, 0, ',', '.') }}x diunduh
+        </span>
+        <a href="{{ route('materi.download', $material->id) }}" style="padding: 6px 12px; font-size: 0.78rem; background: #0284c7; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+          <i class="fa-solid fa-cloud-arrow-down"></i> Unduh
+        </a>
+      </div>
+    </div>
+    @endforeach
+  </div>
+</section>
+@endif
 @endsection

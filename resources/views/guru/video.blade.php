@@ -147,94 +147,160 @@
 </div>
 
 @if($activeVideo)
-<!-- ACTIVE / FEATURED VIDEO PLAYER -->
-<div class="section-card" style="margin-bottom: 30px; overflow: hidden; padding: 0; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);">
-    <div style="padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: #fafafa;">
-        <div class="section-title" style="margin: 0;">
-            <div class="title-icon" style="background: {{ $activeVideo->is_drive ? '#e0f2fe' : '#fee2e2' }}; color: {{ $activeVideo->is_drive ? '#0284c7' : '#dc2626' }};">
+<!-- ACTIVE / FEATURED VIDEO PLAYER (COMPACT & BALANCED) -->
+<style>
+    .active-video-grid {
+        display: grid;
+        grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+    }
+    .active-video-grid.mode-wide {
+        grid-template-columns: 1fr !important;
+        max-width: 760px;
+        margin: 0 auto;
+    }
+    .active-player-wrapper {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+        position: relative;
+    }
+    @media (max-width: 900px) {
+        .active-video-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px;
+        }
+    }
+</style>
+
+<div class="section-card" style="margin-bottom: 28px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05); border-radius: 16px; background: #ffffff;">
+    <!-- TOP BAR IN ACTIVE CARD -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="title-icon" style="background: {{ $activeVideo->is_drive ? '#e0f2fe' : '#fee2e2' }}; color: {{ $activeVideo->is_drive ? '#0284c7' : '#dc2626' }}; width: 38px; height: 38px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 1.1rem;">
                 <i class="{{ $activeVideo->source_badge['icon'] }}"></i>
             </div>
             <div>
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <h2 style="font-size: 1.18rem; margin: 0; font-weight: 800; color: var(--text);">
-                        {{ $activeVideo->title }}
-                    </h2>
-                    <span style="display: inline-flex; align-items: center; gap: 5px; background: {{ $activeVideo->source_badge['bg_color'] }}; color: {{ $activeVideo->source_badge['color'] }}; border: 1px solid {{ $activeVideo->source_badge['border'] }}; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
-                        <i class="{{ $activeVideo->source_badge['icon'] }}"></i> {{ $activeVideo->source_badge['label'] }}
-                    </span>
-                </div>
-                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: var(--muted);">Sedang aktif diputar di pemutar video</p>
+                <span style="font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">Pemutar Aktif</span>
+                <h2 style="font-size: 1.05rem; margin: 0; font-weight: 800; color: var(--text); line-height: 1.3;">
+                    {{ $activeVideo->title }}
+                </h2>
             </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-            <!-- Duration Badge -->
-            <span style="background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-                <i class="fa-regular fa-clock"></i> {{ $activeVideo->duration }}
-            </span>
-
-            <!-- Open Original External Link -->
-            @if($activeVideo->effective_url)
-            <a href="{{ $activeVideo->effective_url }}" target="_blank" rel="noopener noreferrer" style="background: #f8fafc; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;" title="Buka tautan asli di tab baru">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Sumber Asli
-            </a>
-            @endif
-
-            <!-- Edit Button -->
-            <button type="button" onclick="openEditModal({{ json_encode($activeVideo) }})" style="background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                <i class="fa-solid fa-pen-to-square"></i> Edit
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <!-- Toggle Size Button -->
+            <button type="button" id="btnToggleMode" onclick="togglePlayerMode()" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" title="Ubah ukuran tampilan pemutar">
+                <i class="fa-solid fa-expand"></i> Mode Lebar
             </button>
 
-            <!-- Delete Form -->
-            <form action="{{ route('guru.video.destroy', $activeVideo->id) }}" method="POST" onsubmit="return confirm('Hapus video ini dari koleksi pembelajaran?')" style="margin: 0;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-trash-can"></i> Hapus
-                </button>
-            </form>
+            <!-- Close Active Player -->
+            <a href="{{ route('guru.video') }}" style="background: #f8fafc; color: #64748b; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="Tutup pemutar aktif">
+                <i class="fa-solid fa-xmark"></i> Tutup
+            </a>
         </div>
     </div>
 
-    <!-- RESPONSIVE VIDEO IFRAME (YOUTUBE / GOOGLE DRIVE PREVIEW) -->
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #0b0f19;">
-        <iframe 
-            src="{{ $activeVideo->embed_url }}" 
-            title="{{ $activeVideo->title }}"
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen>
-        </iframe>
-    </div>
-
-    <!-- GOOGLE DRIVE HELPER NOTICE (SHOWN IF ACTIVE IS DRIVE) -->
-    @if($activeVideo->is_drive)
-    <div style="background: #f0f9ff; border-top: 1px solid #bae6fd; border-bottom: 1px solid #bae6fd; padding: 12px 22px; display: flex; align-items: center; gap: 12px; font-size: 0.86rem; color: #0369a1;">
-        <i class="fa-brands fa-google-drive" style="font-size: 1.25rem; color: #0284c7; flex-shrink: 0;"></i>
+    <!-- 2-COLUMN COMPACT LAYOUT -->
+    <div id="activePlayerGrid" class="active-video-grid">
+        <!-- LEFT: VIDEO PLAYER (COMPACT 16:9) -->
         <div>
-            <strong>Catatan Berkas Google Drive:</strong> Pastikan setelan akses berkas di Google Drive Anda adalah <em>"Siapa saja yang memiliki link"</em> sebagai <em>"Pelihat"</em> agar seluruh siswa dapat memutar video langsung tanpa hambatan perizinan.
-        </div>
-    </div>
-    @endif
+            <div class="active-player-wrapper">
+                <iframe 
+                    src="{{ $activeVideo->embed_url }}" 
+                    title="{{ $activeVideo->title }}"
+                    style="width: 100%; height: 100%; border: 0; display: block;" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
+            </div>
 
-    <!-- VIDEO INFO DETAILS -->
-    <div style="padding: 22px 24px; background: #ffffff;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
-            <span style="background: #e0f2fe; color: #0369a1; padding: 4px 14px; border-radius: 15px; font-size: 0.78rem; font-weight: 700;">
-                <i class="fa-solid fa-graduation-cap"></i> {{ $activeVideo->class_level }}
-            </span>
-            <span style="background: #f1f5f9; color: #475569; padding: 4px 14px; border-radius: 15px; font-size: 0.78rem; font-weight: 700;">
-                <i class="fa-solid fa-book-bookmark"></i> {{ $activeVideo->subject }}
-            </span>
-            <span style="font-size: 0.85rem; color: var(--muted); font-weight: 600;">
-                <i class="fa-regular fa-eye"></i> {{ number_format($activeVideo->views_count, 0, ',', '.') }}x ditonton
-            </span>
-            <span style="font-size: 0.82rem; color: #94a3b8;">
-                <i class="fa-regular fa-calendar"></i> {{ $activeVideo->created_at ? $activeVideo->created_at->format('d M Y') : 'Baru' }}
-            </span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.78rem; flex-wrap: wrap; gap: 8px;">
+                @if($activeVideo->effective_url)
+                <a href="{{ $activeVideo->effective_url }}" target="_blank" rel="noopener noreferrer" style="color: #4f46e5; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka di {{ $activeVideo->source_badge['label'] }}
+                </a>
+                @endif
+                <span style="color: #94a3b8; display: inline-flex; align-items: center; gap: 4px;">
+                    <i class="fa-solid fa-expand"></i> Fullscreen tersedia di pemutar
+                </span>
+            </div>
         </div>
 
-        <p style="font-size: 0.93rem; color: #334155; line-height: 1.65; margin: 0; white-space: pre-line;">{{ $activeVideo->description ?: 'Tidak ada deskripsi materi video tambahan.' }}</p>
+        <!-- RIGHT: VIDEO DETAILS & ACTIONS -->
+        <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+                <!-- Badges Row -->
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px;">
+                    <span style="display: inline-flex; align-items: center; gap: 5px; background: {{ $activeVideo->source_badge['bg_color'] }}; color: {{ $activeVideo->source_badge['color'] }}; border: 1px solid {{ $activeVideo->source_badge['border'] }}; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700;">
+                        <i class="{{ $activeVideo->source_badge['icon'] }}"></i> {{ $activeVideo->source_badge['label'] }}
+                    </span>
+                    <span style="background: #f3e8ff; color: #7e22ce; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                        <i class="fa-solid fa-circle-play"></i> Sedang Diputar
+                    </span>
+                    <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                        <i class="fa-regular fa-clock"></i> {{ $activeVideo->duration }}
+                    </span>
+                </div>
+
+                <!-- Video Title -->
+                <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 0 0 10px 0; line-height: 1.4;">
+                    {{ $activeVideo->title }}
+                </h3>
+
+                <!-- Meta Pills -->
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+                    <span style="background: #e0f2fe; color: #0369a1; padding: 3px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
+                        <i class="fa-solid fa-graduation-cap"></i> {{ $activeVideo->class_level }}
+                    </span>
+                    <span style="background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;">
+                        <i class="fa-solid fa-book-bookmark"></i> {{ $activeVideo->subject }}
+                    </span>
+                    <span style="font-size: 0.8rem; color: var(--muted); font-weight: 600;">
+                        <i class="fa-regular fa-eye"></i> {{ number_format($activeVideo->views_count, 0, ',', '.') }}x ditonton
+                    </span>
+                    <span style="font-size: 0.8rem; color: #94a3b8;">
+                        <i class="fa-regular fa-calendar"></i> {{ $activeVideo->created_at ? $activeVideo->created_at->format('d M Y') : 'Baru' }}
+                    </span>
+                </div>
+
+                <!-- Description Box -->
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; max-height: 110px; overflow-y: auto; font-size: 0.86rem; color: #334155; line-height: 1.6; white-space: pre-line;">
+                    {{ $activeVideo->description ?: 'Tidak ada ringkasan materi tambahan untuk video ini.' }}
+                </div>
+
+                <!-- Google Drive Tip Notice (if Drive) -->
+                @if($activeVideo->is_drive)
+                <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: #0369a1;">
+                    <i class="fa-brands fa-google-drive" style="font-size: 1.15rem; color: #0284c7; flex-shrink: 0;"></i>
+                    <div>
+                        <strong>Info Google Drive:</strong> Pastikan berkas video ini memiliki setelan akses <em>"Siapa saja yang memiliki link"</em> sebagai <em>"Pelihat"</em> agar dapat diputar langsung oleh siswa.
+                    </div>
+                </div>
+                @endif
+            </div>
+
+            <!-- Action Buttons Footer -->
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 12px; margin-top: 4px;">
+                <!-- Edit Button -->
+                <button type="button" onclick="openEditModal({{ json_encode($activeVideo) }})" style="background: #eef2ff; color: #4f46e5; border: 1px solid #c7d2fe; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit Video
+                </button>
+
+                <!-- Delete Form -->
+                <form action="{{ route('guru.video.destroy', $activeVideo->id) }}" method="POST" onsubmit="return confirm('Hapus video {{ addslashes($activeVideo->title) }} dari koleksi pembelajaran?')" style="margin: 0;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-trash-can"></i> Hapus Video
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endif
@@ -615,6 +681,31 @@
 
 @section('scripts')
 <script>
+    // --- Active Video Player Size Mode Toggle ---
+    function togglePlayerMode() {
+        const grid = document.getElementById('activePlayerGrid');
+        const btn = document.getElementById('btnToggleMode');
+        if (!grid || !btn) return;
+
+        const isWide = grid.classList.toggle('mode-wide');
+        localStorage.setItem('guru_video_player_mode', isWide ? 'wide' : 'compact');
+        btn.innerHTML = isWide 
+            ? '<i class="fa-solid fa-compress"></i> Mode Ringkas' 
+            : '<i class="fa-solid fa-expand"></i> Mode Lebar';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedMode = localStorage.getItem('guru_video_player_mode');
+        if (savedMode === 'wide') {
+            const grid = document.getElementById('activePlayerGrid');
+            const btn = document.getElementById('btnToggleMode');
+            if (grid && btn) {
+                grid.classList.add('mode-wide');
+                btn.innerHTML = '<i class="fa-solid fa-compress"></i> Mode Ringkas';
+            }
+        }
+    });
+
     // --- Modal Tambah Video Functions ---
     function openModalVideo() {
         const modal = document.getElementById('modalVideo');
