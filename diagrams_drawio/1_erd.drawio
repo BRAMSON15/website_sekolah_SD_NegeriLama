@@ -1,0 +1,80 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.2.9 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.2.9" pages="3">
+  <diagram id="erd" name="ERD">
+    <mxGraphModel dx="1310" dy="860" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1350" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tb_users" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#1E40AF;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #1E40AF; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;users&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;name&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;email&lt;/b&gt; : VARCHAR(255) &lt;i style=&quot;color:#64748B;&quot;&gt;UNIQUE&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;password&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color: #D97706;&quot;&gt;role&lt;/b&gt; : ENUM(&#39;admin&#39;,&#39;guru&#39;,&#39;kepsek&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nip&lt;/b&gt; : VARCHAR(50) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;no_hp&lt;/b&gt; : VARCHAR(20) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;updated_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="250" width="280" x="80" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_ann" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#475569;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #475569; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;announcements&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&lt;b style=&quot;color: #059669;&quot;&gt;[FK]&lt;/b&gt; &lt;b&gt;author_id&lt;/b&gt; : BIGINT &lt;i style=&quot;color:#64748B;&quot;&gt;&amp;rarr; users.id&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;judul&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;konten&lt;/b&gt; : TEXT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;kategori&lt;/b&gt; : VARCHAR(50)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;tanggal_publikasi&lt;/b&gt; : DATE&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;status&lt;/b&gt; : ENUM(&#39;draft&#39;,&#39;published&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="230" width="290" x="545" y="109" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_set" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#64748B;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #64748B; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;school_settings&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;key&lt;/b&gt; : VARCHAR(100) &lt;i style=&quot;color:#64748B;&quot;&gt;UNIQUE&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;value&lt;/b&gt; : TEXT NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;group&lt;/b&gt; : VARCHAR(50)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="170" width="280" x="930" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_mat" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#0D9488;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #0D9488; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;learning_materials&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&lt;b style=&quot;color: #059669;&quot;&gt;[FK]&lt;/b&gt; &lt;b&gt;guru_id&lt;/b&gt; : BIGINT &lt;i style=&quot;color:#64748B;&quot;&gt;&amp;rarr; users.id&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;judul&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;deskripsi&lt;/b&gt; : TEXT NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;file_path&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;tipe_file&lt;/b&gt; : VARCHAR(50)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color: #B45309;&quot;&gt;kelas&lt;/b&gt; : VARCHAR(10)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;updated_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="280" x="80" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_vid" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#0D9488;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #0D9488; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;educational_videos&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&lt;b style=&quot;color: #059669;&quot;&gt;[FK]&lt;/b&gt; &lt;b&gt;guru_id&lt;/b&gt; : BIGINT &lt;i style=&quot;color:#64748B;&quot;&gt;&amp;rarr; users.id&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;judul&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;deskripsi&lt;/b&gt; : TEXT NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;source_type&lt;/b&gt; : ENUM(&#39;youtube&#39;,&#39;upload&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;video_url&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color: #B45309;&quot;&gt;kelas&lt;/b&gt; : VARCHAR(10)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;updated_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="290" x="520" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_std" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#B45309;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #B45309; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;students&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color:#D97706;&quot;&gt;nisn&lt;/b&gt; : VARCHAR(20) &lt;i style=&quot;color:#64748B;&quot;&gt;UNIQUE (Login Siswa)&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nama_lengkap&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;jenis_kelamin&lt;/b&gt; : ENUM(&#39;L&#39;,&#39;P&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color:#B45309;&quot;&gt;kelas&lt;/b&gt; : VARCHAR(10)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;tempat_lahir&lt;/b&gt; : VARCHAR(100)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;tanggal_lahir&lt;/b&gt; : DATE&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;alamat&lt;/b&gt; : TEXT NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nama_wali&lt;/b&gt; : VARCHAR(255) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;no_hp_wali&lt;/b&gt; : VARCHAR(20) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;status&lt;/b&gt; : ENUM(&#39;aktif&#39;,&#39;lulus&#39;,&#39;pindah&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="290" width="310" x="250" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="tb_ppdb" parent="1" style="rounded=1;arcSize=6;whiteSpace=wrap;html=1;align=left;verticalAlign=top;fillColor=#FFFFFF;strokeWidth=2;shadow=1;spacingLeft=12;spacingRight=12;spacingTop=10;spacingBottom=10;strokeColor=#047857;" value="&lt;div style=&quot;text-align: center; font-weight: bold; font-size: 14px; color: #FFFFFF; background-color: #047857; padding: 6px; border-radius: 4px; margin-bottom: 8px;&quot;&gt;ppdb_registrations&lt;/div&gt;&lt;div style=&quot;font-family: Consolas, monospace; font-size: 12px; line-height: 1.6; color: #0F172A;&quot;&gt;&lt;b style=&quot;color: #2563EB;&quot;&gt;[PK]&lt;/b&gt; &lt;b&gt;id&lt;/b&gt; : BIGINT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;no_pendaftaran&lt;/b&gt; : VARCHAR(50) &lt;i style=&quot;color:#64748B;&quot;&gt;UNIQUE&lt;/i&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nama_calon_siswa&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nisn&lt;/b&gt; : VARCHAR(20) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;jenis_kelamin&lt;/b&gt; : ENUM(&#39;L&#39;,&#39;P&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;tanggal_lahir&lt;/b&gt; : DATE&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;nama_orang_tua&lt;/b&gt; : VARCHAR(255)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;no_hp&lt;/b&gt; : VARCHAR(20)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;alamat&lt;/b&gt; : TEXT&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;berkas_persyaratan&lt;/b&gt; : VARCHAR(255) NULL&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b style=&quot;color:#047857;&quot;&gt;status&lt;/b&gt; : ENUM(&#39;pending&#39;,&#39;diverifikasi&#39;,&#39;diterima&#39;,&#39;ditolak&#39;)&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;b&gt;created_at&lt;/b&gt; : TIMESTAMP&lt;/div&gt;" vertex="1">
+          <mxGeometry height="310" width="380" x="720" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_u_m" edge="1" parent="1" source="tb_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#0D9488;strokeWidth=2;fontSize=11;fontColor=#0F766E;" target="tb_mat" value="&lt;b&gt;1 : N&lt;/b&gt;&lt;br&gt;&lt;small&gt;Guru upload materi&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_u_a" edge="1" parent="1" source="tb_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#475569;strokeWidth=2;fontSize=11;fontColor=#334155;" target="tb_ann" value="&lt;b&gt;1 : N&lt;/b&gt;&lt;br&gt;&lt;small&gt;Admin/Kepsek buat pengumuman&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_u_v" edge="1" parent="1" source="tb_users" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.8;exitY=1;entryX=0.2;entryY=0;strokeColor=#0D9488;strokeWidth=2;fontSize=11;fontColor=#0F766E;" target="tb_vid" value="&lt;b&gt;1 : N&lt;/b&gt;&lt;br&gt;&lt;small&gt;Guru upload video&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="304" y="390" />
+              <mxPoint x="578" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_s_m" edge="1" parent="1" source="tb_std" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;entryX=0.5;entryY=1;dashed=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontColor=#1D4ED8;" target="tb_mat" value="&lt;b&gt;Akses Materi&lt;/b&gt;&lt;br&gt;&lt;small&gt;(Sesuai Tingkat Kelas)&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="328" y="740" />
+              <mxPoint x="220" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_s_v" edge="1" parent="1" source="tb_std" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;entryX=0.5;entryY=1;dashed=1;strokeColor=#2563EB;strokeWidth=2;fontSize=11;fontColor=#1D4ED8;" target="tb_vid" value="&lt;b&gt;Tonton Video&lt;/b&gt;&lt;br&gt;&lt;small&gt;(Sesuai Tingkat Kelas)&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="483" y="740" />
+              <mxPoint x="665" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_p_s" edge="1" parent="1" source="tb_ppdb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;dashed=1;strokeColor=#047857;strokeWidth=2;fontSize=11;fontColor=#047857;" target="tb_std" value="&lt;b&gt;1 : 1 (Verifikasi)&lt;/b&gt;&lt;br&gt;&lt;small&gt;Status Diterima &amp;rarr; Generate Akun Siswa&lt;/small&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="bi8twhUBqn7PP2AUCpNI" name="Page-2">
+    <mxGraphModel dx="786" dy="516" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ARZ8XrekyWyK7d2j_3kc" name="Page-3">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
