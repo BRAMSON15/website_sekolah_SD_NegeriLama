@@ -774,7 +774,12 @@
 
     <div class="nav-actions">
       @auth
-        @if(Auth::user()->role === 'siswa')
+        @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
+          <a class="btn-login" href="{{ route('kepsek.dashboard') }}" title="Monitoring Kepala Sekolah" style="background: #0f172a; border-color: #334155;">
+            <i class="fa-solid fa-user-tie"></i>
+            <span class="btn-login-text">Monitoring Kepsek</span>
+          </a>
+        @elseif(Auth::user()->role === 'siswa')
           <a class="btn-login" href="{{ route('siswa.beranda') }}" title="Ruang Belajar Siswa">
             <i class="fa-solid fa-graduation-cap"></i>
             <span class="btn-login-text">Ruang Belajar</span>
@@ -799,9 +804,9 @@
           </button>
         </form>
       @else
-        <a class="btn-login" href="{{ route('login') }}" title="Portal Login Guru & Admin">
+        <a class="btn-login" href="{{ route('login.guru') }}" title="Portal Guru">
           <i class="fa-solid fa-right-to-bracket"></i>
-          <span class="btn-login-text">Portal Login</span>
+          <span class="btn-login-text">Portal Guru</span>
         </a>
       @endauth
 
@@ -839,7 +844,16 @@
         </a>
 
         @auth
-          @if(Auth::user()->role === 'siswa')
+          @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
+          <a href="{{ route('kepsek.dashboard') }}" class="mobile-nav-link {{ request()->routeIs('kepsek.*') ? 'active' : '' }}" style="background: #f8fafc; border: 1px solid #cbd5e1;">
+            <div class="mobile-nav-icon" style="background: #0f172a; color: #fff;"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="mobile-nav-text">
+              <span class="title" style="color: #0f172a; font-weight: 800;">Monitoring Kepala Sekolah</span>
+              <span class="desc">Supervisi guru, presensi, & media</span>
+            </div>
+            <i class="fa-solid fa-chevron-right arrow-icon" style="color: #0f172a;"></i>
+          </a>
+          @elseif(Auth::user()->role === 'siswa')
           <a href="{{ route('siswa.beranda') }}" class="mobile-nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="background: #eff6ff; border: 1px solid #bfdbfe;">
             <div class="mobile-nav-icon" style="background: #2563eb; color: #fff;"><i class="fa-solid fa-graduation-cap"></i></div>
             <div class="mobile-nav-text">
@@ -900,7 +914,11 @@
 
         <div class="mobile-nav-footer">
           @auth
-            @if(Auth::user()->role === 'siswa')
+            @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
+              <a class="mobile-btn-portal" href="{{ route('kepsek.dashboard') }}" style="background: #0f172a;">
+                <i class="fa-solid fa-user-tie"></i> Monitoring Kepala Sekolah
+              </a>
+            @elseif(Auth::user()->role === 'siswa')
               <a class="mobile-btn-portal" href="{{ route('siswa.beranda') }}">
                 <i class="fa-solid fa-graduation-cap"></i> Masuk Ruang Belajar Siswa
               </a>
@@ -914,20 +932,17 @@
               </a>
             @endif
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
-              <a href="{{ route('login') }}" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; font-weight: 700; font-size: 0.82rem; padding: 10px 12px; border-radius: 9px; text-decoration: none;">
-                <i class="fa-solid fa-users-gear"></i> Ganti Role
-              </a>
+            <div style="margin-top: 8px;">
               <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
                 @csrf
                 <button type="submit" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626; font-weight: 700; font-size: 0.82rem; padding: 10px 12px; border-radius: 9px; cursor: pointer;">
-                  <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                  <i class="fa-solid fa-right-from-bracket"></i> Keluar dari Akun
                 </button>
               </form>
             </div>
           @else
-            <a class="mobile-btn-portal" href="{{ route('login') }}">
-              <i class="fa-solid fa-right-to-bracket"></i> Portal Login Guru & Admin
+            <a class="mobile-btn-portal" href="{{ route('login.guru') }}">
+              <i class="fa-solid fa-right-to-bracket"></i> Portal Masuk Guru
             </a>
           @endauth
         </div>

@@ -139,5 +139,16 @@ class HomeSeeder extends Seeder
                 'password' => \Illuminate\Support\Facades\Hash::make('password123'),
             ]
         );
+
+        \App\Models\User::updateOrCreate(
+            ['email' => 'kepsek@sdnegerilama.sch.id'],
+            [
+                'name' => 'Drs. H. Ahmad Dahlan, M.Pd.',
+                'email' => 'kepsek@sdnegerilama.sch.id',
+                'nip' => '197505081999031001',
+                'role' => 'kepala_sekolah',
+                'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            ]
+        );
     }
 }

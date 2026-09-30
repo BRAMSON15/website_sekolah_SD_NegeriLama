@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminTeacherController;
 use App\Http\Controllers\AdminWebsiteController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\KepalaSekolahController;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,13 +26,25 @@ Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
 Route::get('/materi/{material}/download', [SiswaController::class, 'downloadMateri'])->name('materi.download')->middleware('auth');
 Route::post('/siswa/akses-nisn', [SiswaController::class, 'aksesNisn'])->name('siswa.akses.nisn');
 
-// Authentication Routes (Accessible to guests and authenticated users who want to switch roles)
+// Authentication Routes (Dedicated hidden access links per role)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login/guru', [AuthController::class, 'showGuruLoginForm'])->name('login.guru');
+Route::get('/login/admin', [AuthController::class, 'showAdminLoginForm'])->name('login.admin');
+Route::get('/login/kepsek', [AuthController::class, 'showKepsekLoginForm'])->name('login.kepsek');
 Route::post('/login', [AuthController::class, 'login']);
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+
+    // Kepala Sekolah Monitoring Routes
+    Route::get('/kepsek/dashboard', [KepalaSekolahController::class, 'dashboard'])->name('kepsek.dashboard');
+    Route::get('/kepsek/monitoring/guru', [KepalaSekolahController::class, 'monitoringGuru'])->name('kepsek.monitoring.guru');
+    Route::get('/kepsek/monitoring/pembelajaran', [KepalaSekolahController::class, 'monitoringPembelajaran'])->name('kepsek.monitoring.pembelajaran');
+    Route::get('/kepsek/monitoring/ppdb', [KepalaSekolahController::class, 'monitoringPpdb'])->name('kepsek.monitoring.ppdb');
+    Route::get('/kepsek/monitoring/sistem', [KepalaSekolahController::class, 'monitoringSistem'])->name('kepsek.monitoring.sistem');
+    Route::get('/kepsek/monitoring/kalender', [KepalaSekolahController::class, 'monitoringKalender'])->name('kepsek.monitoring.kalender');
+    Route::get('/kepsek/monitoring/kalender/download', [KepalaSekolahController::class, 'downloadKaldik'])->name('kepsek.monitoring.kalender.download');
 
     // Portal Siswa Routes (Khusus Siswa Terdaftar)
     Route::get('/siswa/beranda', [SiswaController::class, 'beranda'])->name('siswa.beranda');
@@ -39,10 +52,6 @@ Route::middleware('auth')->group(function () {
 
     // Guru Portal Routes
     Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
-    
-    // Kelas & Presensi
-    Route::get('/guru/kelas', [GuruController::class, 'kelas'])->name('guru.kelas');
-    Route::post('/guru/kelas/presensi', [GuruController::class, 'simpanPresensi'])->name('guru.kelas.presensi');
 
     // Materi Pembelajaran
     Route::get('/guru/materi', [GuruController::class, 'materi'])->name('guru.materi');
@@ -55,13 +64,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/guru/video', [GuruController::class, 'storeVideo'])->name('guru.video.store');
     Route::put('/guru/video/{video}', [GuruController::class, 'updateVideo'])->name('guru.video.update');
     Route::delete('/guru/video/{video}', [GuruController::class, 'destroyVideo'])->name('guru.video.destroy');
-
-    // Tugas & Penilaian
-    Route::get('/guru/tugas', [GuruController::class, 'tugas'])->name('guru.tugas');
-    Route::post('/guru/tugas', [GuruController::class, 'storeTugas'])->name('guru.tugas.store');
-    Route::get('/guru/tugas/{assignment}', [GuruController::class, 'detailTugas'])->name('guru.tugas.detail');
-    Route::post('/guru/tugas/{assignment}/nilai', [GuruController::class, 'simpanNilai'])->name('guru.tugas.nilai');
-    Route::delete('/guru/tugas/{assignment}', [GuruController::class, 'destroyTugas'])->name('guru.tugas.destroy');
 
     // Kalender & Pengumuman
     Route::get('/guru/kalender', [GuruController::class, 'kalender'])->name('guru.kalender');

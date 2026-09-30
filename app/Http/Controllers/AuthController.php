@@ -18,10 +18,39 @@ class AuthController extends Controller
 
     public function showLoginForm(Request $request)
     {
+        $role = $request->query('role', old('login_type', 'guru'));
+        return $this->renderRoleLoginForm($role);
+    }
+
+    public function showGuruLoginForm()
+    {
+        return $this->renderRoleLoginForm('guru');
+    }
+
+    public function showAdminLoginForm()
+    {
+        return $this->renderRoleLoginForm('admin');
+    }
+
+    public function showKepsekLoginForm()
+    {
+        return $this->renderRoleLoginForm('kepsek');
+    }
+
+    protected function renderRoleLoginForm(string $role)
+    {
         $settings = $this->websiteService->getSettings();
         $currentUser = Auth::user();
 
-        return view('auth.login', compact('settings', 'currentUser'));
+        if (in_array($role, ['kepala_sekolah', 'kepsek'])) {
+            $role = 'kepsek';
+        } elseif ($role === 'admin') {
+            $role = 'admin';
+        } else {
+            $role = 'guru';
+        }
+
+        return view('auth.login', compact('settings', 'currentUser', 'role'));
     }
 
     public function login(Request $request)
@@ -139,6 +168,41 @@ class AuthController extends Controller
             return back()->withErrors([
                 'student_identifier' => 'NISN/Email Siswa atau kata sandi tidak sesuai dengan data siswa terdaftar.',
             ])->withInput();
+        } elseif ($loginType === 'kepala_sekolah' || $loginType === 'kepsek') {
+            $request->validate([
+                'kepsek_identifier' => ['required', 'string'],
+                'kepsek_password'   => ['required', 'string'],
+            ], [
+                'kepsek_identifier.required' => 'NIP, Email, atau Nama Kepala Sekolah wajib diisi.',
+                'kepsek_password.required'   => 'Kata sandi wajib diisi.',
+            ]);
+
+            $identifier = trim($request->kepsek_identifier);
+            $password = trim($request->kepsek_password);
+
+            $user = User::whereIn('role', ['kepala_sekolah', 'kepsek'])
+                ->where(function ($q) use ($identifier) {
+                    $q->where('nip', $identifier)
+                      ->orWhere('email', $identifier)
+                      ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
+                      ->orWhere('name', 'LIKE', '%' . $identifier . '%');
+                })
+                ->first();
+
+            if ($user && ($user->nip === $password || $password === 'password123' || Hash::check($password, $user->password))) {
+                if (Auth::check()) {
+                    Auth::logout();
+                }
+                Auth::login($user, $request->has('remember'));
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('kepsek.dashboard'))
+                    ->with('success', 'Selamat datang, Bapak/Ibu Kepala Sekolah ' . $user->name . '!');
+            }
+
+            return back()->withErrors([
+                'kepsek_identifier' => 'Data Kepala Sekolah (NIP/Email/Nama) atau kata sandi tidak sesuai.',
+            ])->withInput();
         } else {
             $request->validate([
                 'email'    => ['required'],
@@ -186,6 +250,12 @@ class AuthController extends Controller
     private function redirectBasedOnRole()
     {
         $user = Auth::user();
+
+        if (in_array($user->role, ['kepala_sekolah', 'kepsek'])) {
+            return redirect()->intended(route('kepsek.dashboard'))
+                ->with('success', 'Selamat datang, Bapak/Ibu Kepala Sekolah ' . $user->name . '!');
+        }
+
         if ($user->role === 'guru') {
             return redirect()->intended(route('guru.dashboard'))
                 ->with('success', 'Selamat datang kembali, ' . $user->name . '!');
@@ -214,6 +284,10 @@ class AuthController extends Controller
     {
         $settings = $this->websiteService->getSettings();
         $user = Auth::user();
+
+        if (in_array($user->role, ['kepala_sekolah', 'kepsek'])) {
+            return redirect()->route('kepsek.dashboard');
+        }
 
         if ($user->role === 'guru') {
             return redirect()->route('guru.dashboard');

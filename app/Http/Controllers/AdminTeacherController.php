@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\SchoolSetting;
+use App\Services\WebsiteContentService;
 use Illuminate\Support\Facades\Hash;
 
 class AdminTeacherController extends Controller
 {
-    private function getSettings()
-    {
-        return SchoolSetting::pluck('value', 'key')->toArray();
-    }
+    public function __construct(
+        protected WebsiteContentService $websiteService
+    ) {}
 
     public function index()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $teachers = User::where('role', 'guru')->orderBy('name')->paginate(10);
 
         return view('admin.teachers.index', compact('settings', 'teachers'));
@@ -24,7 +23,7 @@ class AdminTeacherController extends Controller
 
     public function create()
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
         $teacher = new User();
 
         return view('admin.teachers.form', compact('settings', 'teacher'));
@@ -58,7 +57,7 @@ class AdminTeacherController extends Controller
 
     public function edit(User $teacher)
     {
-        $settings = $this->getSettings();
+        $settings = $this->websiteService->getSettings();
 
         return view('admin.teachers.form', compact('settings', 'teacher'));
     }

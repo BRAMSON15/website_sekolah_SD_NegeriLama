@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LearningMaterial;
 use App\Models\EducationalVideo;
-use App\Models\Assignment;
 use App\Services\GuruService;
 use App\Services\WebsiteContentService;
 
@@ -27,32 +26,6 @@ class GuruController extends Controller
         $dashboardData = $this->guruService->getDashboardData($user);
 
         return view('guru.dashboard', array_merge(['settings' => $settings, 'user' => $user], $dashboardData));
-    }
-
-    /* -------------------------------------------------------------
-     * 2. KELAS SAYA & PRESENSI SISWA
-     * ------------------------------------------------------------- */
-    public function kelas(Request $request)
-    {
-        $settings = $this->websiteService->getSettings();
-        $user = Auth::user();
-        $kelasData = $this->guruService->getKelasData($request, $user);
-
-        return view('guru.kelas', array_merge(['settings' => $settings, 'user' => $user], $kelasData));
-    }
-
-    public function simpanPresensi(Request $request)
-    {
-        $request->validate([
-            'class_name' => ['required', 'string'],
-            'date'       => ['required', 'date'],
-            'attendance' => ['required', 'array'],
-        ]);
-
-        $this->guruService->saveAttendance(Auth::user(), $request->date, $request->attendance);
-
-        return redirect()->route('guru.kelas', ['class' => $request->class_name, 'date' => $request->date])
-            ->with('success', 'Presensi ' . $request->class_name . ' tanggal ' . date('d/m/Y', strtotime($request->date)) . ' berhasil disimpan!');
     }
 
     /* -------------------------------------------------------------
@@ -153,63 +126,9 @@ class GuruController extends Controller
         return redirect()->route('guru.video')->with('success', "Video edukasi '{$title}' berhasil dihapus.");
     }
 
-    /* -------------------------------------------------------------
-     * 5. TUGAS & PENILAIAN
-     * ------------------------------------------------------------- */
-    public function tugas()
-    {
-        $settings = $this->websiteService->getSettings();
-        $user = Auth::user();
-        $overview = $this->guruService->getTugasOverview();
-
-        return view('guru.tugas', array_merge(['settings' => $settings, 'user' => $user], $overview));
-    }
-
-    public function storeTugas(Request $request)
-    {
-        $validated = $request->validate([
-            'title'       => ['required', 'string', 'max:200'],
-            'subject'     => ['required', 'string', 'max:100'],
-            'class_level' => ['required', 'string', 'max:50'],
-            'deadline'    => ['required', 'string', 'max:100'],
-            'description' => ['required', 'string'],
-        ]);
-
-        $assignment = $this->guruService->storeTugas($validated, Auth::id());
-
-        return redirect()->route('guru.tugas.detail', $assignment)
-            ->with('success', 'Tugas baru berhasil dibuat! Anda dapat menginput nilai pengumpulan siswa di bawah ini.');
-    }
-
-    public function detailTugas(Assignment $assignment)
-    {
-        $settings = $this->websiteService->getSettings();
-        $user = Auth::user();
-        $detail = $this->guruService->getTugasDetail($assignment);
-
-        return view('guru.tugas-detail', array_merge(['settings' => $settings, 'user' => $user, 'assignment' => $assignment], $detail));
-    }
-
-    public function simpanNilai(Request $request, Assignment $assignment)
-    {
-        $request->validate([
-            'grades' => ['required', 'array'],
-        ]);
-
-        $this->guruService->saveGrades($assignment, $request->input('grades', []), $request->input('feedbacks', []));
-
-        return redirect()->route('guru.tugas.detail', $assignment)->with('success', 'Nilai tugas siswa berhasil disimpan!');
-    }
-
-    public function destroyTugas(Assignment $assignment)
-    {
-        $this->guruService->deleteTugas($assignment);
-
-        return redirect()->route('guru.tugas')->with('success', 'Tugas berhasil dihapus.');
-    }
 
     /* -------------------------------------------------------------
-     * 6. KALENDER AKADEMIK & DOWNLOAD
+     * 4. KALENDER AKADEMIK & DOWNLOAD
      * ------------------------------------------------------------- */
     public function kalender()
     {

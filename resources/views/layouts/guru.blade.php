@@ -70,11 +70,6 @@
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('guru.kelas') }}" class="menu-item {{ request()->routeIs('guru.kelas*') ? 'active' : '' }}">
-                <i class="fa-solid fa-users"></i>
-                <span>Kelas Saya</span>
-            </a>
-
             <a href="{{ route('guru.materi') }}" class="menu-item {{ request()->routeIs('guru.materi*') ? 'active' : '' }}">
                 <i class="fa-solid fa-book"></i>
                 <span>Materi Pembelajaran</span>
@@ -83,11 +78,6 @@
             <a href="{{ route('guru.video') }}" class="menu-item {{ request()->routeIs('guru.video*') ? 'active' : '' }}">
                 <i class="fa-solid fa-circle-play"></i>
                 <span>Video Edukasi</span>
-            </a>
-
-            <a href="{{ route('guru.tugas') }}" class="menu-item {{ request()->routeIs('guru.tugas*') ? 'active' : '' }}">
-                <i class="fa-solid fa-clipboard-check"></i>
-                <span>Tugas & Penilaian</span>
             </a>
 
             <a href="{{ route('guru.kalender') }}" class="menu-item {{ request()->routeIs('guru.kalender*') ? 'active' : '' }}">

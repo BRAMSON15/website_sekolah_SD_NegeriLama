@@ -23,15 +23,35 @@ class LoginRolesTest extends TestCase
         \Illuminate\Support\Facades\DB::purge('mysql');
     }
 
-    public function test_guest_can_see_login_form_with_only_guru_and_admin(): void
+    public function test_guest_can_access_separate_login_portals_without_tabs(): void
     {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-        $response->assertSee('Portal Masuk');
-        $response->assertSee('Guru Pengajar');
-        $response->assertSee('Administrator');
-        // Pastikan tab siswa tidak ada di dalam tab selector
-        $response->assertDontSee('tab-siswa');
+        // 1. Portal Guru (/login or /login/guru)
+        $responseGuru = $this->get('/login/guru');
+        $responseGuru->assertStatus(200);
+        $responseGuru->assertSee('Portal Guru Pengajar');
+        $responseGuru->assertSee('Nama Lengkap, NIP, atau Email Guru');
+        // Pastikan tidak ada tab selector role
+        $responseGuru->assertDontSee('tab-guru');
+        $responseGuru->assertDontSee('tab-kepsek');
+        $responseGuru->assertDontSee('tab-admin');
+
+        // 2. Portal Kepala Sekolah (/login/kepsek)
+        $responseKepsek = $this->get('/login/kepsek');
+        $responseKepsek->assertStatus(200);
+        $responseKepsek->assertSee('Supervisi Kepala Sekolah');
+        $responseKepsek->assertSee('NIP, Email, atau Nama Kepala Sekolah');
+        $responseKepsek->assertDontSee('tab-guru');
+        $responseKepsek->assertDontSee('tab-kepsek');
+        $responseKepsek->assertDontSee('tab-admin');
+
+        // 3. Portal Admin (/login/admin)
+        $responseAdmin = $this->get('/login/admin');
+        $responseAdmin->assertStatus(200);
+        $responseAdmin->assertSee('Administrator Portal');
+        $responseAdmin->assertSee('Email atau Username Admin');
+        $responseAdmin->assertDontSee('tab-guru');
+        $responseAdmin->assertDontSee('tab-kepsek');
+        $responseAdmin->assertDontSee('tab-admin');
     }
 
     public function test_authenticated_user_can_still_see_login_form_and_session_banner(): void
@@ -42,7 +62,6 @@ class LoginRolesTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Sesi Sedang Masuk');
         $response->assertSee($admin->name);
-        $response->assertSee('Portal Masuk');
     }
 
     public function test_siswa_can_access_via_nisn_on_akademik_page(): void
@@ -147,5 +166,81 @@ class LoginRolesTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee($guru->name);
+    }
+
+    public function test_kepala_sekolah_can_login_with_nip(): void
+    {
+        $response = $this->post('/login', [
+            'login_type' => 'kepala_sekolah',
+            'kepsek_identifier' => '197505081999031001',
+            'kepsek_password' => '197505081999031001',
+        ]);
+
+        $response->assertRedirect(route('kepsek.dashboard'));
+        $this->assertAuthenticated();
+        $this->assertContains(auth()->user()->role, ['kepala_sekolah', 'kepsek']);
+    }
+
+    public function test_kepala_sekolah_can_login_with_email_and_password(): void
+    {
+        $response = $this->post('/login', [
+            'login_type' => 'kepala_sekolah',
+            'kepsek_identifier' => 'kepsek@sdnegerilama.sch.id',
+            'kepsek_password' => 'password123',
+        ]);
+
+        $response->assertRedirect(route('kepsek.dashboard'));
+        $this->assertAuthenticated();
+        $this->assertContains(auth()->user()->role, ['kepala_sekolah', 'kepsek']);
+    }
+
+    public function test_kepsek_dashboard_renders_successfully(): void
+    {
+        $kepsek = User::whereIn('role', ['kepala_sekolah', 'kepsek'])->first();
+        $response = $this->actingAs($kepsek)->get('/kepsek/dashboard');
+
+        $response->assertStatus(200);
+        $response->assertSee('Panel Supervisi Kepala Sekolah');
+        $response->assertSee($kepsek->name);
+    }
+
+    public function test_kepsek_monitoring_subpages_render_successfully(): void
+    {
+        $kepsek = User::whereIn('role', ['kepala_sekolah', 'kepsek'])->first();
+
+        // 1. Guru
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/guru')->assertStatus(200);
+        // 2. Pembelajaran
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/pembelajaran')->assertStatus(200);
+        // 3. PPDB
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/ppdb')->assertStatus(200);
+        // 4. Sistem
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/sistem')->assertStatus(200);
+        // 5. Kalender
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/kalender')->assertStatus(200)->assertSee('Supervisi Kalender Pendidikan');
+        // 6. Kalender Download
+        $this->actingAs($kepsek)->get('/kepsek/monitoring/kalender/download')->assertStatus(200);
+    }
+
+    public function test_guru_kalender_renders_and_download_functions_properly(): void
+    {
+        $guru = User::where('role', 'guru')->first();
+
+        // 1. Guest redirected to login
+        $this->get('/guru/kalender')->assertRedirect(route('login'));
+
+        // 2. Guru can view calendar page with correct dates
+        $response = $this->actingAs($guru)->get('/guru/kalender');
+        $response->assertStatus(200);
+        $response->assertSee('Kalender Akademik Sekolah');
+        $response->assertSee('Penilaian Tengah Semester (PTS) Ganjil');
+        $response->assertSee('Rapat Pleno Dewan Guru & Evaluasi Kurikulum Merdeka');
+        $response->assertDontSee('01 Jan 1970');
+
+        // 3. Guru can download official kaldik file
+        $downloadResponse = $this->actingAs($guru)->get('/guru/kalender/download');
+        $downloadResponse->assertStatus(200);
+        $this->assertStringContainsString('KALENDER PENDIDIKAN TAHUN AJARAN', $downloadResponse->getContent());
+        $this->assertStringContainsString('Kalender_Pendidikan_', (string) $downloadResponse->headers->get('content-disposition'));
     }
 }

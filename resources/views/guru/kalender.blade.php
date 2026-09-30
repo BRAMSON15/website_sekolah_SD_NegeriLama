@@ -53,8 +53,8 @@
                 @foreach($events as $event)
                 <div class="agenda-item" style="border-left: 4px solid {{ $event['badge_color'] }};">
                     <div class="agenda-date">
-                        <span style="font-size: 1.3rem; font-weight: 800; color: var(--primary); line-height: 1;">{{ date('d', strtotime($event['date'])) }}</span>
-                        <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-top: 4px;">{{ date('M Y', strtotime($event['date'])) }}</span>
+                        <span style="font-size: 1.3rem; font-weight: 800; color: var(--primary); line-height: 1;">{{ $event['day'] ?? (isset($event['raw_date']) ? \Carbon\Carbon::parse($event['raw_date'])->format('d') : date('d', strtotime($event['date']))) }}</span>
+                        <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--muted); margin-top: 4px;">{{ $event['month_year'] ?? (isset($event['raw_date']) ? \Carbon\Carbon::parse($event['raw_date'])->locale('id')->translatedFormat('M Y') : date('M Y', strtotime($event['date']))) }}</span>
                     </div>
 
                     <div style="flex: 1;">

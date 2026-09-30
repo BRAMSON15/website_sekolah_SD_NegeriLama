@@ -3,11 +3,8 @@
 namespace App\Services;
 
 use App\Models\Student;
-use App\Models\Attendance;
 use App\Models\LearningMaterial;
 use App\Models\EducationalVideo;
-use App\Models\Assignment;
-use App\Models\AssignmentGrade;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,10 +17,10 @@ class GuruService
     public function getDashboardData($user): array
     {
         $stats = [
-            'classes'     => Student::select('class_name')->distinct()->count() ?: 3,
-            'materials'   => LearningMaterial::count(),
-            'videos'      => EducationalVideo::count(),
-            'assignments' => Assignment::count(),
+            'classes'       => Student::select('class_name')->distinct()->count() ?: 3,
+            'materials'     => LearningMaterial::count(),
+            'videos'        => EducationalVideo::count(),
+            'announcements' => Announcement::active()->count(),
         ];
 
         $featuredVideo = EducationalVideo::latest()->first();
@@ -50,93 +47,7 @@ class GuruService
     }
 
     /* -------------------------------------------------------------
-     * 2. KELAS SAYA & PRESENSI SISWA
-     * ------------------------------------------------------------- */
-    public function getKelasData(Request $request, $user): array
-    {
-        $availableClasses = Student::select('class_name')->distinct()->pluck('class_name')->toArray();
-        if (empty($availableClasses)) {
-            $availableClasses = ['Kelas 4A', 'Kelas 5A', 'Kelas 6B'];
-        }
-
-        $selectedClass = $request->get('class', $availableClasses[1] ?? $availableClasses[0]);
-        $date = $request->get('date', date('Y-m-d'));
-
-        $students = Student::where('class_name', $selectedClass)->orderBy('name', 'asc')->get();
-
-        $attendances = Attendance::whereIn('student_id', $students->pluck('id'))
-            ->where('date', $date)
-            ->pluck('status', 'student_id')
-            ->toArray();
-
-        $totalStudents = Student::count();
-        $totalInSelectedClass = $students->count();
-
-        $hadirCount = 0;
-        foreach ($attendances as $status) {
-            if ($status === 'Hadir') {
-                $hadirCount++;
-            }
-        }
-        $presentPercentage = $totalInSelectedClass > 0 ? round(($hadirCount / $totalInSelectedClass) * 100, 1) : 100;
-
-        $classes = [
-            [
-                'id'             => 1,
-                'name'           => 'Kelas 4A',
-                'badge'          => 'IV',
-                'badge_color'    => 'cyan',
-                'students_count' => Student::where('class_name', 'Kelas 4A')->count() ?: 8,
-                'homeroom'       => 'Siti Rahma, S.Pd',
-                'schedule'       => 'Senin & Rabu (08:00 - 09:30)',
-                'room'           => 'Ruang 102 (Lantai 1)',
-            ],
-            [
-                'id'             => 2,
-                'name'           => 'Kelas 5A',
-                'badge'          => 'V',
-                'badge_color'    => 'purple',
-                'students_count' => Student::where('class_name', 'Kelas 5A')->count() ?: 10,
-                'homeroom'       => $user->name,
-                'schedule'       => 'Selasa & Kamis (09:45 - 11:15)',
-                'room'           => 'Ruang 201 (Lantai 2)',
-            ],
-            [
-                'id'             => 3,
-                'name'           => 'Kelas 6B',
-                'badge'          => 'VI',
-                'badge_color'    => 'orange',
-                'students_count' => Student::where('class_name', 'Kelas 6B')->count() ?: 8,
-                'homeroom'       => 'Ahmad Syahrir, S.Pd',
-                'schedule'       => 'Jumat (08:00 - 10:00)',
-                'room'           => 'Ruang 303 (Lantai 3)',
-            ],
-        ];
-
-        return compact(
-            'classes', 'availableClasses', 'selectedClass',
-            'students', 'date', 'attendances', 'totalStudents', 'presentPercentage'
-        );
-    }
-
-    public function saveAttendance($user, string $date, array $attendanceData): void
-    {
-        foreach ($attendanceData as $studentId => $status) {
-            Attendance::updateOrCreate(
-                [
-                    'student_id' => $studentId,
-                    'date'       => $date,
-                ],
-                [
-                    'user_id' => $user->id,
-                    'status'  => in_array($status, ['Hadir', 'Sakit', 'Izin', 'Alpa']) ? $status : 'Hadir',
-                ]
-            );
-        }
-    }
-
-    /* -------------------------------------------------------------
-     * 3. MATERI PEMBELAJARAN
+     * 2. MATERI PEMBELAJARAN
      * ------------------------------------------------------------- */
     public function getMaterials(Request $request)
     {
@@ -214,7 +125,7 @@ class GuruService
     }
 
     /* -------------------------------------------------------------
-     * 4. VIDEO EDUKASI (YOUTUBE & GOOGLE DRIVE)
+     * 3. VIDEO EDUKASI (YOUTUBE & GOOGLE DRIVE)
      * ------------------------------------------------------------- */
     public function getVideoGallery(Request $request): array
     {
@@ -324,125 +235,66 @@ class GuruService
     }
 
     /* -------------------------------------------------------------
-     * 5. TUGAS & PENILAIAN
-     * ------------------------------------------------------------- */
-    public function getTugasOverview(): array
-    {
-        $assignments = Assignment::withCount('grades')->latest()->get();
-
-        $activeCount = $assignments->where('status', 'Aktif')->count();
-        $completedCount = $assignments->where('status', '!=', 'Aktif')->count();
-        $totalSubmissions = AssignmentGrade::count();
-
-        return compact('assignments', 'activeCount', 'completedCount', 'totalSubmissions');
-    }
-
-    public function storeTugas(array $data, int $userId): Assignment
-    {
-        $classStudentsCount = Student::where('class_name', $data['class_level'])->count() ?: 10;
-
-        return Assignment::create([
-            'user_id'         => $userId,
-            'title'           => $data['title'],
-            'subject'         => $data['subject'],
-            'class_level'     => $data['class_level'],
-            'deadline'        => $data['deadline'],
-            'description'     => $data['description'],
-            'total_students'  => $classStudentsCount,
-            'submitted_count' => 0,
-            'status'          => 'Aktif',
-        ]);
-    }
-
-    public function getTugasDetail(Assignment $assignment): array
-    {
-        $students = Student::where('class_name', $assignment->class_level)->orderBy('name', 'asc')->get();
-        if ($students->isEmpty()) {
-            $students = Student::take(10)->get();
-        }
-
-        $grades = AssignmentGrade::where('assignment_id', $assignment->id)
-            ->get()
-            ->keyBy('student_id');
-
-        return compact('students', 'grades');
-    }
-
-    public function saveGrades(Assignment $assignment, array $grades, array $feedbacks): void
-    {
-        $submittedCount = 0;
-
-        foreach ($grades as $studentId => $score) {
-            if ($score !== null && $score !== '') {
-                $submittedCount++;
-                AssignmentGrade::updateOrCreate(
-                    [
-                        'assignment_id' => $assignment->id,
-                        'student_id'    => $studentId,
-                    ],
-                    [
-                        'grade'    => (int) $score,
-                        'feedback' => $feedbacks[$studentId] ?? null,
-                        'status'   => 'Dinilai',
-                    ]
-                );
-            }
-        }
-
-        $assignment->update([
-            'submitted_count' => $submittedCount,
-            'status'          => ($submittedCount >= $assignment->total_students) ? 'Selesai Dinilai' : 'Aktif',
-        ]);
-    }
-
-    public function deleteTugas(Assignment $assignment): void
-    {
-        $assignment->delete();
-    }
-
-    /* -------------------------------------------------------------
-     * 6. KALENDER AKADEMIK & DOWNLOAD
+     * 4. KALENDER AKADEMIK & DOWNLOAD
      * ------------------------------------------------------------- */
     public function getKalenderEvents(): array
     {
         return [
             [
+                'raw_date'    => '2026-09-25',
                 'date'        => '25 September 2026',
+                'day'         => '25',
+                'month_year'  => 'Sep 2026',
                 'title'       => 'Penilaian Tengah Semester (PTS) Ganjil',
                 'type'        => 'Ujian',
                 'badge_color' => '#dc2626',
                 'desc'        => 'Pelaksanaan evaluasi pembelajaran tengah semester untuk seluruh jenjang kelas 1-6.'
             ],
             [
+                'raw_date'    => '2026-10-05',
                 'date'        => '05 Oktober 2026',
+                'day'         => '05',
+                'month_year'  => 'Okt 2026',
                 'title'       => 'Rapat Pleno Dewan Guru & Evaluasi Kurikulum Merdeka',
                 'type'        => 'Rapat Guru',
                 'badge_color' => '#2563eb',
                 'desc'        => 'Pembahasan perkembangan capaian pembelajaran dan persiapan projek P5 di ruang guru.'
             ],
             [
+                'raw_date'    => '2026-10-15',
                 'date'        => '15 Oktober 2026',
+                'day'         => '15',
+                'month_year'  => 'Okt 2026',
                 'title'       => 'Pentas Seni & Gelar Karya P5 Siswa',
                 'type'        => 'Kegiatan',
                 'badge_color' => '#16a34a',
                 'desc'        => 'Unjuk bakat dan pameran hasil karya siswa hasil pembelajaran tematik dan kearifan lokal.'
             ],
             [
+                'raw_date'    => '2026-10-28',
                 'date'        => '28 Oktober 2026',
+                'day'         => '28',
+                'month_year'  => 'Okt 2026',
                 'title'       => 'Upacara Peringatan Hari Sumpah Pemuda',
                 'type'        => 'Upacara',
                 'badge_color' => '#d97706',
                 'desc'        => 'Upacara bendera gabungan guru dan seluruh siswa di lapangan utama sekolah.'
             ],
             [
+                'raw_date'    => '2026-11-10',
                 'date'        => '10 November 2026',
+                'day'         => '10',
+                'month_year'  => 'Nov 2026',
                 'title'       => 'Peringatan Hari Pahlawan Nasional',
                 'type'        => 'Upacara',
                 'badge_color' => '#d97706',
                 'desc'        => 'Kegiatan literasi sejarah dan doa bersama mengenang jasa para pahlawan bangsa.'
             ],
             [
+                'raw_date'    => '2026-12-07',
                 'date'        => '07 Desember 2026',
+                'day'         => '07',
+                'month_year'  => 'Des 2026',
                 'title'       => 'Penilaian Akhir Semester (PAS) Ganjil',
                 'type'        => 'Ujian',
                 'badge_color' => '#dc2626',
@@ -474,7 +326,7 @@ class GuruService
     }
 
     /* -------------------------------------------------------------
-     * 7. PENGUMUMAN GURU
+     * 5. PENGUMUMAN GURU
      * ------------------------------------------------------------- */
     public function getPengumuman(int $perPage = 10)
     {

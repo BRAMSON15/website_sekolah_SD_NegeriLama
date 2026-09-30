@@ -35,18 +35,6 @@
 
 <!-- STATISTICS -->
 <div class="stats">
-    <div class="stat-card blue">
-        <div class="stat-icon">
-            <i class="bi bi-people-fill"></i>
-        </div>
-        <h2>{{ $stats['classes'] ?? 3 }}</h2>
-        <p>Kelas yang Diampu</p>
-        <a href="{{ route('guru.kelas') }}">
-            Lihat Detail
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-
     <div class="stat-card green">
         <div class="stat-icon">
             <i class="bi bi-book-half"></i>
@@ -71,14 +59,26 @@
         </a>
     </div>
 
+    <div class="stat-card blue">
+        <div class="stat-icon">
+            <i class="bi bi-calendar-event-fill"></i>
+        </div>
+        <h2>Kaldik</h2>
+        <p>Kalender Akademik</p>
+        <a href="{{ route('guru.kalender') }}">
+            Lihat Agenda
+            <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+
     <div class="stat-card orange">
         <div class="stat-icon">
-            <i class="bi bi-clipboard-check-fill"></i>
+            <i class="bi bi-megaphone-fill"></i>
         </div>
-        <h2>{{ $stats['assignments'] ?? 0 }}</h2>
-        <p>Tugas / Penilaian</p>
-        <a href="{{ route('guru.tugas') }}">
-            Kelola Tugas
+        <h2>{{ $stats['announcements'] ?? 0 }}</h2>
+        <p>Pengumuman Sekolah</p>
+        <a href="{{ route('guru.pengumuman') }}">
+            Lihat Pengumuman
             <i class="bi bi-arrow-right"></i>
         </a>
     </div>
@@ -194,24 +194,23 @@
         <div class="section-card">
             <div class="section-header">
                 <h2>
-                    <i class="fa-solid fa-users"></i> Kelas Saya
+                    <i class="fa-solid fa-users"></i> Jenjang Kelas
                 </h2>
-                <a href="{{ route('guru.kelas') }}">
-                    Lihat Semua <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('guru.materi') }}">
+                    Materi Kelas <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
             <div class="classes">
                 @foreach($classesList as $c)
-                <a href="{{ route('guru.kelas', ['class' => $c['name']]) }}" class="class-item" style="text-decoration: none;">
+                <div class="class-item" style="cursor: default;">
                     <div class="class-icon {{ $c['badge_color'] }}">{{ $c['badge'] }}</div>
                     <div class="class-info">
                         <strong>{{ $c['name'] }}</strong>
                         <span>{{ $c['subject'] }}</span>
                     </div>
                     <small>{{ $c['students_count'] }} siswa</small>
-                    <i class="fa-solid fa-chevron-right"></i>
-                </a>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -247,13 +246,13 @@
                     <i class="bi bi-chevron-right"></i>
                 </a>
 
-                <a href="{{ route('guru.tugas') }}" class="quick-item">
+                <a href="{{ route('guru.kalender') }}" class="quick-item">
                     <div class="quick-icon orange">
-                        <i class="bi bi-card-checklist"></i>
+                        <i class="bi bi-calendar-event-fill"></i>
                     </div>
                     <div>
-                        <strong>Buat Tugas</strong>
-                        <span>Atur tugas untuk siswa</span>
+                        <strong>Kalender Akademik</strong>
+                        <span>Cek agenda & unduh kaldik</span>
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </a>

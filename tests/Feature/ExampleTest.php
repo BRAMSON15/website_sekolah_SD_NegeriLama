@@ -7,6 +7,18 @@ use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        config([
+            'database.default' => 'mysql',
+            'database.connections.mysql.database' => 'dbnegerilama',
+            'database.connections.mysql.username' => env('DB_USERNAME', 'root'),
+            'database.connections.mysql.password' => env('DB_PASSWORD', ''),
+        ]);
+        \Illuminate\Support\Facades\DB::purge('mysql');
+    }
+
     /**
      * A basic test example.
      */

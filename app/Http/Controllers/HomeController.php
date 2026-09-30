@@ -4,17 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Announcement;
-use App\Models\SchoolSetting;
 use App\Models\Feature;
 use App\Models\EducationalVideo;
 use App\Models\LearningMaterial;
+use App\Services\WebsiteContentService;
 use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
+    public function __construct(
+        protected WebsiteContentService $websiteService
+    ) {}
+
     private function getSettings()
     {
-        return SchoolSetting::pluck('value', 'key')->toArray();
+        return $this->websiteService->getSettings();
     }
 
     public function index()
