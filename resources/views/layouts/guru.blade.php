@@ -70,6 +70,11 @@
                 <span>Dashboard</span>
             </a>
 
+            <a href="{{ route('guru.kelas.index') }}" class="menu-item {{ request()->routeIs('guru.kelas.*') ? 'active' : '' }}">
+                <i class="fa-solid fa-users-rectangle"></i>
+                <span>Kelas Saya</span>
+            </a>
+
             <a href="{{ route('guru.materi') }}" class="menu-item {{ request()->routeIs('guru.materi*') ? 'active' : '' }}">
                 <i class="fa-solid fa-book"></i>
                 <span>Materi Pembelajaran</span>

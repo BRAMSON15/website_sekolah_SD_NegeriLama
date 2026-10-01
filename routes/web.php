@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\InformationController;
-use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\AdminTeacherController;
 use App\Http\Controllers\AdminWebsiteController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\KepalaSekolahController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\KalenderPendidikanController;
+use App\Http\Controllers\KepalaSekolahController;
+use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\SiswaController;
+use Illuminate\Support\Facades\Route;
 
 // Public Front Page Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -52,6 +52,12 @@ Route::middleware('auth')->group(function () {
 
     // Guru Portal Routes
     Route::get('/guru/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+    Route::get('/guru/kelas', [GuruController::class, 'kelas'])->name('guru.kelas.index');
+    Route::get('/guru/kelas/tambah', [GuruController::class, 'createKelas'])->name('guru.kelas.create');
+    Route::post('/guru/kelas', [GuruController::class, 'storeKelas'])->name('guru.kelas.store');
+    Route::get('/guru/kelas/{classroom}/edit', [GuruController::class, 'editKelas'])->name('guru.kelas.edit');
+    Route::put('/guru/kelas/{classroom}', [GuruController::class, 'updateKelas'])->name('guru.kelas.update');
+    Route::delete('/guru/kelas/{classroom}', [GuruController::class, 'destroyKelas'])->name('guru.kelas.destroy');
 
     // Materi Pembelajaran
     Route::get('/guru/materi', [GuruController::class, 'materi'])->name('guru.materi');
@@ -67,7 +73,7 @@ Route::middleware('auth')->group(function () {
 
     // Pengumuman Guru
     Route::get('/guru/pengumuman', [GuruController::class, 'pengumuman'])->name('guru.pengumuman');
-    
+
     // Admin Routes
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
     Route::get('/admin/kalender-pendidikan', [KalenderPendidikanController::class, 'manage'])->name('admin.kalender.index');
@@ -79,7 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/ppdb', [PpdbController::class, 'index'])->name('admin.ppdb.index');
     Route::get('/admin/ppdb/export/pdf', [PpdbController::class, 'exportPdf'])->name('admin.ppdb.export.pdf');
     Route::get('/admin/ppdb/export/excel', [PpdbController::class, 'exportExcel'])->name('admin.ppdb.export.excel');
-    
+
     // Kelola Akun Guru (Admin Only)
     Route::get('/admin/guru', [AdminTeacherController::class, 'index'])->name('admin.teachers.index');
     Route::get('/admin/guru/tambah', [AdminTeacherController::class, 'create'])->name('admin.teachers.create');
@@ -95,14 +101,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/informasi/pengumuman/{announcement}/edit', [InformationController::class, 'editAnnouncement'])->name('admin.pengumuman.edit');
     Route::put('/admin/informasi/pengumuman/{announcement}', [InformationController::class, 'updateAnnouncement'])->name('admin.pengumuman.update');
     Route::delete('/admin/informasi/pengumuman/{announcement}', [InformationController::class, 'destroyAnnouncement'])->name('admin.pengumuman.destroy');
-    
+
     Route::get('/admin/informasi/fitur', [InformationController::class, 'features'])->name('admin.fitur.index');
     Route::get('/admin/informasi/fitur/tambah', [InformationController::class, 'createFeature'])->name('admin.fitur.create');
     Route::post('/admin/informasi/fitur', [InformationController::class, 'storeFeature'])->name('admin.fitur.store');
     Route::get('/admin/informasi/fitur/{feature}/edit', [InformationController::class, 'editFeature'])->name('admin.fitur.edit');
     Route::put('/admin/informasi/fitur/{feature}', [InformationController::class, 'updateFeature'])->name('admin.fitur.update');
     Route::delete('/admin/informasi/fitur/{feature}', [InformationController::class, 'destroyFeature'])->name('admin.fitur.destroy');
-    
+
     // Kelola Konten Halaman Website (Profil, Akademik, Fasilitas, PPDB, Kontak)
     Route::get('/admin/kelola/profil', [AdminWebsiteController::class, 'profil'])->name('admin.website.profil');
     Route::post('/admin/kelola/profil', [AdminWebsiteController::class, 'updateProfil'])->name('admin.website.profil.update');

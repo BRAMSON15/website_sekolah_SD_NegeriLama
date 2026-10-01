@@ -55,15 +55,11 @@
         <a href="{{ route('guru.materi') }}" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; text-decoration: none; {{ empty($currClass) ? 'background: #2875dc; color: #fff;' : 'background: #f1f5fa; color: #475569;' }}">
             Semua ({{ \App\Models\LearningMaterial::count() }})
         </a>
-        <a href="{{ route('guru.materi', ['class' => 'Kelas 4A']) }}" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; {{ $currClass === 'Kelas 4A' ? 'background: #2875dc; color: #fff;' : 'background: #f1f5fa; color: #475569;' }}">
-            Kelas 4A
+        @foreach($classOptions as $classOption)
+        <a href="{{ route('guru.materi', ['class' => $classOption]) }}" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; {{ $currClass === $classOption ? 'background: #2875dc; color: #fff;' : 'background: #f1f5fa; color: #475569;' }}">
+            {{ $classOption }}
         </a>
-        <a href="{{ route('guru.materi', ['class' => 'Kelas 5A']) }}" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; {{ $currClass === 'Kelas 5A' ? 'background: #2875dc; color: #fff;' : 'background: #f1f5fa; color: #475569;' }}">
-            Kelas 5A
-        </a>
-        <a href="{{ route('guru.materi', ['class' => 'Kelas 6B']) }}" style="padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; {{ $currClass === 'Kelas 6B' ? 'background: #2875dc; color: #fff;' : 'background: #f1f5fa; color: #475569;' }}">
-            Kelas 6B
-        </a>
+        @endforeach
     </div>
 
     <div style="display: flex; align-items: center; gap: 10px;">
@@ -160,10 +156,10 @@
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Tingkat Kelas *</label>
                     <select name="class_level" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; box-sizing: border-box;">
-                        <option value="Kelas 4A">Kelas 4A</option>
-                        <option value="Kelas 5A" selected>Kelas 5A</option>
-                        <option value="Kelas 6B">Kelas 6B</option>
-                        <option value="Semua Kelas">Semua Kelas</option>
+                        @foreach($classOptions as $classOption)
+                        <option value="{{ $classOption }}" {{ old('class_level', 'Kelas 5A') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
+                        @endforeach
+                        <option value="Semua Kelas" {{ old('class_level') === 'Semua Kelas' ? 'selected' : '' }}>Semua Kelas</option>
                     </select>
                 </div>
             </div>

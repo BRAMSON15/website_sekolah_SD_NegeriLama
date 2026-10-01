@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Student;
-use App\Models\LearningMaterial;
-use App\Models\EducationalVideo;
 use App\Models\Announcement;
+use App\Models\Classroom;
+use App\Models\EducationalVideo;
+use App\Models\LearningMaterial;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,30 +17,35 @@ class GuruService
      * ------------------------------------------------------------- */
     public function getDashboardData($user): array
     {
+        $studentCounts = Student::query()
+            ->selectRaw('class_name, COUNT(*) as students_count')
+            ->groupBy('class_name')
+            ->pluck('students_count', 'class_name');
+        $managedClasses = Classroom::with('teacher:id,name,subject')->get()->keyBy('name');
+        $classNames = $studentCounts->keys()->merge($managedClasses->keys())->unique()->sort()->values();
+
         $stats = [
-            'classes'       => Student::select('class_name')->distinct()->count() ?: 3,
-            'materials'     => LearningMaterial::count(),
-            'videos'        => EducationalVideo::count(),
+            'classes' => $classNames->count(),
+            'materials' => LearningMaterial::count(),
+            'videos' => EducationalVideo::count(),
             'announcements' => Announcement::active()->count(),
         ];
 
         $featuredVideo = EducationalVideo::latest()->first();
         $recentMaterials = LearningMaterial::latest()->take(3)->get();
 
-        $classesList = Student::select('class_name')
-            ->distinct()
-            ->get()
-            ->map(function ($item) use ($user) {
-                $count = Student::where('class_name', $item->class_name)->count();
-                $badge = str_replace('Kelas ', '', $item->class_name);
+        $classesList = $classNames
+            ->map(function ($name) use ($user, $studentCounts, $managedClasses) {
+                $classroom = $managedClasses->get($name);
+                $badge = str_replace('Kelas ', '', $name);
                 $badgeColor = str_contains($badge, '4') ? 'cyan' : (str_contains($badge, '5') ? 'purple' : 'orange');
 
                 return [
-                    'name'           => $item->class_name,
-                    'badge'          => $badge,
-                    'badge_color'    => $badgeColor,
-                    'students_count' => $count,
-                    'subject'        => $user->subject ?: 'Guru Pengajar',
+                    'name' => $name,
+                    'badge' => $badge,
+                    'badge_color' => $badgeColor,
+                    'students_count' => $studentCounts->get($name, 0),
+                    'subject' => $classroom?->teacher?->subject ?: $user->subject ?: 'Guru Pengajar',
                 ];
             });
 
@@ -59,13 +65,27 @@ class GuruService
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('subject', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
+                $q->where('title', 'like', '%'.$request->search.'%')
+                    ->orWhere('subject', 'like', '%'.$request->search.'%')
+                    ->orWhere('description', 'like', '%'.$request->search.'%');
             });
         }
 
         return $query->latest()->get();
+    }
+
+    public function getClassOptions()
+    {
+        return collect(['Kelas 4A', 'Kelas 5A', 'Kelas 6B'])
+            ->merge(Classroom::orderBy('name')->pluck('name'))
+            ->merge(Student::query()->whereNotNull('class_name')->distinct()->orderBy('class_name')->pluck('class_name'))
+            ->merge(LearningMaterial::query()->whereNotNull('class_level')->distinct()->orderBy('class_level')->pluck('class_level'))
+            ->merge(EducationalVideo::query()->whereNotNull('class_level')->distinct()->orderBy('class_level')->pluck('class_level'))
+            ->filter()
+            ->reject(fn ($name) => $name === 'Semua Kelas')
+            ->unique()
+            ->sort()
+            ->values();
     }
 
     public function storeMaterial(array $data, $file, int $userId): LearningMaterial
@@ -76,7 +96,7 @@ class GuruService
 
         if ($file) {
             $filePath = $file->store('materi', 'public');
-            $fileSize = round($file->getSize() / 1024 / 1024, 1) . ' MB';
+            $fileSize = round($file->getSize() / 1024 / 1024, 1).' MB';
             $ext = strtolower($file->getClientOriginalExtension());
             if ($ext === 'pdf') {
                 $fileType = 'PDF Dokumen';
@@ -85,20 +105,20 @@ class GuruService
             } elseif (in_array($ext, ['ppt', 'pptx'])) {
                 $fileType = 'PPTX Presentasi';
             } else {
-                $fileType = strtoupper($ext) . ' Berkas';
+                $fileType = strtoupper($ext).' Berkas';
             }
         }
 
         return LearningMaterial::create([
-            'user_id'     => $userId,
-            'title'       => $data['title'],
-            'subject'     => $data['subject'],
+            'user_id' => $userId,
+            'title' => $data['title'],
+            'subject' => $data['subject'],
             'class_level' => $data['class_level'],
             'description' => $data['description'] ?? 'Materi pembelajaran mandiri peserta didik.',
-            'file_path'   => $filePath,
-            'file_type'   => $fileType,
-            'file_size'   => $fileSize,
-            'downloads'   => 0,
+            'file_path' => $filePath,
+            'file_type' => $fileType,
+            'file_size' => $fileSize,
+            'downloads' => 0,
         ]);
     }
 
@@ -110,9 +130,9 @@ class GuruService
             return Storage::disk('public')->download($material->file_path);
         }
 
-        return response($material->title . "\n\nMateri Pembelajaran " . $material->subject . "\n" . $material->class_level . "\n\n" . $material->description)
+        return response($material->title."\n\nMateri Pembelajaran ".$material->subject."\n".$material->class_level."\n\n".$material->description)
             ->header('Content-Type', 'text/plain')
-            ->header('Content-Disposition', 'attachment; filename="' . str()->slug($material->title) . '.txt"');
+            ->header('Content-Disposition', 'attachment; filename="'.str()->slug($material->title).'.txt"');
     }
 
     public function deleteMaterial(LearningMaterial $material): void
@@ -135,8 +155,8 @@ class GuruService
             $keyword = trim($request->get('search'));
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%{$keyword}%")
-                  ->orWhere('subject', 'like', "%{$keyword}%")
-                  ->orWhere('description', 'like', "%{$keyword}%");
+                    ->orWhere('subject', 'like', "%{$keyword}%")
+                    ->orWhere('description', 'like', "%{$keyword}%");
             });
         }
 
@@ -159,10 +179,10 @@ class GuruService
 
         $allVideos = EducationalVideo::all();
         $stats = [
-            'total'        => $allVideos->count(),
-            'youtube'      => $allVideos->where('source_type', 'youtube')->count(),
+            'total' => $allVideos->count(),
+            'youtube' => $allVideos->where('source_type', 'youtube')->count(),
             'google_drive' => $allVideos->where('source_type', 'google_drive')->count(),
-            'views'        => $allVideos->sum('views_count'),
+            'views' => $allVideos->sum('views_count'),
         ];
 
         return compact('videos', 'activeVideo', 'stats');
@@ -197,14 +217,14 @@ class GuruService
         $sourceType = $this->detectSourceType($rawUrl, $data['source_type'] ?? null);
 
         return EducationalVideo::create([
-            'user_id'     => $userId,
-            'title'       => $data['title'],
-            'subject'     => $data['subject'],
+            'user_id' => $userId,
+            'title' => $data['title'],
+            'subject' => $data['subject'],
             'class_level' => $data['class_level'],
             'source_type' => $sourceType,
-            'video_url'   => $rawUrl,
+            'video_url' => $rawUrl,
             'youtube_url' => $rawUrl,
-            'duration'    => $data['duration'],
+            'duration' => $data['duration'],
             'description' => $data['description'] ?? 'Video edukasi pembelajaran interaktif.',
             'views_count' => 0,
         ]);
@@ -216,13 +236,13 @@ class GuruService
         $sourceType = $this->detectSourceType($rawUrl, $data['source_type'] ?? null);
 
         $video->update([
-            'title'       => $data['title'],
-            'subject'     => $data['subject'],
+            'title' => $data['title'],
+            'subject' => $data['subject'],
             'class_level' => $data['class_level'],
             'source_type' => $sourceType,
-            'video_url'   => $rawUrl,
+            'video_url' => $rawUrl,
             'youtube_url' => $rawUrl,
-            'duration'    => $data['duration'],
+            'duration' => $data['duration'],
             'description' => $data['description'] ?? $video->description,
         ]);
 

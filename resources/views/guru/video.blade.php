@@ -112,9 +112,9 @@
             <div style="min-width: 130px;">
                 <select name="class_level" onchange="this.form.submit()" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; background: #fff; cursor: pointer;">
                     <option value="">Semua Kelas</option>
-                    <option value="Kelas 4A" {{ request('class_level') == 'Kelas 4A' ? 'selected' : '' }}>Kelas 4A</option>
-                    <option value="Kelas 5A" {{ request('class_level') == 'Kelas 5A' ? 'selected' : '' }}>Kelas 5A</option>
-                    <option value="Kelas 6B" {{ request('class_level') == 'Kelas 6B' ? 'selected' : '' }}>Kelas 6B</option>
+                    @foreach($classOptions as $classOption)
+                    <option value="{{ $classOption }}" {{ request('class_level') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
+                    @endforeach
                     <option value="Semua Kelas" {{ request('class_level') == 'Semua Kelas' ? 'selected' : '' }}>Umum (Semua Kelas)</option>
                 </select>
             </div>
@@ -516,10 +516,10 @@
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Tingkat Kelas *</label>
                     <select name="class_level" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; box-sizing: border-box; cursor: pointer;">
-                        <option value="Kelas 4A">Kelas 4A</option>
-                        <option value="Kelas 5A" selected>Kelas 5A</option>
-                        <option value="Kelas 6B">Kelas 6B</option>
-                        <option value="Semua Kelas">Semua Kelas</option>
+                        @foreach($classOptions as $classOption)
+                        <option value="{{ $classOption }}" {{ old('class_level', 'Kelas 5A') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
+                        @endforeach
+                        <option value="Semua Kelas" {{ old('class_level') === 'Semua Kelas' ? 'selected' : '' }}>Semua Kelas</option>
                     </select>
                 </div>
             </div>
@@ -634,9 +634,9 @@
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Tingkat Kelas *</label>
                     <select name="class_level" id="edit_class_level" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; box-sizing: border-box; cursor: pointer;">
-                        <option value="Kelas 4A">Kelas 4A</option>
-                        <option value="Kelas 5A">Kelas 5A</option>
-                        <option value="Kelas 6B">Kelas 6B</option>
+                        @foreach($classOptions as $classOption)
+                        <option value="{{ $classOption }}">{{ $classOption }}</option>
+                        @endforeach
                         <option value="Semua Kelas">Semua Kelas</option>
                     </select>
                 </div>

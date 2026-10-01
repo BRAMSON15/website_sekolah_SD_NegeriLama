@@ -184,8 +184,8 @@
                 <h2>
                     <i class="fa-solid fa-users"></i> Jenjang Kelas
                 </h2>
-                <a href="{{ route('guru.materi') }}">
-                    Materi Kelas <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('guru.kelas.index') }}">
+                    Kelola Kelas <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
@@ -212,6 +212,17 @@
             </div>
 
             <div class="quick-actions">
+                <a href="{{ route('guru.kelas.create') }}" class="quick-item">
+                    <div class="quick-icon blue">
+                        <i class="fa-solid fa-users-rectangle"></i>
+                    </div>
+                    <div>
+                        <strong>Buat Kelas Baru</strong>
+                        <span>Tambah kelas yang Anda ampu</span>
+                    </div>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+
                 <a href="{{ route('guru.materi') }}" class="quick-item">
                     <div class="quick-icon blue">
                         <i class="bi bi-file-earmark-plus-fill"></i>
