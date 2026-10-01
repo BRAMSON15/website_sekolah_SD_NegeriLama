@@ -24,21 +24,21 @@ class PpdbController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'student_name'    => ['required', 'string', 'max:150'],
-            'birth_place'     => ['required', 'string', 'max:100'],
-            'birth_date'      => ['required', 'date', 'before_or_equal:' . now()->subYears(5)->format('Y-m-d')],
-            'gender'          => ['required', 'in:L,P'],
-            'nik'             => ['nullable', 'digits:16'],
-            'kk_number'       => ['nullable', 'digits:16'],
-            'parent_name'     => ['required', 'string', 'max:150'],
-            'phone'           => ['required', 'string', 'max:25'],
-            'email'           => ['nullable', 'email', 'max:150'],
-            'address'         => ['required', 'string', 'max:1000'],
+            'student_name' => ['required', 'string', 'max:150'],
+            'birth_place' => ['required', 'string', 'max:100'],
+            'birth_date' => ['required', 'date', 'before_or_equal:'.now()->subYears(5)->format('Y-m-d')],
+            'gender' => ['required', 'in:L,P'],
+            'nik' => ['nullable', 'digits:16'],
+            'kk_number' => ['nullable', 'digits:16'],
+            'parent_name' => ['required', 'string', 'max:150'],
+            'phone' => ['required', 'string', 'max:25'],
+            'email' => ['nullable', 'email', 'max:150'],
+            'address' => ['required', 'string', 'max:1000'],
             'previous_school' => ['nullable', 'string', 'max:150'],
         ], [
             'birth_date.before_or_equal' => 'Usia calon peserta didik minimal 5 tahun.',
-            '*.required'                 => 'Kolom ini wajib diisi.',
-            '*.digits'                   => 'Kolom ini harus berisi :digits angka.',
+            '*.required' => 'Kolom ini wajib diisi.',
+            '*.digits' => 'Kolom ini harus berisi :digits angka.',
         ]);
 
         $registration = $this->ppdbService->register($validated);
@@ -57,7 +57,7 @@ class PpdbController extends Controller
     public function index()
     {
         $settings = $this->websiteService->getSettings();
-        $registrations = PpdbRegistration::latest()->paginate(15);
+        $registrations = $this->ppdbService->getRegistrations();
 
         return view('admin.ppdb.index', compact('settings', 'registrations'));
     }
@@ -69,7 +69,7 @@ class PpdbController extends Controller
 
         return response($export['content'])
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $export['filename'] . '"');
+            ->header('Content-Disposition', 'attachment; filename="'.$export['filename'].'"');
     }
 
     public function exportExcel()
@@ -79,7 +79,7 @@ class PpdbController extends Controller
 
         return response($export['content'])
             ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
-            ->header('Content-Disposition', 'attachment; filename="' . $export['filename'] . '"')
+            ->header('Content-Disposition', 'attachment; filename="'.$export['filename'].'"')
             ->header('Pragma', 'no-cache')
             ->header('Expires', '0');
     }

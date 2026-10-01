@@ -3,19 +3,25 @@
 namespace App\Services;
 
 use App\Models\PpdbRegistration;
-use Illuminate\Support\Str;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 
 class PpdbService
 {
+    public function getRegistrations(int $perPage = 15): LengthAwarePaginator
+    {
+        return PpdbRegistration::latest()->paginate($perPage);
+    }
+
     /**
      * Generate unique registration number.
      */
     public function generateRegistrationNumber(): string
     {
         do {
-            $number = 'PPDB-' . now()->format('Y') . '-' . Str::upper(Str::random(6));
+            $number = 'PPDB-'.now()->format('Y').'-'.Str::upper(Str::random(6));
         } while (PpdbRegistration::where('registration_number', $number)->exists());
 
         return $number;
@@ -42,16 +48,16 @@ class PpdbService
         $totalRegistrations = $registrations->count();
         $totalL = $registrations->where('gender', 'L')->count();
         $totalP = $registrations->where('gender', 'P')->count();
-        $totalPending = $registrations->filter(fn($r) => in_array(strtolower($r->status), ['pending']))->count();
-        $totalDiterima = $registrations->filter(fn($r) => in_array(strtolower($r->status), ['accepted', 'diterima']))->count();
-        $totalDitolak = $registrations->filter(fn($r) => in_array(strtolower($r->status), ['rejected', 'ditolak']))->count();
+        $totalPending = $registrations->filter(fn ($r) => in_array(strtolower($r->status), ['pending']))->count();
+        $totalDiterima = $registrations->filter(fn ($r) => in_array(strtolower($r->status), ['accepted', 'diterima']))->count();
+        $totalDitolak = $registrations->filter(fn ($r) => in_array(strtolower($r->status), ['rejected', 'ditolak']))->count();
 
         // Convert school logo to base64 for reliable Dompdf rendering
         $logoPath = public_path('mentahan2/img/Logo1.png');
         $logoBase64 = '';
         if (file_exists($logoPath)) {
             $logoData = file_get_contents($logoPath);
-            $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+            $logoBase64 = 'data:image/png;base64,'.base64_encode($logoData);
         }
 
         $html = view('admin.ppdb.pdf', compact(
@@ -66,7 +72,7 @@ class PpdbService
             'logoBase64'
         ))->render();
 
-        $options = new Options();
+        $options = new Options;
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isRemoteEnabled', true);
         $options->set('defaultFont', 'Helvetica');
@@ -76,10 +82,10 @@ class PpdbService
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
 
-        $filename = 'Data_Pendaftar_PPDB_' . Str::slug($settings['school_name'] ?? 'SD_Negeri_Lama') . '_' . date('Y-m-d') . '.pdf';
+        $filename = 'Data_Pendaftar_PPDB_'.Str::slug($settings['school_name'] ?? 'SD_Negeri_Lama').'_'.date('Y-m-d').'.pdf';
 
         return [
-            'content'  => $dompdf->output(),
+            'content' => $dompdf->output(),
             'filename' => $filename,
         ];
     }
@@ -91,10 +97,10 @@ class PpdbService
     {
         $registrations = PpdbRegistration::orderBy('created_at', 'asc')->get();
         $html = view('admin.ppdb.excel', compact('settings', 'registrations'))->render();
-        $filename = 'Data_Pendaftar_PPDB_' . Str::slug($settings['school_name'] ?? 'SD_Negeri_Lama') . '_' . date('Y-m-d') . '.xls';
+        $filename = 'Data_Pendaftar_PPDB_'.Str::slug($settings['school_name'] ?? 'SD_Negeri_Lama').'_'.date('Y-m-d').'.xls';
 
         return [
-            'content'  => $html,
+            'content' => $html,
             'filename' => $filename,
         ];
     }

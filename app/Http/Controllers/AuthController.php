@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Services\AuthService;
 use App\Services\DashboardService;
 use App\Services\WebsiteContentService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function __construct(
+        protected AuthService $authService,
         protected DashboardService $dashboardService,
         protected WebsiteContentService $websiteService
     ) {}
@@ -19,6 +19,7 @@ class AuthController extends Controller
     public function showLoginForm(Request $request)
     {
         $role = $request->query('role', old('login_type', 'guru'));
+
         return $this->renderRoleLoginForm($role);
     }
 
@@ -55,219 +56,136 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $credentials = $this->validatedLoginCredentials($request);
+        $result = $this->authService->authenticate(
+            $credentials['type'],
+            $credentials['identifier'],
+            $credentials['password']
+        );
+
+        if (! $result) {
+            return back()->withErrors([
+                $credentials['error_key'] => $credentials['error_message'],
+            ])->withInput();
+        }
+
+        if (Auth::check()) {
+            Auth::logout();
+        }
+
+        Auth::login($result['user'], $request->has('remember'));
+        $request->session()->regenerate();
+
+        return redirect()->intended(route($this->dashboardRoute($result['user']->role)))
+            ->with('success', $this->loginSuccessMessage($credentials['type'], $result));
+    }
+
+    private function validatedLoginCredentials(Request $request): array
+    {
         $loginType = $request->input('login_type', 'guru');
 
         if ($loginType === 'guru') {
-            $request->validate([
+            $data = $request->validate([
                 'name' => ['required', 'string'],
-                'nip'  => ['required', 'string'],
+                'nip' => ['required', 'string'],
             ], [
                 'name.required' => 'Nama lengkap, NIP, atau Email guru wajib diisi.',
-                'nip.required'  => 'NIP atau kata sandi wajib diisi.',
+                'nip.required' => 'NIP atau kata sandi wajib diisi.',
             ]);
 
-            $identifier = trim($request->name);
-            $password = trim($request->nip);
+            return [
+                'type' => 'guru',
+                'identifier' => trim($data['name']),
+                'password' => trim($data['nip']),
+                'error_key' => 'name',
+                'error_message' => 'Data Guru (Nama/NIP/Email) atau kata sandi yang Anda masukkan tidak sesuai.',
+            ];
+        }
 
-            // Cari user guru berdasarkan NIP, Email, Nama Persis, atau Nama Parsial
-            $user = User::where('role', 'guru')
-                ->where(function ($q) use ($identifier) {
-                    $q->where('nip', $identifier)
-                      ->orWhere('email', $identifier)
-                      ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
-                      ->orWhere('name', 'LIKE', '%' . $identifier . '%');
-                })
-                ->first();
-
-            if ($user && ($user->nip === $password || $password === 'password123' || Hash::check($password, $user->password))) {
-                if (Auth::check()) {
-                    Auth::logout();
-                }
-                Auth::login($user, $request->has('remember'));
-                $request->session()->regenerate();
-
-                return redirect()->intended(route('guru.dashboard'))
-                    ->with('success', 'Selamat datang, ' . $user->name . '!');
-            }
-
-            return back()->withErrors([
-                'name' => 'Data Guru (Nama/NIP/Email) atau kata sandi yang Anda masukkan tidak sesuai.',
-            ])->withInput();
-        } elseif ($loginType === 'siswa') {
-            $request->validate([
+        if ($loginType === 'siswa') {
+            $data = $request->validate([
                 'student_identifier' => ['required', 'string'],
-                'student_password'   => ['required', 'string'],
+                'student_password' => ['required', 'string'],
             ], [
                 'student_identifier.required' => 'NISN atau Email Siswa wajib diisi.',
-                'student_password.required'   => 'Kata sandi wajib diisi.',
+                'student_password.required' => 'Kata sandi wajib diisi.',
             ]);
 
-            $identifier = trim($request->student_identifier);
-            $password = trim($request->student_password);
+            return [
+                'type' => 'siswa',
+                'identifier' => trim($data['student_identifier']),
+                'password' => trim($data['student_password']),
+                'error_key' => 'student_identifier',
+                'error_message' => 'NISN/Email Siswa atau kata sandi tidak sesuai dengan data siswa terdaftar.',
+            ];
+        }
 
-            // 1. Cek apakah identifier adalah NISN / Nama pada tabel students
-            $student = \App\Models\Student::where('nisn', $identifier)
-                ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
-                ->orWhere('name', 'LIKE', '%' . $identifier . '%')
-                ->first();
-
-            if ($student) {
-                // Cari atau buat akun user untuk siswa terdaftar ini
-                $user = User::where('role', 'siswa')
-                    ->where(function ($q) use ($student) {
-                        $q->where('nip', $student->nisn)
-                          ->orWhere('name', $student->name)
-                          ->orWhere('email', $student->nisn . '@siswa.sdnegerilama.sch.id');
-                    })
-                    ->first();
-
-                if (! $user) {
-                    $user = User::create([
-                        'name'     => $student->name,
-                        'email'    => $student->nisn . '@siswa.sdnegerilama.sch.id',
-                        'nip'      => $student->nisn,
-                        'role'     => 'siswa',
-                        'password' => Hash::make($student->nisn),
-                    ]);
-                }
-
-                // Cek password: bisa berupa NISN siswa, password123, atau hash password
-                if ($password === $student->nisn || $password === 'password123' || Hash::check($password, $user->password)) {
-                    if (Auth::check()) {
-                        Auth::logout();
-                    }
-                    Auth::login($user, $request->has('remember'));
-                    $request->session()->regenerate();
-
-                    return redirect()->intended(route('siswa.beranda'))
-                        ->with('success', 'Selamat datang di Ruang Belajar, ' . $student->name . ' (' . $student->class_name . ')!');
-                }
-            }
-
-            // 2. Alternatif: Cek akun user dengan role siswa via Email, NIP, atau Nama
-            $user = User::where('role', 'siswa')
-                ->where(function ($q) use ($identifier) {
-                    $q->where('email', $identifier)
-                      ->orWhere('nip', $identifier)
-                      ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
-                      ->orWhere('name', 'LIKE', '%' . $identifier . '%');
-                })
-                ->first();
-
-            if ($user && ($password === 'password123' || $password === $user->nip || Hash::check($password, $user->password))) {
-                if (Auth::check()) {
-                    Auth::logout();
-                }
-                Auth::login($user, $request->has('remember'));
-                $request->session()->regenerate();
-
-                return redirect()->intended(route('siswa.beranda'))
-                    ->with('success', 'Selamat datang di Ruang Belajar, ' . $user->name . '!');
-            }
-
-            return back()->withErrors([
-                'student_identifier' => 'NISN/Email Siswa atau kata sandi tidak sesuai dengan data siswa terdaftar.',
-            ])->withInput();
-        } elseif ($loginType === 'kepala_sekolah' || $loginType === 'kepsek') {
-            $request->validate([
+        if (in_array($loginType, ['kepala_sekolah', 'kepsek'])) {
+            $data = $request->validate([
                 'kepsek_identifier' => ['required', 'string'],
-                'kepsek_password'   => ['required', 'string'],
+                'kepsek_password' => ['required', 'string'],
             ], [
                 'kepsek_identifier.required' => 'NIP, Email, atau Nama Kepala Sekolah wajib diisi.',
-                'kepsek_password.required'   => 'Kata sandi wajib diisi.',
+                'kepsek_password.required' => 'Kata sandi wajib diisi.',
             ]);
 
-            $identifier = trim($request->kepsek_identifier);
-            $password = trim($request->kepsek_password);
-
-            $user = User::whereIn('role', ['kepala_sekolah', 'kepsek'])
-                ->where(function ($q) use ($identifier) {
-                    $q->where('nip', $identifier)
-                      ->orWhere('email', $identifier)
-                      ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
-                      ->orWhere('name', 'LIKE', '%' . $identifier . '%');
-                })
-                ->first();
-
-            if ($user && ($user->nip === $password || $password === 'password123' || Hash::check($password, $user->password))) {
-                if (Auth::check()) {
-                    Auth::logout();
-                }
-                Auth::login($user, $request->has('remember'));
-                $request->session()->regenerate();
-
-                return redirect()->intended(route('kepsek.dashboard'))
-                    ->with('success', 'Selamat datang, Bapak/Ibu Kepala Sekolah ' . $user->name . '!');
-            }
-
-            return back()->withErrors([
-                'kepsek_identifier' => 'Data Kepala Sekolah (NIP/Email/Nama) atau kata sandi tidak sesuai.',
-            ])->withInput();
-        } else {
-            $request->validate([
-                'email'    => ['required'],
-                'password' => ['required'],
-            ], [
-                'email.required'    => 'Email atau Username Admin wajib diisi.',
-                'password.required' => 'Kata sandi wajib diisi.',
-            ]);
-
-            $identifier = trim($request->email);
-            $password = $request->password;
-
-            // Cari user admin berdasarkan email atau nama
-            $user = User::where('role', 'admin')
-                ->where(function ($q) use ($identifier) {
-                    $q->where('email', $identifier)
-                      ->orWhereRaw('LOWER(name) = ?', [strtolower($identifier)])
-                      ->orWhere('name', 'LIKE', '%' . $identifier . '%');
-                })
-                ->first();
-
-            if ($user && ($password === 'password123' || Hash::check($password, $user->password))) {
-                if (Auth::check()) {
-                    Auth::logout();
-                }
-                Auth::login($user, $request->has('remember'));
-                $request->session()->regenerate();
-
-                return redirect()->intended(route('dashboard'))
-                    ->with('success', 'Selamat datang kembali, ' . $user->name . '!');
-            }
-
-            // Fallback attempt standard email Auth::attempt
-            if (Auth::attempt(['email' => $identifier, 'password' => $password], $request->has('remember'))) {
-                $request->session()->regenerate();
-                return $this->redirectBasedOnRole();
-            }
-
-            return back()->withErrors([
-                'email' => 'Email/Username Admin atau kata sandi yang Anda masukkan tidak sesuai.',
-            ])->withInput();
+            return [
+                'type' => 'kepsek',
+                'identifier' => trim($data['kepsek_identifier']),
+                'password' => trim($data['kepsek_password']),
+                'error_key' => 'kepsek_identifier',
+                'error_message' => 'Data Kepala Sekolah (NIP/Email/Nama) atau kata sandi tidak sesuai.',
+            ];
         }
+
+        $data = $request->validate([
+            'email' => ['required'],
+            'password' => ['required'],
+        ], [
+            'email.required' => 'Email atau Username Admin wajib diisi.',
+            'password.required' => 'Kata sandi wajib diisi.',
+        ]);
+
+        return [
+            'type' => 'admin',
+            'identifier' => trim($data['email']),
+            'password' => $data['password'],
+            'error_key' => 'email',
+            'error_message' => 'Email/Username Admin atau kata sandi yang Anda masukkan tidak sesuai.',
+        ];
     }
 
-    private function redirectBasedOnRole()
+    private function dashboardRoute(string $role): string
     {
-        $user = Auth::user();
+        return match ($role) {
+            'kepala_sekolah', 'kepsek' => 'kepsek.dashboard',
+            'guru' => 'guru.dashboard',
+            'siswa' => 'siswa.beranda',
+            default => 'dashboard',
+        };
+    }
 
-        if (in_array($user->role, ['kepala_sekolah', 'kepsek'])) {
-            return redirect()->intended(route('kepsek.dashboard'))
-                ->with('success', 'Selamat datang, Bapak/Ibu Kepala Sekolah ' . $user->name . '!');
+    private function loginSuccessMessage(string $loginType, array $result): string
+    {
+        $user = $result['user'];
+
+        if ($result['used_fallback']) {
+            return match ($user->role) {
+                'kepala_sekolah', 'kepsek' => 'Selamat datang, Bapak/Ibu Kepala Sekolah '.$user->name.'!',
+                'guru' => 'Selamat datang kembali, '.$user->name.'!',
+                'siswa' => 'Selamat datang kembali di Ruang Belajar, '.$user->name.'!',
+                default => 'Selamat datang kembali, '.$user->name.'!',
+            };
         }
 
-        if ($user->role === 'guru') {
-            return redirect()->intended(route('guru.dashboard'))
-                ->with('success', 'Selamat datang kembali, ' . $user->name . '!');
-        }
-
-        if ($user->role === 'siswa') {
-            return redirect()->intended(route('siswa.beranda'))
-                ->with('success', 'Selamat datang kembali di Ruang Belajar, ' . $user->name . '!');
-        }
-
-        return redirect()->intended(route('dashboard'))
-            ->with('success', 'Selamat datang kembali, ' . $user->name . '!');
+        return match ($loginType) {
+            'guru' => 'Selamat datang, '.$user->name.'!',
+            'siswa' => $result['student']
+                ? 'Selamat datang di Ruang Belajar, '.$result['student']->name.' ('.$result['student']->class_name.')!'
+                : 'Selamat datang di Ruang Belajar, '.$user->name.'!',
+            'kepsek' => 'Selamat datang, Bapak/Ibu Kepala Sekolah '.$user->name.'!',
+            default => 'Selamat datang kembali, '.$user->name.'!',
+        };
     }
 
     public function logout(Request $request)
@@ -312,7 +230,7 @@ class AuthController extends Controller
 
         return view('information.index', array_merge([
             'settings' => $settings,
-            'user'     => $user,
+            'user' => $user,
         ], $hubData));
     }
 
