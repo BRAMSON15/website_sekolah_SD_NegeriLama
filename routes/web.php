@@ -6,7 +6,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InformationController;
-use App\Http\Controllers\KalenderPendidikanController;
 use App\Http\Controllers\KepalaSekolahController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\SiswaController;
@@ -24,7 +23,6 @@ Route::get('/ppdb/berhasil/{registration}', [PpdbController::class, 'success'])-
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [HomeController::class, 'detailPengumuman'])->name('pengumuman.show');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
-Route::get('/kalender-pendidikan', [KalenderPendidikanController::class, 'index'])->name('kalender.index');
 Route::get('/materi/{material}/download', [SiswaController::class, 'downloadMateri'])->name('materi.download')->middleware('auth');
 Route::post('/siswa/akses-nisn', [SiswaController::class, 'aksesNisn'])->name('siswa.akses.nisn');
 
@@ -76,12 +74,6 @@ Route::middleware('auth')->group(function () {
 
     // Admin Routes
     Route::get('/admin/informasi', [AuthController::class, 'information'])->name('admin.informasi');
-    Route::get('/admin/kalender-pendidikan', [KalenderPendidikanController::class, 'manage'])->name('admin.kalender.index');
-    Route::get('/admin/kalender-pendidikan/tambah', [KalenderPendidikanController::class, 'create'])->name('admin.kalender.create');
-    Route::post('/admin/kalender-pendidikan', [KalenderPendidikanController::class, 'store'])->name('admin.kalender.store');
-    Route::get('/admin/kalender-pendidikan/{educationalCalendarEvent}/edit', [KalenderPendidikanController::class, 'edit'])->name('admin.kalender.edit');
-    Route::put('/admin/kalender-pendidikan/{educationalCalendarEvent}', [KalenderPendidikanController::class, 'update'])->name('admin.kalender.update');
-    Route::delete('/admin/kalender-pendidikan/{educationalCalendarEvent}', [KalenderPendidikanController::class, 'destroy'])->name('admin.kalender.destroy');
     Route::get('/admin/ppdb', [PpdbController::class, 'index'])->name('admin.ppdb.index');
     Route::get('/admin/ppdb/export/pdf', [PpdbController::class, 'exportPdf'])->name('admin.ppdb.export.pdf');
     Route::get('/admin/ppdb/export/excel', [PpdbController::class, 'exportExcel'])->name('admin.ppdb.export.excel');
