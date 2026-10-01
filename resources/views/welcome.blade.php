@@ -132,6 +132,10 @@
             <span><i class="fa-solid fa-calendar-days" style="color: var(--primary); width: 20px;"></i> Jadwal Pelajaran</span>
             <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
           </a>
+          <a href="{{ route('kalender.index') }}" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark);">
+            <span><i class="fa-solid fa-calendar-check" style="color: var(--primary); width: 20px;"></i> Kalender Pendidikan</span>
+            <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
+          </a>
           <a href="#" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--light-bg); border-radius: 12px; font-weight: 600; font-size: 0.9rem; color: var(--dark);">
             <span><i class="fa-solid fa-clipboard-user" style="color: var(--primary); width: 20px;"></i> Presensi Online</span>
             <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>

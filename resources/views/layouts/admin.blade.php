@@ -64,11 +64,14 @@
         <a class="nav-item {{ request()->routeIs('admin.teachers.*') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
           <span class="nav-item-icon"><i class="fa fa-user-tie"></i></span> Kelola Akun Guru
         </a>
-        <a class="nav-item {{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.informasi') }}">
+        <a class="nav-item {{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*', 'admin.kalender.*') ? 'active' : '' }}" href="{{ route('admin.informasi') }}">
           <span class="nav-item-icon"><i class="fa fa-bullhorn"></i></span> Kelola Informasi
         </a>
         <a class="nav-item {{ request()->routeIs('admin.pengumuman.*') ? 'active' : '' }}" href="{{ route('admin.pengumuman.index') }}" style="padding-left: 32px; font-size: 13px;">
           <span class="nav-item-icon"><i class="fa fa-list-alt"></i></span> Pengumuman
+        </a>
+        <a class="nav-item {{ request()->routeIs('admin.kalender.*') ? 'active' : '' }}" href="{{ route('admin.kalender.index') }}" style="padding-left: 32px; font-size: 13px;">
+          <span class="nav-item-icon"><i class="fa fa-calendar-days"></i></span> Kalender Pendidikan
         </a>
         <a class="nav-item {{ request()->routeIs('admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.fitur.index') }}" style="padding-left: 32px; font-size: 13px;">
           <span class="nav-item-icon"><i class="fa fa-star"></i></span> Fitur / Layanan
