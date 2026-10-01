@@ -406,11 +406,6 @@
         <span>Video & Modul Ajar</span>
       </a>
 
-      <a href="{{ route('kepsek.monitoring.kalender') }}" class="kepsek-nav-link {{ request()->routeIs('kepsek.monitoring.kalender*') ? 'active' : '' }}">
-        <i class="fa-solid fa-calendar-days"></i>
-        <span>Kalender Akademik</span>
-      </a>
-
       <div class="nav-label">Kesiswaan & Operasional</div>
 
       <a href="{{ route('kepsek.monitoring.ppdb') }}" class="kepsek-nav-link {{ request()->routeIs('kepsek.monitoring.ppdb') ? 'active' : '' }}">

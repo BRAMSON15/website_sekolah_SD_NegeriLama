@@ -17,7 +17,7 @@
           'badge_icon'  => 'fa-solid fa-chalkboard-user',
           'badge_style' => 'background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe;',
           'heading'     => 'Portal Guru Pengajar',
-          'subtitle'    => 'Masuk ke ruang kerja digital guru untuk mengelola modul ajar, video edukasi, dan kalender pendidikan.',
+          'subtitle'    => 'Masuk ke ruang kerja digital guru untuk mengelola modul ajar, video edukasi, dan pengumuman sekolah.',
           'btn_text'    => 'Masuk Portal Guru',
           'btn_style'   => 'background: #2563eb; color: #ffffff;',
       ],

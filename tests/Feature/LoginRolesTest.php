@@ -216,31 +216,5 @@ class LoginRolesTest extends TestCase
         $this->actingAs($kepsek)->get('/kepsek/monitoring/ppdb')->assertStatus(200);
         // 4. Sistem
         $this->actingAs($kepsek)->get('/kepsek/monitoring/sistem')->assertStatus(200);
-        // 5. Kalender
-        $this->actingAs($kepsek)->get('/kepsek/monitoring/kalender')->assertStatus(200)->assertSee('Supervisi Kalender Pendidikan');
-        // 6. Kalender Download
-        $this->actingAs($kepsek)->get('/kepsek/monitoring/kalender/download')->assertStatus(200);
-    }
-
-    public function test_guru_kalender_renders_and_download_functions_properly(): void
-    {
-        $guru = User::where('role', 'guru')->first();
-
-        // 1. Guest redirected to login
-        $this->get('/guru/kalender')->assertRedirect(route('login'));
-
-        // 2. Guru can view calendar page with correct dates
-        $response = $this->actingAs($guru)->get('/guru/kalender');
-        $response->assertStatus(200);
-        $response->assertSee('Kalender Akademik Sekolah');
-        $response->assertSee('Penilaian Tengah Semester (PTS) Ganjil');
-        $response->assertSee('Rapat Pleno Dewan Guru & Evaluasi Kurikulum Merdeka');
-        $response->assertDontSee('01 Jan 1970');
-
-        // 3. Guru can download official kaldik file
-        $downloadResponse = $this->actingAs($guru)->get('/guru/kalender/download');
-        $downloadResponse->assertStatus(200);
-        $this->assertStringContainsString('KALENDER PENDIDIKAN TAHUN AJARAN', $downloadResponse->getContent());
-        $this->assertStringContainsString('Kalender_Pendidikan_', (string) $downloadResponse->headers->get('content-disposition'));
     }
 }

@@ -128,25 +128,7 @@ class GuruController extends Controller
 
 
     /* -------------------------------------------------------------
-     * 4. KALENDER AKADEMIK & DOWNLOAD
-     * ------------------------------------------------------------- */
-    public function kalender()
-    {
-        $settings = $this->websiteService->getSettings();
-        $user = Auth::user();
-        $events = $this->guruService->getKalenderEvents();
-
-        return view('guru.kalender', compact('settings', 'user', 'events'));
-    }
-
-    public function downloadKaldik()
-    {
-        $settings = $this->websiteService->getSettings();
-        return $this->guruService->downloadKaldik($settings['school_name'] ?? 'SD NEGERI LAMA');
-    }
-
-    /* -------------------------------------------------------------
-     * 7. PENGUMUMAN GURU
+     * 4. PENGUMUMAN GURU
      * ------------------------------------------------------------- */
     public function pengumuman()
     {

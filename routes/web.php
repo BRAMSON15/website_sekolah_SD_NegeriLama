@@ -43,8 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/kepsek/monitoring/pembelajaran', [KepalaSekolahController::class, 'monitoringPembelajaran'])->name('kepsek.monitoring.pembelajaran');
     Route::get('/kepsek/monitoring/ppdb', [KepalaSekolahController::class, 'monitoringPpdb'])->name('kepsek.monitoring.ppdb');
     Route::get('/kepsek/monitoring/sistem', [KepalaSekolahController::class, 'monitoringSistem'])->name('kepsek.monitoring.sistem');
-    Route::get('/kepsek/monitoring/kalender', [KepalaSekolahController::class, 'monitoringKalender'])->name('kepsek.monitoring.kalender');
-    Route::get('/kepsek/monitoring/kalender/download', [KepalaSekolahController::class, 'downloadKaldik'])->name('kepsek.monitoring.kalender.download');
 
     // Portal Siswa Routes (Khusus Siswa Terdaftar)
     Route::get('/siswa/beranda', [SiswaController::class, 'beranda'])->name('siswa.beranda');
@@ -65,9 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/guru/video/{video}', [GuruController::class, 'updateVideo'])->name('guru.video.update');
     Route::delete('/guru/video/{video}', [GuruController::class, 'destroyVideo'])->name('guru.video.destroy');
 
-    // Kalender & Pengumuman
-    Route::get('/guru/kalender', [GuruController::class, 'kalender'])->name('guru.kalender');
-    Route::get('/guru/kalender/download', [GuruController::class, 'downloadKaldik'])->name('guru.kalender.download');
+    // Pengumuman Guru
     Route::get('/guru/pengumuman', [GuruController::class, 'pengumuman'])->name('guru.pengumuman');
     
     // Admin Routes

@@ -80,11 +80,6 @@
                 <span>Video Edukasi</span>
             </a>
 
-            <a href="{{ route('guru.kalender') }}" class="menu-item {{ request()->routeIs('guru.kalender*') ? 'active' : '' }}">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Kalender Akademik</span>
-            </a>
-
             <a href="{{ route('guru.pengumuman') }}" class="menu-item {{ request()->routeIs('guru.pengumuman*') ? 'active' : '' }}">
                 <i class="fa-solid fa-bullhorn"></i>
                 <span>Pengumuman Sekolah</span>

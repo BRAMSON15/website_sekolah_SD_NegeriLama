@@ -139,13 +139,10 @@
       Selamat Datang, {{ $user->name }}
     </h1>
     <p style="font-size: 0.88rem; color: #cbd5e1; max-width: 650px; line-height: 1.5;">
-      Pantau seluruh aktivitas akademik, kinerja materi & video guru, kalender pendidikan, serta pendaftaran PPDB secara terintegrasi dan akurat.
+      Pantau seluruh aktivitas akademik, kinerja materi & video guru, serta pendaftaran PPDB secara terintegrasi dan akurat.
     </p>
   </div>
   <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-    <a href="{{ route('kepsek.monitoring.kalender') }}" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; backdrop-filter: blur(4px);">
-      <i class="fa-solid fa-calendar-days"></i> Kalender Pendidikan
-    </a>
     <a href="{{ route('kepsek.monitoring.ppdb', ['print' => 1]) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #d97706; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);">
       <i class="fa-solid fa-file-pdf"></i> Laporan PPDB
     </a>

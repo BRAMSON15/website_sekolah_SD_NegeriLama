@@ -73,24 +73,4 @@ class KepalaSekolahController extends Controller
 
         return view('kepsek.sistem', array_merge(['settings' => $settings], $sistemData));
     }
-
-    /**
-     * Supervisi Kalender Pendidikan Akademik Sekolah
-     */
-    public function monitoringKalender()
-    {
-        $settings = $this->websiteService->getSettings();
-        $kalenderData = $this->kepalaSekolahService->getKalenderData();
-
-        return view('kepsek.kalender', array_merge(['settings' => $settings], $kalenderData));
-    }
-
-    /**
-     * Unduh Berkas Resmi Kaldik untuk Kepala Sekolah
-     */
-    public function downloadKaldik()
-    {
-        $settings = $this->websiteService->getSettings();
-        return $this->kepalaSekolahService->downloadKaldik($settings['school_name'] ?? 'SD NEGERI LAMA AMBON');
-    }
 }

@@ -59,18 +59,6 @@
         </a>
     </div>
 
-    <div class="stat-card blue">
-        <div class="stat-icon">
-            <i class="bi bi-calendar-event-fill"></i>
-        </div>
-        <h2>Kaldik</h2>
-        <p>Kalender Akademik</p>
-        <a href="{{ route('guru.kalender') }}">
-            Lihat Agenda
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
-
     <div class="stat-card orange">
         <div class="stat-icon">
             <i class="bi bi-megaphone-fill"></i>
@@ -242,17 +230,6 @@
                     <div>
                         <strong>Unggah Video Edukasi</strong>
                         <span>Tambah video pembelajaran</span>
-                    </div>
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-
-                <a href="{{ route('guru.kalender') }}" class="quick-item">
-                    <div class="quick-icon orange">
-                        <i class="bi bi-calendar-event-fill"></i>
-                    </div>
-                    <div>
-                        <strong>Kalender Akademik</strong>
-                        <span>Cek agenda & unduh kaldik</span>
                     </div>
                     <i class="bi bi-chevron-right"></i>
                 </a>

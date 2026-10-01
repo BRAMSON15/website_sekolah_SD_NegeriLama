@@ -236,21 +236,4 @@ class KepalaSekolahService
 
         return compact('stats', 'serverInfo');
     }
-
-    /**
-     * Mengambil agenda kalender pendidikan untuk supervisi Kepala Sekolah.
-     */
-    public function getKalenderData(): array
-    {
-        $events = app(GuruService::class)->getKalenderEvents();
-        return compact('events');
-    }
-
-    /**
-     * Mengunduh berkas kalender pendidikan resmi sekolah.
-     */
-    public function downloadKaldik(string $schoolName)
-    {
-        return app(GuruService::class)->downloadKaldik($schoolName);
-    }
 }
