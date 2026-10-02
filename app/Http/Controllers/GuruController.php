@@ -41,7 +41,7 @@ class GuruController extends Controller
         $settings = $this->websiteService->getSettings();
         $user = Auth::user();
         $materials = $this->guruService->getMaterials($request);
-        $classOptions = $this->guruService->getClassOptions();
+       $classOptions = $this->guruService->getClassOptions($user->id);
 
         return view('guru.materi', compact('settings', 'user', 'materials', 'classOptions'));
     }
