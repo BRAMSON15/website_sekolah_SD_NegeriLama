@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Models\User;
-use App\Models\Student;
+use App\Models\Announcement;
+use App\Models\Classroom;
 use App\Models\EducationalVideo;
 use App\Models\LearningMaterial;
 use App\Models\PpdbRegistration;
-use App\Models\Announcement;
-use Carbon\Carbon;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class KepalaSekolahService
@@ -68,9 +68,9 @@ class KepalaSekolahService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('nip', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%");
+                    ->orWhere('nip', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('subject', 'like', "%{$search}%");
             });
         }
 
@@ -106,8 +106,8 @@ class KepalaSekolahService
         if ($search) {
             $videoQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('subject', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
         $videos = ($tab === 'materi') ? collect() : $videoQuery->latest()->get();
@@ -120,8 +120,8 @@ class KepalaSekolahService
         if ($search) {
             $materialQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('subject', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                    ->orWhere('subject', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
             });
         }
         $materials = ($tab === 'video') ? collect() : $materialQuery->latest()->get();
@@ -131,15 +131,10 @@ class KepalaSekolahService
         $totalDownloads = LearningMaterial::sum('downloads');
         $totalCombined = $totalVideoCount + $totalMaterialCount;
 
-        $availableClasses = [
-            'Semua Kelas',
-            'Kelas I',
-            'Kelas II',
-            'Kelas III',
-            'Kelas IV',
-            'Kelas V',
-            'Kelas VI'
-        ];
+        $availableClasses = Classroom::orderBy('name')
+            ->pluck('name')
+            ->prepend('Semua Kelas')
+            ->all();
 
         return compact(
             'tab',
@@ -176,9 +171,9 @@ class KepalaSekolahService
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
-                  ->orWhere('registration_number', 'like', "%{$search}%")
-                  ->orWhere('previous_school', 'like', "%{$search}%")
-                  ->orWhere('nisn', 'like', "%{$search}%");
+                    ->orWhere('registration_number', 'like', "%{$search}%")
+                    ->orWhere('previous_school', 'like', "%{$search}%")
+                    ->orWhere('nisn', 'like', "%{$search}%");
             });
         }
 
@@ -213,25 +208,25 @@ class KepalaSekolahService
     public function getMonitoringSistemData(): array
     {
         $stats = [
-            'users_total'         => User::count(),
-            'guru_count'          => User::where('role', 'guru')->count(),
-            'admin_count'         => User::where('role', 'admin')->count(),
-            'kepsek_count'        => User::whereIn('role', ['kepala_sekolah', 'kepsek'])->count(),
-            'students_count'      => Student::count(),
-            'videos_count'        => EducationalVideo::count(),
-            'materials_count'     => LearningMaterial::count(),
-            'ppdb_count'          => PpdbRegistration::count(),
+            'users_total' => User::count(),
+            'guru_count' => User::where('role', 'guru')->count(),
+            'admin_count' => User::where('role', 'admin')->count(),
+            'kepsek_count' => User::whereIn('role', ['kepala_sekolah', 'kepsek'])->count(),
+            'students_count' => Student::count(),
+            'videos_count' => EducationalVideo::count(),
+            'materials_count' => LearningMaterial::count(),
+            'ppdb_count' => PpdbRegistration::count(),
             'announcements_count' => Announcement::count(),
-            'active_announcements'=> Announcement::active()->count(),
+            'active_announcements' => Announcement::active()->count(),
         ];
 
         $serverInfo = [
-            'php_version'    => PHP_VERSION,
-            'laravel_version'=> app()->version(),
-            'database'       => config('database.default'),
-            'app_env'        => config('app.env'),
-            'app_url'        => config('app.url'),
-            'timezone'       => config('app.timezone'),
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'database' => config('database.default'),
+            'app_env' => config('app.env'),
+            'app_url' => config('app.url'),
+            'timezone' => config('app.timezone'),
         ];
 
         return compact('stats', 'serverInfo');

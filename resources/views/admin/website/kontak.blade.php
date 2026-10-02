@@ -104,10 +104,88 @@
             </div>
         </div>
 
+        <div class="information-panel">
+            <div class="information-panel-heading">
+                <h3><i class="fa-solid fa-location-dot" style="color: #1769d9;"></i> Lokasi Sekolah di Peta</h3>
+                <p>Tentukan posisi SD Negeri Lama. Klik peta atau geser penanda untuk mengatur koordinat.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="school-latitude">Latitude</label>
+                        <input id="school-latitude" type="number" name="school_latitude" class="form-control" step="any" min="-90" max="90" required value="{{ old('school_latitude', $settings['school_latitude'] ?? '-3.695') }}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="school-longitude">Longitude</label>
+                        <input id="school-longitude" type="number" name="school_longitude" class="form-control" step="any" min="-180" max="180" required value="{{ old('school_longitude', $settings['school_longitude'] ?? '128.18') }}">
+                    </div>
+                </div>
+            </div>
+            <div id="school-location-map" style="height: 320px; width: 100%; border-radius: 8px; border: 1px solid #dbe3ef;"></div>
+        </div>
+
         <div class="form-actions" style="margin-top: 25px;">
             <a href="{{ route('dashboard') }}" class="btn btn-grey">Kembali ke Dashboard</a>
             <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Informasi Kontak</button>
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mapElement = document.getElementById('school-location-map');
+        const latitudeInput = document.getElementById('school-latitude');
+        const longitudeInput = document.getElementById('school-longitude');
+
+        if (typeof L === 'undefined' || !mapElement || !latitudeInput || !longitudeInput) {
+            return;
+        }
+
+        const initialLatitude = Number(latitudeInput.value);
+        const initialLongitude = Number(longitudeInput.value);
+        const locationMap = L.map(mapElement).setView([initialLatitude, initialLongitude], 15);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(locationMap);
+
+        const schoolMarker = L.marker([initialLatitude, initialLongitude], { draggable: true }).addTo(locationMap);
+
+        function updateInputs(latitude, longitude) {
+            latitudeInput.value = latitude.toFixed(7);
+            longitudeInput.value = longitude.toFixed(7);
+        }
+
+        schoolMarker.on('dragend', function (event) {
+            const position = event.target.getLatLng();
+            updateInputs(position.lat, position.lng);
+        });
+
+        locationMap.on('click', function (event) {
+            schoolMarker.setLatLng(event.latlng);
+            updateInputs(event.latlng.lat, event.latlng.lng);
+        });
+
+        function updateMarkerFromInputs() {
+            const latitude = Number(latitudeInput.value);
+            const longitude = Number(longitudeInput.value);
+
+            if (latitudeInput.value !== '' && longitudeInput.value !== '' && Number.isFinite(latitude) && Number.isFinite(longitude) && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180) {
+                const position = [latitude, longitude];
+                schoolMarker.setLatLng(position);
+                locationMap.panTo(position);
+            }
+        }
+
+        latitudeInput.addEventListener('change', updateMarkerFromInputs);
+        longitudeInput.addEventListener('change', updateMarkerFromInputs);
+        setTimeout(function () { locationMap.invalidateSize(); }, 250);
+    });
+</script>
 @endsection

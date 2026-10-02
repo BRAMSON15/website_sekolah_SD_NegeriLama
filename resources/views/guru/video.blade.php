@@ -115,7 +115,6 @@
                     @foreach($classOptions as $classOption)
                     <option value="{{ $classOption }}" {{ request('class_level') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
                     @endforeach
-                    <option value="Semua Kelas" {{ request('class_level') == 'Semua Kelas' ? 'selected' : '' }}>Umum (Semua Kelas)</option>
                 </select>
             </div>
 
@@ -516,10 +515,11 @@
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Tingkat Kelas *</label>
                     <select name="class_level" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; box-sizing: border-box; cursor: pointer;">
-                        @foreach($classOptions as $classOption)
-                        <option value="{{ $classOption }}" {{ old('class_level', 'Kelas 5A') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
-                        @endforeach
-                        <option value="Semua Kelas" {{ old('class_level') === 'Semua Kelas' ? 'selected' : '' }}>Semua Kelas</option>
+                        @forelse($classOptions as $classOption)
+                        <option value="{{ $classOption }}" {{ old('class_level', $classOptions->first()) === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
+                        @empty
+                        <option value="" selected disabled>Buat kelas terlebih dahulu</option>
+                        @endforelse
                     </select>
                 </div>
             </div>
@@ -552,7 +552,10 @@
                 <button type="button" onclick="closeModalVideo()" style="padding: 10px 18px; border: 1px solid #cbd5e1; background: #f1f5fa; color: #475569; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">
                     Batal
                 </button>
-                <button type="submit" style="padding: 10px 22px; background: linear-gradient(135deg, #7c3aed, #4f46e5); border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);">
+                @if($classOptions->isEmpty())
+                <a href="{{ route('guru.kelas.create') }}" style="padding: 10px 14px; background: #eff6ff; color: #1d4ed8; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;">Buat kelas</a>
+                @endif
+                <button type="submit" {{ $classOptions->isEmpty() ? 'disabled' : '' }} style="padding: 10px 22px; background: {{ $classOptions->isEmpty() ? '#94a3b8' : 'linear-gradient(135deg, #7c3aed, #4f46e5)' }}; border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: {{ $classOptions->isEmpty() ? 'not-allowed' : 'pointer' }}; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);">
                     <i class="fa-solid fa-save"></i> Simpan Video
                 </button>
             </div>
@@ -637,7 +640,9 @@
                         @foreach($classOptions as $classOption)
                         <option value="{{ $classOption }}">{{ $classOption }}</option>
                         @endforeach
-                        <option value="Semua Kelas">Semua Kelas</option>
+                        @if($classOptions->isEmpty())
+                        <option value="" selected disabled>Buat kelas terlebih dahulu</option>
+                        @endif
                     </select>
                 </div>
             </div>
@@ -670,7 +675,10 @@
                 <button type="button" onclick="closeEditModal()" style="padding: 10px 18px; border: 1px solid #cbd5e1; background: #f1f5fa; color: #475569; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">
                     Batal
                 </button>
-                <button type="submit" style="padding: 10px 22px; background: linear-gradient(135deg, #4f46e5, #2563eb); border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);">
+                @if($classOptions->isEmpty())
+                <a href="{{ route('guru.kelas.create') }}" style="padding: 10px 14px; background: #eff6ff; color: #1d4ed8; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;">Buat kelas</a>
+                @endif
+                <button type="submit" {{ $classOptions->isEmpty() ? 'disabled' : '' }} style="padding: 10px 22px; background: {{ $classOptions->isEmpty() ? '#94a3b8' : 'linear-gradient(135deg, #4f46e5, #2563eb)' }}; border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: {{ $classOptions->isEmpty() ? 'not-allowed' : 'pointer' }}; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);">
                     <i class="fa-solid fa-check"></i> Perbarui Video
                 </button>
             </div>
@@ -733,7 +741,7 @@
         // Populate fields
         document.getElementById('edit_title').value = video.title || '';
         document.getElementById('edit_subject').value = video.subject || '';
-        document.getElementById('edit_class_level').value = video.class_level || 'Kelas 5A';
+        document.getElementById('edit_class_level').value = video.class_level || '';
         document.getElementById('edit_duration').value = video.duration || '';
         document.getElementById('edit_description').value = video.description || '';
 

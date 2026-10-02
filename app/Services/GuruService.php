@@ -8,6 +8,7 @@ use App\Models\EducationalVideo;
 use App\Models\LearningMaterial;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class GuruService
@@ -21,8 +22,11 @@ class GuruService
             ->selectRaw('class_name, COUNT(*) as students_count')
             ->groupBy('class_name')
             ->pluck('students_count', 'class_name');
-        $managedClasses = Classroom::with('teacher:id,name,subject')->get()->keyBy('name');
-        $classNames = $studentCounts->keys()->merge($managedClasses->keys())->unique()->sort()->values();
+        $managedClasses = Classroom::with('teacher:id,name,subject')
+            ->where('teacher_id', $user->id)
+            ->get()
+            ->keyBy('name');
+        $classNames = $managedClasses->keys()->sort()->values();
 
         $stats = [
             'classes' => $classNames->count(),
@@ -74,18 +78,11 @@ class GuruService
         return $query->latest()->get();
     }
 
-    public function getClassOptions()
+    public function getClassOptions(int $teacherId): Collection
     {
-        return collect(['Kelas 4A', 'Kelas 5A', 'Kelas 6B'])
-            ->merge(Classroom::orderBy('name')->pluck('name'))
-            ->merge(Student::query()->whereNotNull('class_name')->distinct()->orderBy('class_name')->pluck('class_name'))
-            ->merge(LearningMaterial::query()->whereNotNull('class_level')->distinct()->orderBy('class_level')->pluck('class_level'))
-            ->merge(EducationalVideo::query()->whereNotNull('class_level')->distinct()->orderBy('class_level')->pluck('class_level'))
-            ->filter()
-            ->reject(fn ($name) => $name === 'Semua Kelas')
-            ->unique()
-            ->sort()
-            ->values();
+        return Classroom::where('teacher_id', $teacherId)
+            ->orderBy('name')
+            ->pluck('name');
     }
 
     public function storeMaterial(array $data, $file, int $userId): LearningMaterial

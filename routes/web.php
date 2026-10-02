@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminTeacherController;
+use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AdminWebsiteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GuruController;
@@ -85,6 +86,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/guru/{teacher}/edit', [AdminTeacherController::class, 'edit'])->name('admin.teachers.edit');
     Route::put('/admin/guru/{teacher}', [AdminTeacherController::class, 'update'])->name('admin.teachers.update');
     Route::delete('/admin/guru/{teacher}', [AdminTeacherController::class, 'destroy'])->name('admin.teachers.destroy');
+
+    // Kelola Siswa
+    Route::get('/admin/siswa', [AdminStudentController::class, 'index'])->name('admin.students.index');
+    Route::get('/admin/siswa/tambah', [AdminStudentController::class, 'create'])->name('admin.students.create');
+    Route::post('/admin/siswa', [AdminStudentController::class, 'store'])->name('admin.students.store');
+    Route::get('/admin/siswa/{student}/edit', [AdminStudentController::class, 'edit'])->name('admin.students.edit');
+    Route::put('/admin/siswa/{student}', [AdminStudentController::class, 'update'])->name('admin.students.update');
+    Route::delete('/admin/siswa/{student}', [AdminStudentController::class, 'destroy'])->name('admin.students.destroy');
 
     // Kelola Informasi Admin
     Route::get('/admin/informasi/pengumuman', [InformationController::class, 'announcements'])->name('admin.pengumuman.index');

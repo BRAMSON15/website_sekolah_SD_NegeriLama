@@ -65,10 +65,8 @@
   </article>
 </div>
 
-<!-- Two Columns Section -->
-<div class="two-columns">
-  <!-- Announcement Panel -->
-  <section class="panel">
+<!-- Announcement Panel -->
+<section class="panel">
     <div class="panel-head">
       <h2><i class="fa fa-bullhorn" style="color: #8c6ce5; margin-right: 6px;"></i> Pengumuman Terbaru</h2>
       <a href="{{ route('admin.pengumuman.index') }}">Lihat Semua</a>
@@ -90,21 +88,7 @@
       <p>Belum ada pengumuman terbaru.</p>
     </div>
     @endforelse
-  </section>
-
-  <!-- Interactive Map Panel -->
-  <section class="panel">
-    <div class="panel-head">
-      <h2><i class="fa fa-map-marked-alt" style="color: #45bd8d; margin-right: 6px;"></i> Peta Lokasi Pulau Ambon</h2>
-      <a href="https://www.openstreetmap.org/?mlat=-3.695&mlon=128.18#map=11/-3.695/128.18" target="_blank" rel="noopener">Buka Peta Komplit</a>
-    </div>
-    <div style="padding: 15px;">
-      <div class="dashboard-map-container">
-        <div id="ambon-map"></div>
-      </div>
-    </div>
-  </section>
-</div>
+</section>
 
 <!-- Feature Grid Section -->
 <div class="feature-grid">
@@ -133,41 +117,4 @@
     <b><i class="bi bi-arrow-right"></i></b>
   </a>
 </div>
-@endsection
-
-@section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        if (typeof L === 'undefined' || !document.getElementById('ambon-map')) {
-            return;
-        }
-
-        const ambonMap = L.map('ambon-map', {
-            scrollWheelZoom: false,
-            zoomControl: true
-        }).setView([-3.695, 128.18], 11);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors',
-            maxZoom: 19
-        }).addTo(ambonMap);
-
-        const marker = L.marker([-3.695, 128.18]).addTo(ambonMap)
-            .bindPopup('<strong>Ambon</strong><br>Pusat Kota Ambon');
-            
-        marker.openPopup();
-
-        function refreshMapSize() {
-            ambonMap.invalidateSize();
-        }
-
-        setTimeout(refreshMapSize, 250);
-        window.addEventListener('resize', refreshMapSize);
-
-        const mapEl = document.getElementById('ambon-map');
-        if (window.ResizeObserver && mapEl) {
-            new ResizeObserver(refreshMapSize).observe(mapEl);
-        }
-    });
-</script>
 @endsection

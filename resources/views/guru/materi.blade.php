@@ -156,10 +156,11 @@
                 <div>
                     <label style="display: block; font-size: 0.88rem; font-weight: 700; color: #334155; margin-bottom: 6px;">Tingkat Kelas *</label>
                     <select name="class_level" required style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; outline: none; background: #fff; box-sizing: border-box;">
-                        @foreach($classOptions as $classOption)
-                        <option value="{{ $classOption }}" {{ old('class_level', 'Kelas 5A') === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
-                        @endforeach
-                        <option value="Semua Kelas" {{ old('class_level') === 'Semua Kelas' ? 'selected' : '' }}>Semua Kelas</option>
+                        @forelse($classOptions as $classOption)
+                        <option value="{{ $classOption }}" {{ old('class_level', $classOptions->first()) === $classOption ? 'selected' : '' }}>{{ $classOption }}</option>
+                        @empty
+                        <option value="" selected disabled>Buat kelas terlebih dahulu</option>
+                        @endforelse
                     </select>
                 </div>
             </div>
@@ -178,7 +179,10 @@
                 <button type="button" onclick="closeModalMateri()" style="padding: 10px 18px; border: 1px solid #cbd5e1; background: #f1f5fa; color: #475569; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer;">
                     Batal
                 </button>
-                <button type="submit" style="padding: 10px 22px; background: #16a34a; border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                @if($classOptions->isEmpty())
+                <a href="{{ route('guru.kelas.create') }}" style="padding: 10px 14px; background: #eff6ff; color: #1d4ed8; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none;">Buat kelas</a>
+                @endif
+                <button type="submit" {{ $classOptions->isEmpty() ? 'disabled' : '' }} style="padding: 10px 22px; background: {{ $classOptions->isEmpty() ? '#94a3b8' : '#16a34a' }}; border: none; color: #ffffff; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: {{ $classOptions->isEmpty() ? 'not-allowed' : 'pointer' }}; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-cloud-arrow-up"></i> Simpan & Unggah
                 </button>
             </div>

@@ -138,6 +138,8 @@ class AdminWebsiteController extends Controller
             'instagram'   => ['nullable', 'string', 'max:255'],
             'youtube'     => ['nullable', 'string', 'max:255'],
             'maps_embed'  => ['nullable', 'string'],
+            'school_latitude'  => ['required', 'numeric', 'between:-90,90'],
+            'school_longitude' => ['required', 'numeric', 'between:-180,180'],
         ]);
 
         $this->websiteService->saveSettings($validated);

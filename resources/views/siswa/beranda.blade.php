@@ -117,14 +117,9 @@
       <input type="hidden" name="tab" value="{{ $tab }}">
 
       <!-- Class Filter Dropdown -->
-      <div style="min-width: 170px;">
-        <select name="class_level" onchange="this.form.submit()" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; font-size: 0.9rem; background: #ffffff; outline: none; font-weight: 600; cursor: pointer;">
-          @foreach($availableClasses as $cls)
-            <option value="{{ $cls }}" {{ ($classLevel === $cls || (!$classLevel && $cls === 'Semua Kelas')) ? 'selected' : '' }}>
-              {{ $cls === 'Semua Kelas' ? '🎯 Semua Tingkat Kelas' : '🏫 ' . $cls }}
-            </option>
-          @endforeach
-        </select>
+      <div style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; background: #ffffff; color: var(--dark); font-size: 0.9rem; font-weight: 700; white-space: nowrap;">
+        <i class="fa-solid fa-school" style="color: var(--primary);"></i>
+        {{ $classLevel ? 'Materi ' . $classLevel : 'Tingkat kelas belum terhubung' }}
       </div>
 
       <!-- Search Input -->
@@ -138,7 +133,7 @@
         <i class="fa-solid fa-filter"></i> Terapkan
       </button>
 
-      @if($search || ($classLevel && $classLevel !== 'Semua Kelas'))
+      @if($search)
       <a href="{{ route('siswa.beranda', ['tab' => $tab]) }}" style="background: #ffffff; color: #64748b; border: 1px solid var(--border); padding: 10px 16px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
         <i class="fa-solid fa-rotate-left"></i> Reset Filter
       </a>

@@ -64,6 +64,9 @@
         <a class="nav-item {{ request()->routeIs('admin.teachers.*') ? 'active' : '' }}" href="{{ route('admin.teachers.index') }}">
           <span class="nav-item-icon"><i class="fa fa-user-tie"></i></span> Kelola Akun Guru
         </a>
+        <a class="nav-item {{ request()->routeIs('admin.students.*') ? 'active' : '' }}" href="{{ route('admin.students.index') }}">
+          <span class="nav-item-icon"><i class="fa fa-user-graduate"></i></span> Kelola Siswa
+        </a>
         <a class="nav-item {{ request()->routeIs('admin.informasi', 'admin.pengumuman.*', 'admin.fitur.*') ? 'active' : '' }}" href="{{ route('admin.informasi') }}">
           <span class="nav-item-icon"><i class="fa fa-bullhorn"></i></span> Kelola Informasi
         </a>

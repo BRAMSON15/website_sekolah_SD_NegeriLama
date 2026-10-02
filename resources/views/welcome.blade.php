@@ -2,6 +2,42 @@
 
 @section('title', $settings['school_name'] ?? 'SD Negeri Lama - Modern & Berkarakter')
 
+@section('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  .school-location-section {
+    padding: 76px 6%;
+    background: #eef5f2;
+  }
+  .school-location-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.7fr);
+    gap: 32px;
+    align-items: stretch;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  #school-public-map {
+    width: 100%;
+    height: 390px;
+    border: 1px solid #cbd9d4;
+    border-radius: 8px;
+    z-index: 0;
+  }
+  .school-location-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  @media (max-width: 768px) {
+    .school-location-section { padding: 56px 5%; }
+    .school-location-layout { grid-template-columns: 1fr; gap: 22px; }
+    #school-public-map { height: 320px; }
+  }
+</style>
+@endsection
+
 @section('content')
 <!-- Hero Section -->
 <section class="hero home-hero" style="position: relative; padding: 90px 6% 120px; background-image: url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat; display: grid; grid-template-columns: 1.2fr 0.8fr; align-items: center; gap: 40px; overflow: hidden;">
@@ -153,4 +189,53 @@
     </div>
   </div>
 </section>
+
+<section class="school-location-section" aria-labelledby="school-location-title">
+  <div style="max-width: 1280px; margin: 0 auto 24px;">
+    <span style="color: #16825d; font-weight: 700; font-size: 0.85rem;">LOKASI SEKOLAH</span>
+    <h2 id="school-location-title" style="font-size: 2rem; font-weight: 800; color: var(--dark); margin: 8px 0;">Temukan {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h2>
+    <p style="color: var(--muted); margin: 0;">Peta lokasi dan alamat sekolah untuk membantu kunjungan Anda.</p>
+  </div>
+  <div class="school-location-layout">
+    <div id="school-public-map" role="application" aria-label="Peta lokasi sekolah"></div>
+    <div class="school-location-copy">
+      <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--dark); margin-bottom: 10px;">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h3>
+      <p style="color: var(--muted); line-height: 1.7; margin: 0 0 20px;">{{ $settings['address'] ?? 'Alamat sekolah belum tersedia.' }}</p>
+      <a href="https://www.openstreetmap.org/?mlat={{ $settings['school_latitude'] ?? '-3.695' }}&mlon={{ $settings['school_longitude'] ?? '128.18' }}#map=17/{{ $settings['school_latitude'] ?? '-3.695' }}/{{ $settings['school_longitude'] ?? '128.18' }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; color: #1769d9; font-weight: 700; text-decoration: none;">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka peta lengkap
+      </a>
+    </div>
+  </div>
+</section>
+@endsection
+
+@section('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const mapElement = document.getElementById('school-public-map');
+    if (typeof L === 'undefined' || !mapElement) return;
+
+    const latitude = Number(@json($settings['school_latitude'] ?? '-3.695'));
+    const longitude = Number(@json($settings['school_longitude'] ?? '128.18'));
+    const schoolName = @json($settings['school_name'] ?? 'SD Negeri Lama');
+    const schoolAddress = @json($settings['address'] ?? 'Lokasi sekolah');
+    const schoolMap = L.map(mapElement, { scrollWheelZoom: false }).setView([latitude, longitude], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(schoolMap);
+
+    const popupContent = document.createElement('div');
+    const schoolLabel = document.createElement('strong');
+    schoolLabel.textContent = schoolName;
+    popupContent.appendChild(schoolLabel);
+    popupContent.appendChild(document.createElement('br'));
+    popupContent.appendChild(document.createTextNode(schoolAddress));
+    L.marker([latitude, longitude]).addTo(schoolMap).bindPopup(popupContent).openPopup();
+
+    setTimeout(function () { schoolMap.invalidateSize(); }, 250);
+  });
+</script>
 @endsection

@@ -21,23 +21,16 @@ class SiswaService
      */
     public function getBerandaData(Request $request, $user): array
     {
-        // Cari profil siswa terdaftar jika ada
-        $studentProfile = null;
-        if ($user) {
-            $studentProfile = Student::where('name', $user->name)
-                ->orWhere('nisn', $user->nip)
-                ->first();
-        }
+        $studentProfile = $user && $user->role === 'siswa' && $user->nip
+            ? Student::where('nisn', $user->nip)->first()
+            : null;
+        $studentGrade = $this->classGradeNumber($studentProfile?->class_name);
 
         $tab = $request->get('tab', 'all'); // 'all', 'video', 'materi'
-        $classLevel = $request->get('class_level');
+        $classLevel = $studentProfile?->class_name;
         $search = trim($request->get('search', ''));
 
-        // Query Videos
         $videoQuery = EducationalVideo::with('user');
-        if ($classLevel && $classLevel !== 'Semua Kelas') {
-            $videoQuery->where('class_level', $classLevel);
-        }
         if ($search) {
             $videoQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -45,13 +38,13 @@ class SiswaService
                   ->orWhere('description', 'like', "%{$search}%");
             });
         }
-        $videos = ($tab === 'materi') ? collect() : $videoQuery->latest()->get();
+        $videos = ($tab === 'materi' || ! $studentGrade)
+            ? collect()
+            : $videoQuery->latest()->get()
+                ->filter(fn ($video) => $this->isVisibleForGrade($video->class_level, $studentGrade))
+                ->values();
 
-        // Query Materials
         $materialQuery = LearningMaterial::with('user');
-        if ($classLevel && $classLevel !== 'Semua Kelas') {
-            $materialQuery->where('class_level', $classLevel);
-        }
         if ($search) {
             $materialQuery->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -59,22 +52,20 @@ class SiswaService
                   ->orWhere('description', 'like', "%{$search}%");
             });
         }
-        $materials = ($tab === 'video') ? collect() : $materialQuery->latest()->get();
+        $materials = ($tab === 'video' || ! $studentGrade)
+            ? collect()
+            : $materialQuery->latest()->get()
+                ->filter(fn ($material) => $this->isVisibleForGrade($material->class_level, $studentGrade))
+                ->values();
 
-        // Totals & Available Filters
-        $totalVideoCount = EducationalVideo::count();
-        $totalMaterialCount = LearningMaterial::count();
+        $totalVideoCount = $studentGrade
+            ? EducationalVideo::get(['class_level'])->filter(fn ($video) => $this->isVisibleForGrade($video->class_level, $studentGrade))->count()
+            : 0;
+        $totalMaterialCount = $studentGrade
+            ? LearningMaterial::get(['class_level'])->filter(fn ($material) => $this->isVisibleForGrade($material->class_level, $studentGrade))->count()
+            : 0;
         $totalCombinedCount = $totalVideoCount + $totalMaterialCount;
-
-        $availableClasses = [
-            'Semua Kelas',
-            'Kelas I',
-            'Kelas II',
-            'Kelas III',
-            'Kelas IV',
-            'Kelas V',
-            'Kelas VI'
-        ];
+        $availableClasses = $classLevel ? [$classLevel] : [];
 
         // Unique active subjects for quick filter pills
         $videoSubjects = EducationalVideo::distinct()->pluck('subject')->toArray();
@@ -100,6 +91,29 @@ class SiswaService
             'announcements',
             'features'
         );
+    }
+
+    private function isVisibleForGrade(string $contentClass, int $studentGrade): bool
+    {
+        return strtolower(trim($contentClass)) === 'semua kelas'
+            || $this->classGradeNumber($contentClass) === $studentGrade;
+    }
+
+    private function classGradeNumber(?string $className): ?int
+    {
+        if (! $className || ! preg_match('/^(?:KELAS\s*)?(VI|IV|V|III|II|I|[1-6])(?:\s*[A-Z])?/i', trim($className), $matches)) {
+            return null;
+        }
+
+        return match (strtoupper($matches[1])) {
+            'I' => 1,
+            'II' => 2,
+            'III' => 3,
+            'IV' => 4,
+            'V' => 5,
+            'VI' => 6,
+            default => (int) $matches[1],
+        };
     }
 
     /**
@@ -150,7 +164,6 @@ class SiswaService
         $user = User::where('role', 'siswa')
             ->where(function ($q) use ($student) {
                 $q->where('nip', $student->nisn)
-                  ->orWhere('name', $student->name)
                   ->orWhere('email', $student->nisn . '@siswa.sdnegerilama.sch.id');
             })
             ->first();
@@ -162,6 +175,11 @@ class SiswaService
                 'nip'      => $student->nisn,
                 'role'     => 'siswa',
                 'password' => Hash::make($student->nisn),
+            ]);
+        } else {
+            $user->update([
+                'name' => $student->name,
+                'nip' => $student->nisn,
             ]);
         }
 
