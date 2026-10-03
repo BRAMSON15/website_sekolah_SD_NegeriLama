@@ -163,7 +163,7 @@ class GuruController extends Controller
         $settings = $this->websiteService->getSettings();
         $user = Auth::user();
         $videoData = $this->guruService->getVideoGallery($request);
-        $videoData['classOptions'] = $this->guruService->getClassOptions();
+        $videoData['classOptions'] = $this->guruService->getClassOptions(Auth::id());
 
         return view('guru.video', array_merge(['settings' => $settings, 'user' => $user], $videoData));
     }
