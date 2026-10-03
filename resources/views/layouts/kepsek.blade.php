@@ -21,6 +21,7 @@
   @vite('resources/css/app.css')
 
   <style>
+    @layer components {
     :root {
       --primary: #1e3a8a;
       --primary-dark: #0f172a;
@@ -366,6 +367,7 @@
       .kepsek-content {
         padding: 0 !important;
       }
+    }
     }
   </style>
   @yield('styles')
