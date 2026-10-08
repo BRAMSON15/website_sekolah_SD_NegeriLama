@@ -19,7 +19,7 @@
 }
 
 body {
-    font-family: "Inter", sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--background);
     color: var(--text);
 }
