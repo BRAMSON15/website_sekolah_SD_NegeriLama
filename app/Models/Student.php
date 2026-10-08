@@ -16,11 +16,6 @@ class Student extends Model
         'gender',
     ];
 
-    public function attendances()
-    {
-        return $this->hasMany(Attendance::class);
-    }
-
     public function grades()
     {
         return $this->hasMany(AssignmentGrade::class);

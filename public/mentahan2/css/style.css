@@ -376,6 +376,57 @@ a { text-decoration: none; color: inherit; }
   color: #347dd9 !important;
 }
 
+/* Pagination Styling for Admin Tables */
+.information-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.information-pagination a,
+.information-pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: #17345e;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.information-pagination a.active,
+.information-pagination .active {
+  background: #1769d9;
+  color: #ffffff;
+  border-color: #1769d9;
+}
+
+.information-pagination a:hover:not(.disabled):not([aria-disabled="true"]) {
+  background: #e2ecf8;
+  border-color: #1769d9;
+  color: #1769d9;
+}
+
+.information-pagination .disabled,
+.information-pagination a[aria-disabled="true"] {
+  background: #f8fafc;
+  color: #cbd5e1;
+  border-color: #e2e8f0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .two-columns {
   display: grid;
   grid-template-columns: 1.05fr .95fr;
