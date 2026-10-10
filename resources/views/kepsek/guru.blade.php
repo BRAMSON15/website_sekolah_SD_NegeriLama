@@ -5,7 +5,7 @@
 
 @section('content')
 @section('styles')
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-guru.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-guru.css')) }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-guru.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-guru.css')) ?: time() }}">
 @endsection
 
 @section('content')

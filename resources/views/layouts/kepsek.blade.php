@@ -128,7 +128,7 @@
     </main>
   </div>
 
-  <script src="{{ asset('mentahan2/js/sidebar-kepsek.js') }}?v={{ filemtime(public_path('mentahan2/js/sidebar-kepsek.js')) }}"></script>
+  <script src="{{ asset('mentahan2/js/sidebar-kepsek.js') }}?v={{ filemtime(public_path('mentahan2/js/sidebar-kepsek.js')) ?: time() }}"></script>
   @yield('scripts')
 </body>
 </html>

@@ -181,7 +181,7 @@
 </div>
 
 <!-- Sidebar Toggle Controller Script -->
-<script src="{{ asset('mentahan2/js/sidebar-guru.js') }}?v={{ filemtime(public_path('mentahan2/js/sidebar-guru.js')) }}"></script>
+<script src="{{ asset('mentahan2/js/sidebar-guru.js') }}?v={{ filemtime(public_path('mentahan2/js/sidebar-guru.js')) ?: time() }}"></script>
 
 @yield('scripts')
 </body>

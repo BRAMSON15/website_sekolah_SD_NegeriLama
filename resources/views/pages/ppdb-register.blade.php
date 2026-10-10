@@ -88,5 +88,5 @@
 @endsection
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/ppdb-register.css') }}?v={{ filemtime(public_path('mentahan2/css/ppdb-register.css')) }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/ppdb-register.css') }}?v={{ filemtime(public_path('mentahan2/css/ppdb-register.css')) ?: time() }}">
 @endsection

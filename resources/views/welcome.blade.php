@@ -4,7 +4,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/welcome.css') }}?v={{ filemtime(public_path('mentahan2/css/welcome.css')) }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/welcome.css') }}?v={{ filemtime(public_path('mentahan2/css/welcome.css')) ?: time() }}">
 @endsection
 
 @section('content')
@@ -187,5 +187,5 @@
 
 @section('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="{{ asset('mentahan2/js/welcome.js') }}?v={{ filemtime(public_path('mentahan2/js/welcome.js')) }}"></script>
+<script src="{{ asset('mentahan2/js/welcome.js') }}?v={{ filemtime(public_path('mentahan2/js/welcome.js')) ?: time() }}"></script>
 @endsection

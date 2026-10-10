@@ -305,6 +305,6 @@
   </div>
 </div>
 @section('scripts')
-  <script src="{{ asset('mentahan2/js/siswa-video.js') }}?v={{ filemtime(public_path('mentahan2/js/siswa-video.js')) }}"></script>
+  <script src="{{ asset('mentahan2/js/siswa-video.js') }}?v={{ filemtime(public_path('mentahan2/js/siswa-video.js')) ?: time() }}"></script>
 @endsection
 @endsection

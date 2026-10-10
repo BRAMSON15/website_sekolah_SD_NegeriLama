@@ -98,5 +98,5 @@
   // Pass facility count to fasilitas.js
   window.initialFacilityCount = {{ count($facilities) }};
 </script>
-<script src="{{ asset('mentahan2/js/fasilitas.js') }}?v={{ filemtime(public_path('mentahan2/js/fasilitas.js')) }}"></script>
+<script src="{{ asset('mentahan2/js/fasilitas.js') }}?v={{ filemtime(public_path('mentahan2/js/fasilitas.js')) ?: time() }}"></script>
 @endsection

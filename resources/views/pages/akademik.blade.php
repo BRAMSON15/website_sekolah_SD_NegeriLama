@@ -421,5 +421,5 @@
 </div>
 
 @section('scripts')
-<script src="{{ asset('mentahan2/js/akademik.js') }}?v={{ filemtime(public_path('mentahan2/js/akademik.js')) }}"></script>
+<script src="{{ asset('mentahan2/js/akademik.js') }}?v={{ filemtime(public_path('mentahan2/js/akademik.js')) ?: time() }}"></script>
 @endsection

@@ -14,8 +14,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/style2.css') }}?v={{ filemtime(public_path('mentahan2/css/style2.css')) }}">
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/app.css') }}?v={{ filemtime(public_path('mentahan2/css/app.css')) }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/style2.css') }}?v={{ filemtime(public_path('mentahan2/css/style2.css')) ?: time() }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/app.css') }}?v={{ filemtime(public_path('mentahan2/css/app.css')) ?: time() }}">
   @yield('styles')
 </head>
 <body>
@@ -274,7 +274,7 @@
   </footer>
 
   <!-- Script for Mobile Navigation Dropdown Interactivity -->
-  <script src="{{ asset('mentahan2/js/nav-mobile.js') }}?v={{ filemtime(public_path('mentahan2/js/nav-mobile.js')) }}"></script>
+  <script src="{{ asset('mentahan2/js/nav-mobile.js') }}?v={{ filemtime(public_path('mentahan2/js/nav-mobile.js')) ?: time() }}"></script>
   @yield('scripts')
 </body>
 </html>

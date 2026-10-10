@@ -49,7 +49,7 @@
 @section('title', $currentConfig['title'])
 
 @section('styles')
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) ?: time() }}">
 @endsection
 
 <div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.62)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -228,5 +228,5 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('mentahan2/js/login.js') }}?v={{ filemtime(public_path('mentahan2/js/login.js')) }}"></script>
+  <script src="{{ asset('mentahan2/js/login.js') }}?v={{ filemtime(public_path('mentahan2/js/login.js')) ?: time() }}"></script>
 @endsection

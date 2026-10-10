@@ -3,7 +3,7 @@
 @section('title', 'Kelola Video Edukasi & Pembelajaran - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/guru-video.css') }}?v={{ filemtime(public_path('mentahan2/css/guru-video.css')) }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/guru-video.css') }}?v={{ filemtime(public_path('mentahan2/css/guru-video.css')) ?: time() }}">
 @endsection
 
 @section('content')
@@ -668,5 +668,5 @@
   // Pass video edit base URL to JavaScript
   window.videoEditBaseUrl = "{{ url('/guru/video') }}";
 </script>
-<script src="{{ asset('mentahan2/js/guru-video.js') }}?v={{ filemtime(public_path('mentahan2/js/guru-video.js')) }}"></script>
+<script src="{{ asset('mentahan2/js/guru-video.js') }}?v={{ filemtime(public_path('mentahan2/js/guru-video.js')) ?: time() }}"></script>
 @endsection

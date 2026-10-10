@@ -333,6 +333,6 @@
 </div>
 
 @section('scripts')
-  <script src="{{ asset('mentahan2/js/kepsek-video.js') }}?v={{ filemtime(public_path('mentahan2/js/kepsek-video.js')) }}"></script>
+  <script src="{{ asset('mentahan2/js/kepsek-video.js') }}?v={{ filemtime(public_path('mentahan2/js/kepsek-video.js')) ?: time() }}"></script>
 @endsection
 @endsection
