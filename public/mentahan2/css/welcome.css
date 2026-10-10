@@ -1,0 +1,53 @@
+/**
+ * Welcome Page Styles
+ * School location map section styling
+ */
+
+/* School Location Section */
+.school-location-section {
+  padding: 76px 6%;
+  background: #eef5f2;
+}
+
+/* School Location Layout Grid */
+.school-location-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.7fr);
+  gap: 32px;
+  align-items: stretch;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* School Public Map Container */
+#school-public-map {
+  width: 100%;
+  height: 390px;
+  border: 1px solid #cbd9d4;
+  border-radius: 8px;
+  z-index: 0;
+}
+
+/* School Location Copy Section */
+.school-location-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .school-location-section {
+    padding: 56px 5%;
+  }
+
+  .school-location-layout {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  #school-public-map {
+    height: 320px;
+  }
+}

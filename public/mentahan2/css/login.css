@@ -1,0 +1,57 @@
+/**
+ * Login Page Styles
+ * Password visibility toggle and form styling
+ */
+
+/* Responsive Media Query */
+@media (max-width: 576px) {
+  .login-page-wrap {
+    padding: 24px 12px !important;
+    min-height: auto !important;
+  }
+  .login-card-box {
+    padding: 24px 16px !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Password Input Wrapper */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-input-wrapper input {
+  padding-right: 45px;
+}
+
+/* Password Toggle Button */
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary);
+}
+
+.password-toggle-btn:active {
+  transform: scale(0.95);
+}

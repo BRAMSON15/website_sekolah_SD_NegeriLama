@@ -48,58 +48,9 @@
 
 @section('title', $currentConfig['title'])
 
-@section('content')
-<style>
-  @media (max-width: 576px) {
-    .login-page-wrap {
-      padding: 24px 12px !important;
-      min-height: auto !important;
-    }
-    .login-card-box {
-      padding: 24px 16px !important;
-      border-radius: 14px !important;
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-  }
-
-  .password-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-
-  .password-input-wrapper input {
-    padding-right: 45px;
-  }
-
-  .password-toggle-btn {
-    position: absolute;
-    right: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-  }
-
-  .password-toggle-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: var(--primary);
-  }
-
-  .password-toggle-btn:active {
-    transform: scale(0.95);
-  }
-</style>
+@section('styles')
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) }}">
+@endsection
 
 <div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.62)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   <div class="login-card-box" style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 480px; box-sizing: border-box;">
@@ -274,27 +225,8 @@
 
   </div>
 </div>
+@endsection
 
-<script>
-  function togglePasswordVisibility(button) {
-    event.preventDefault();
-    
-    // Cari input password di dalam wrapper yang sama
-    const wrapper = button.closest('.password-input-wrapper');
-    const input = wrapper.querySelector('input[type="password"], input[type="text"]');
-    const icon = button.querySelector('i');
-    
-    if (input.type === 'password') {
-      input.type = 'text';
-      icon.classList.remove('fa-eye');
-      icon.classList.add('fa-eye-slash');
-      button.title = 'Sembunyikan password';
-    } else {
-      input.type = 'password';
-      icon.classList.remove('fa-eye-slash');
-      icon.classList.add('fa-eye');
-      button.title = 'Tampilkan password';
-    }
-  }
-</script>
+@section('scripts')
+  <script src="{{ asset('mentahan2/js/login.js') }}?v={{ filemtime(public_path('mentahan2/js/login.js')) }}"></script>
 @endsection

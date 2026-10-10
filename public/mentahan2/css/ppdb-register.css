@@ -1,0 +1,66 @@
+/**
+ * PPDB Registration Form Styles
+ * Form grid and input field styling
+ */
+
+/* Form Grid Layout */
+.ppdb-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+/* Form Field Container */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Full Width Form Field */
+.form-field-wide {
+  grid-column: 1 / -1;
+}
+
+/* Form Field Label */
+.form-field label {
+  color: var(--dark);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* Form Input Elements */
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--dark);
+  background: #fff;
+}
+
+/* Form Input Focus State */
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.2);
+  border-color: var(--primary);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .ppdb-form {
+    padding: 20px;
+  }
+
+  .ppdb-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field-wide {
+    grid-column: auto;
+  }
+}

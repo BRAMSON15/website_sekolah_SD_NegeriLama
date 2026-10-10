@@ -1,0 +1,38 @@
+/**
+ * Guru Video Player Styles
+ * Active video grid and player wrapper styling
+ */
+
+/* Active Video Grid Layout */
+.active-video-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 520px) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+/* Wide Mode for Video Grid */
+.active-video-grid.mode-wide {
+  grid-template-columns: 1fr !important;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Active Player Wrapper */
+.active-player-wrapper {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16);
+  position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .active-video-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+}

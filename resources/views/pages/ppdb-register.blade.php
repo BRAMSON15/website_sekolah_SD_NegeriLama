@@ -88,13 +88,5 @@
 @endsection
 
 @section('styles')
-<style>
-  .ppdb-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-  .form-field { display: flex; flex-direction: column; gap: 7px; }
-  .form-field-wide { grid-column: 1 / -1; }
-  .form-field label { color: var(--dark); font-size: .88rem; font-weight: 700; }
-  .form-field input, .form-field select, .form-field textarea { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font: inherit; color: var(--dark); background: #fff; }
-  .form-field input:focus, .form-field select:focus, .form-field textarea:focus { outline: 2px solid rgba(59, 130, 246, .2); border-color: var(--primary); }
-  @media (max-width: 600px) { .ppdb-form { padding: 20px; } .ppdb-form-grid { grid-template-columns: 1fr; } .form-field-wide { grid-column: auto; } }
-</style>
+<link rel="stylesheet" href="{{ asset('mentahan2/css/ppdb-register.css') }}?v={{ filemtime(public_path('mentahan2/css/ppdb-register.css')) }}">
 @endsection

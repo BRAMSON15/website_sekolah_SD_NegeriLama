@@ -128,16 +128,7 @@
     </main>
   </div>
 
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById('kepsekSidebar');
-      const overlay = document.getElementById('sidebarOverlay');
-      if (sidebar && overlay) {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
-      }
-    }
-  </script>
+  <script src="{{ asset('mentahan2/js/sidebar-kepsek.js') }}?v={{ filemtime(public_path('mentahan2/js/sidebar-kepsek.js')) }}"></script>
   @yield('scripts')
 </body>
 </html>

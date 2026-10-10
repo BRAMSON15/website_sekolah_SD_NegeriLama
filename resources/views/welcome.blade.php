@@ -4,38 +4,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-  .school-location-section {
-    padding: 76px 6%;
-    background: #eef5f2;
-  }
-  .school-location-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.7fr);
-    gap: 32px;
-    align-items: stretch;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-  #school-public-map {
-    width: 100%;
-    height: 390px;
-    border: 1px solid #cbd9d4;
-    border-radius: 8px;
-    z-index: 0;
-  }
-  .school-location-copy {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  @media (max-width: 768px) {
-    .school-location-section { padding: 56px 5%; }
-    .school-location-layout { grid-template-columns: 1fr; gap: 22px; }
-    #school-public-map { height: 320px; }
-  }
-</style>
+<link rel="stylesheet" href="{{ asset('mentahan2/css/welcome.css') }}?v={{ filemtime(public_path('mentahan2/css/welcome.css')) }}">
 @endsection
 
 @section('content')
@@ -191,6 +160,13 @@
 </section>
 
 <section class="school-location-section" aria-labelledby="school-location-title">
+  <script>
+    // Pass school settings to welcome.js
+    window.schoolLatitude = {{ $settings['school_latitude'] ?? '-3.695' }};
+    window.schoolLongitude = {{ $settings['school_longitude'] ?? '128.18' }};
+    window.schoolName = @json($settings['school_name'] ?? 'SD Negeri Lama');
+    window.schoolAddress = @json($settings['address'] ?? 'Lokasi sekolah');
+  </script>
   <div style="max-width: 1280px; margin: 0 auto 24px;">
     <span style="color: #16825d; font-weight: 700; font-size: 0.85rem;">LOKASI SEKOLAH</span>
     <h2 id="school-location-title" style="font-size: 2rem; font-weight: 800; color: var(--dark); margin: 8px 0;">Temukan {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h2>
@@ -211,31 +187,5 @@
 
 @section('scripts')
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const mapElement = document.getElementById('school-public-map');
-    if (typeof L === 'undefined' || !mapElement) return;
-
-    const latitude = Number(@json($settings['school_latitude'] ?? '-3.695'));
-    const longitude = Number(@json($settings['school_longitude'] ?? '128.18'));
-    const schoolName = @json($settings['school_name'] ?? 'SD Negeri Lama');
-    const schoolAddress = @json($settings['address'] ?? 'Lokasi sekolah');
-    const schoolMap = L.map(mapElement, { scrollWheelZoom: false }).setView([latitude, longitude], 16);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors',
-      maxZoom: 19
-    }).addTo(schoolMap);
-
-    const popupContent = document.createElement('div');
-    const schoolLabel = document.createElement('strong');
-    schoolLabel.textContent = schoolName;
-    popupContent.appendChild(schoolLabel);
-    popupContent.appendChild(document.createElement('br'));
-    popupContent.appendChild(document.createTextNode(schoolAddress));
-    L.marker([latitude, longitude]).addTo(schoolMap).bindPopup(popupContent).openPopup();
-
-    setTimeout(function () { schoolMap.invalidateSize(); }, 250);
-  });
-</script>
+<script src="{{ asset('mentahan2/js/welcome.js') }}?v={{ filemtime(public_path('mentahan2/js/welcome.js')) }}"></script>
 @endsection
