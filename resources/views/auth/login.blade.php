@@ -62,6 +62,43 @@
       max-width: 100% !important;
     }
   }
+
+  .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 45px;
+  }
+
+  .password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  .password-toggle-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--primary);
+  }
+
+  .password-toggle-btn:active {
+    transform: scale(0.95);
+  }
 </style>
 
 <div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.62)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -160,7 +197,12 @@
           <label style="display: block; font-weight: 700; font-size: 0.85rem; color: var(--dark); margin-bottom: 8px;">
             <i class="fa-solid fa-lock" style="color: #1e40af; margin-right: 6px;"></i> Kata Sandi
           </label>
-          <input type="password" name="password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none;">
+          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 10px; background: #fff;">
+            <input type="password" name="password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none; background: transparent;">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
           <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses khusus Administrator Pengelola Website SD Negeri Lama.</span>
         </div>
 
@@ -185,7 +227,12 @@
           <label style="display: block; font-weight: 700; font-size: 0.85rem; color: var(--dark); margin-bottom: 8px;">
             <i class="fa-solid fa-lock" style="color: #0f172a; margin-right: 6px;"></i> Kata Sandi
           </label>
-          <input type="password" name="kepsek_password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none;">
+          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 10px; background: #fff;">
+            <input type="password" name="kepsek_password" placeholder="••••••••" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none; background: transparent;">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
           <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses terbatas pimpinan satuan pendidikan SD Negeri Lama.</span>
         </div>
 
@@ -210,7 +257,12 @@
           <label style="display: block; font-weight: 700; font-size: 0.85rem; color: var(--dark); margin-bottom: 8px;">
             <i class="fa-solid fa-id-card" style="color: var(--primary); margin-right: 6px;"></i> NIP / Kata Sandi
           </label>
-          <input type="password" name="nip" placeholder="Masukkan NIP atau kata sandi guru" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none;">
+          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 10px; background: #fff;">
+            <input type="password" name="nip" placeholder="Masukkan NIP atau kata sandi guru" required style="width: 100%; box-sizing: border-box; padding: 14px 16px; border: none; border-radius: 10px; font-family: inherit; font-size: 0.95rem; outline: none; background: transparent;">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
           <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Gunakan NIP terdaftar atau kata sandi yang telah diatur untuk masuk.</span>
         </div>
 
@@ -222,4 +274,27 @@
 
   </div>
 </div>
+
+<script>
+  function togglePasswordVisibility(button) {
+    event.preventDefault();
+    
+    // Cari input password di dalam wrapper yang sama
+    const wrapper = button.closest('.password-input-wrapper');
+    const input = wrapper.querySelector('input[type="password"], input[type="text"]');
+    const icon = button.querySelector('i');
+    
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+      button.title = 'Sembunyikan password';
+    } else {
+      input.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+      button.title = 'Tampilkan password';
+    }
+  }
+</script>
 @endsection
