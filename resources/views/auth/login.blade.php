@@ -52,6 +52,7 @@
   <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) ?: time() }}">
 @endsection
 
+@section('content')
 <div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 60px 6%; background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.62)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
   <div class="login-card-box" style="background: #ffffff; border-radius: var(--radius); padding: 40px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 480px; box-sizing: border-box;">
     
