@@ -35,11 +35,32 @@ class PpdbController extends Controller
             'email' => ['nullable', 'email', 'max:150'],
             'address' => ['required', 'string', 'max:1000'],
             'previous_school' => ['nullable', 'string', 'max:150'],
+            'supporting_file_kk' => ['required', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'supporting_file_akte' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
+            'supporting_file_rapor' => ['nullable', 'file', 'mimes:pdf,jpg,jpeg,png', 'max:5120'],
         ], [
             'birth_date.before_or_equal' => 'Usia calon peserta didik minimal 5 tahun.',
             '*.required' => 'Kolom ini wajib diisi.',
             '*.digits' => 'Kolom ini harus berisi :digits angka.',
+            'supporting_file_kk.required' => 'Kartu Keluarga wajib diunggah.',
+            'supporting_file_kk.mimes' => 'File KK harus berformat PDF, JPG, atau PNG.',
+            'supporting_file_kk.max' => 'Ukuran file KK tidak boleh melebihi 5MB.',
+            'supporting_file_akte.mimes' => 'File Akte harus berformat PDF, JPG, atau PNG.',
+            'supporting_file_akte.max' => 'Ukuran file Akte tidak boleh melebihi 5MB.',
+            'supporting_file_rapor.mimes' => 'File Rapor harus berformat PDF, JPG, atau PNG.',
+            'supporting_file_rapor.max' => 'Ukuran file Rapor tidak boleh melebihi 5MB.',
         ]);
+
+        // Handle file uploads
+        if ($request->hasFile('supporting_file_kk')) {
+            $validated['supporting_file_kk'] = $request->file('supporting_file_kk')->store('ppdb/supporting-files', 'public');
+        }
+        if ($request->hasFile('supporting_file_akte')) {
+            $validated['supporting_file_akte'] = $request->file('supporting_file_akte')->store('ppdb/supporting-files', 'public');
+        }
+        if ($request->hasFile('supporting_file_rapor')) {
+            $validated['supporting_file_rapor'] = $request->file('supporting_file_rapor')->store('ppdb/supporting-files', 'public');
+        }
 
         $registration = $this->ppdbService->register($validated);
 

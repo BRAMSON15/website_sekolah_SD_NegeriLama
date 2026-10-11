@@ -24,6 +24,9 @@ class PpdbRegistration extends Model
         'previous_school',
         'status',
         'notes',
+        'supporting_file_kk',
+        'supporting_file_akte',
+        'supporting_file_rapor',
     ];
 
     protected $casts = [

@@ -192,23 +192,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    function openModalMateri() {
-        const modal = document.getElementById('modalMateri');
-        modal.style.display = 'flex';
-    }
-
-    function closeModalMateri() {
-        const modal = document.getElementById('modalMateri');
-        modal.style.display = 'none';
-    }
-
-    // Close when clicking backdrop
-    window.addEventListener('click', function(e) {
-        const modal = document.getElementById('modalMateri');
-        if (e.target === modal) {
-            closeModalMateri();
-        }
-    });
-</script>
+<script src="{{ asset('mentahan2/js/guru-materi.js') }}?v={{ filemtime(public_path('mentahan2/js/guru-materi.js')) ?: time() }}"></script>
 @endsection

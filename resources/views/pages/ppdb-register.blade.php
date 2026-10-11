@@ -9,7 +9,7 @@
 </div>
 
 <div class="page-content">
-  <form action="{{ route('ppdb.store') }}" method="POST" class="card-box ppdb-form">
+  <form action="{{ route('ppdb.store') }}" method="POST" class="card-box ppdb-form" enctype="multipart/form-data">
     @csrf
 
     @if ($errors->any())
@@ -76,6 +76,46 @@
       <div class="form-field">
         <label for="email">Email</label>
         <input id="email" type="email" name="email" value="{{ old('email') }}">
+      </div>
+    </div>
+
+    <h2 style="font-size: 1.3rem; color: var(--primary); margin: 30px 0 20px;"><i class="fa-solid fa-file-upload"></i> File Pendukung</h2>
+    <div style="background: #f0f9ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+      <p style="font-size: 0.9rem; color: #1e40af; margin-bottom: 16px; line-height: 1.6;">
+        <i class="fa-solid fa-info-circle" style="margin-right: 6px;"></i>
+        <strong>File pendukung berikut diperlukan:</strong> Scan/fotocopy Kartu Keluarga (KK), Akte Kelahiran, dan Rapor terakhir. Format: PDF, JPG, PNG. Ukuran maksimal: 5MB per file.
+      </p>
+      
+      <div class="ppdb-form-grid">
+        <div class="form-field form-field-wide">
+          <label for="supporting_file_kk">
+            <i class="fa-solid fa-id-card" style="color: #1769d9; margin-right: 6px;"></i> Kartu Keluarga (KK) *
+            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
+          </label>
+          <input id="supporting_file_kk" type="file" name="supporting_file_kk" accept=".pdf,.jpg,.jpeg,.png" required 
+                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
+          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan atau fotocopy Kartu Keluarga</small>
+        </div>
+
+        <div class="form-field form-field-wide">
+          <label for="supporting_file_akte">
+            <i class="fa-solid fa-certificate" style="color: #10b981; margin-right: 6px;"></i> Akte Kelahiran (Akta Lahir)
+            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
+          </label>
+          <input id="supporting_file_akte" type="file" name="supporting_file_akte" accept=".pdf,.jpg,.jpeg,.png"
+                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
+          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan atau fotocopy Akte Kelahiran (opsional tapi disarankan)</small>
+        </div>
+
+        <div class="form-field form-field-wide">
+          <label for="supporting_file_rapor">
+            <i class="fa-solid fa-file-pdf" style="color: #ef4444; margin-right: 6px;"></i> Rapor / Nilai Terakhir
+            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
+          </label>
+          <input id="supporting_file_rapor" type="file" name="supporting_file_rapor" accept=".pdf,.jpg,.jpeg,.png"
+                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
+          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan rapor atau nilai terakhir dari TK/RA</small>
+        </div>
       </div>
     </div>
 
