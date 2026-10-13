@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Monitoring Kepala Sekolah - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))</title>
+  <title>@yield('title', 'Monitoring Kepala Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
@@ -39,7 +39,7 @@
         <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
       </div>
       <div class="kepsek-brand-text">
-        <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
+        <h2>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h2>
         <span>Supervisi & Monitoring</span>
       </div>
     </div>

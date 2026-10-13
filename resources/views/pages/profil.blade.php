@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Profil Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Profil Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="page-header">
   <h1>Profil Sekolah</h1>
-  <p>Mengenal lebih dekat visi, misi, sejarah, dan struktur organisasi {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</p>
+  <p>Mengenal lebih dekat visi, misi, sejarah, dan struktur organisasi {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</p>
 </div>
 
 <div class="page-content">
@@ -52,10 +52,10 @@
   <div class="card-box">
     <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-user-tie"></i> Sambutan Kepala Sekolah</h2>
     <p style="color: var(--muted); line-height: 1.8; margin-bottom: 16px;">
-      "{{ $settings['principal_message'] ?? 'Selamat datang di SD Negeri Lama.' }}"
+      "{{ $settings['principal_message'] ?? 'Selamat datang di SD Negeri Negeri Lama.' }}"
     </p>
     <div style="font-weight: 800; color: var(--dark);">{{ $settings['principal_name'] ?? 'Drs. H. Ahmad Dahlan, M.Pd.' }}</div>
-    <div style="font-size: 0.85rem; color: var(--muted);">{{ $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Lama' }}</div>
+    <div style="font-size: 0.85rem; color: var(--muted);">{{ $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Negeri Lama' }}</div>
   </div>
 </div>
 @endsection

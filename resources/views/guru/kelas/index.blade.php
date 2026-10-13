@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', 'Kelas Saya - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', 'Kelas Saya - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 @if(session('success'))

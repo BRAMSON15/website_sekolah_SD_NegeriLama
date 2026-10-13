@@ -131,7 +131,7 @@ class SiswaService
         }
 
         // Jika file fisik belum tersedia, hasilkan dokumen teks ringkasan materi
-        $content = "MATERI PEMBELAJARAN SD NEGERI LAMA\n";
+        $content = "MATERI PEMBELAJARAN SD Negeri Negeri Lama\n";
         $content .= "======================================\n";
         $content .= "Judul         : " . $material->title . "\n";
         $content .= "Mata Pelajaran: " . $material->subject . "\n";

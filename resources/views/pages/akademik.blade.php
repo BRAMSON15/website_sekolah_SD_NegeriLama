@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Akademik & Pembelajaran Siswa - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Akademik & Pembelajaran Siswa - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <!-- PAGE HEADER -->
@@ -48,7 +48,7 @@
 
       <div style="margin-top: 12px; font-size: 0.82rem; color: #64748b;">
         <i class="fa-solid fa-circle-info" style="color: #3b82f6; margin-right: 4px;"></i>
-        Akses khusus peserta didik aktif SD Negeri Lama. (Contoh NISN: <code>009123401</code>)
+        Akses khusus peserta didik aktif SD Negeri Negeri Lama. (Contoh NISN: <code>009123401</code>)
       </div>
     </form>
 
@@ -218,7 +218,7 @@
 
               <!-- Teacher Uploader & Views -->
               <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.76rem; color: #94a3b8; border-top: 1px dashed var(--border); padding-top: 8px;">
-                <span><i class="fa-solid fa-chalkboard-user"></i> {{ $video->user ? $video->user->name : 'Guru SD Negeri Lama' }}</span>
+                <span><i class="fa-solid fa-chalkboard-user"></i> {{ $video->user ? $video->user->name : 'Guru SD Negeri Negeri Lama' }}</span>
                 <span><i class="fa-regular fa-eye"></i> {{ number_format($video->views_count, 0, ',', '.') }}x</span>
               </div>
             </div>
@@ -328,7 +328,7 @@
   <div class="card-box" style="margin-bottom: 30px; padding: 30px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); border: 1px solid var(--border);">
     <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-book-open-reader"></i> {{ $settings['curriculum_title'] ?? 'Kurikulum Merdeka' }}</h2>
     <p style="color: var(--muted); line-height: 1.8; margin-bottom: 0;">
-      {!! nl2br(e($settings['curriculum_desc'] ?? (($settings['school_name'] ?? 'SD Negeri Lama') . ' menerapkan Kurikulum Merdeka yang berfokus pada pengembangan minat, bakat, dan pembentukan Karakter Pelajar Pancasila. Sistem pembelajaran dirancang agar fleksibel dan interaktif melalui Projek Penguatan Profil Pelajar Pancasila (P5).'))) !!}
+      {!! nl2br(e($settings['curriculum_desc'] ?? (($settings['school_name'] ?? 'SD Negeri Negeri Lama') . ' menerapkan Kurikulum Merdeka yang berfokus pada pengembangan minat, bakat, dan pembentukan Karakter Pelajar Pancasila. Sistem pembelajaran dirancang agar fleksibel dan interaktif melalui Projek Penguatan Profil Pelajar Pancasila (P5).'))) !!}
     </p>
   </div>
 

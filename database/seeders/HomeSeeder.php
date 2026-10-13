@@ -14,7 +14,7 @@ class HomeSeeder extends Seeder
     {
         // 1. Seed School Settings
         $settings = [
-            'school_name' => 'SD NEGERI LAMA',
+            'school_name' => 'SD Negeri Negeri Lama',
             'school_tagline' => 'UNGGUL & BERKARAKTER',
             'phone' => '(021) 555-0192',
             'email' => 'info@sdnegerilama.sch.id',
@@ -24,14 +24,14 @@ class HomeSeeder extends Seeder
             'youtube' => 'https://youtube.com',
             'hero_badge' => 'Sekolah Penggerak & Akreditasi A',
             'hero_title' => 'Mewujudkan Generasi Cerdas, Kreatif & Berkarakter',
-            'hero_description' => 'Selamat datang di portal resmi SD Negeri Lama. Kami berkomitmen memberikan pendidikan berkualitas tinggi berbasis teknologi dan nilai-nilai luhur bangsa.',
+            'hero_description' => 'Selamat datang di portal resmi SD Negeri Negeri Lama. Kami berkomitmen memberikan pendidikan berkualitas tinggi berbasis teknologi dan nilai-nilai luhur bangsa.',
             'stat_kelulusan' => '100%',
             'stat_akreditasi' => 'A',
             'stat_guru' => '25+',
             'stat_eskul' => '15+',
             'principal_name' => 'Drs. H. Ahmad Dahlan, M.Pd.',
-            'principal_title' => 'Kepala Sekolah SD Negeri Lama',
-            'principal_message' => 'Selamat datang di SD Negeri Lama. Kami senantiasa berkomitmen untuk menciptakan lingkungan belajar yang aman, nyaman, dan menginspirasi bagi seluruh peserta didik. Dengan dukungan tenaga pendidik yang profesional serta sarana pembelajaran modern, kami siap mencetak generasi masa depan yang unggul dan berdaya saing.',
+            'principal_title' => 'Kepala Sekolah SD Negeri Negeri Lama',
+            'principal_message' => 'Selamat datang di SD Negeri Negeri Lama. Kami senantiasa berkomitmen untuk menciptakan lingkungan belajar yang aman, nyaman, dan menginspirasi bagi seluruh peserta didik. Dengan dukungan tenaga pendidik yang profesional serta sarana pembelajaran modern, kami siap mencetak generasi masa depan yang unggul dan berdaya saing.',
         ];
 
         foreach ($settings as $key => $value) {
@@ -93,7 +93,7 @@ class HomeSeeder extends Seeder
         Announcement::create([
             'title' => 'Juara 1 Lomba Seni & Olahraga Siswa Tingkat Kabupaten',
             'slug' => Str::slug('Juara 1 Lomba Seni & Olahraga Siswa Tingkat Kabupaten'),
-            'content' => 'Selamat kepada kontingen SD Negeri Lama yang berhasil meraih juara umum pada perhelatan FLS2N.',
+            'content' => 'Selamat kepada kontingen SD Negeri Negeri Lama yang berhasil meraih juara umum pada perhelatan FLS2N.',
             'published_at' => now()->subDays(12),
             'is_active' => true,
         ]);

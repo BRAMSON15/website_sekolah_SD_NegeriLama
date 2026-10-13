@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Get school settings - passed from Blade through window object
   const latitude = Number(window.schoolLatitude || '-3.695');
   const longitude = Number(window.schoolLongitude || '128.18');
-  const schoolName = window.schoolName || 'SD Negeri Lama';
+  const schoolName = window.schoolName || 'SD Negeri Negeri Lama';
   const schoolAddress = window.schoolAddress || 'Lokasi sekolah';
 
   // Initialize Leaflet map

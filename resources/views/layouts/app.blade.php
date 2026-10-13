@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'SD Negeri Lama')</title>
+  <title>@yield('title', 'SD Negeri Negeri Lama')</title>
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
   <link rel="alternate icon" type="image/png" href="{{ asset('mentahan2/img/Logo1.png') }}">
@@ -38,10 +38,10 @@
   <header class="navbar">
     <a href="{{ route('home') }}" class="brand">
       <div class="brand-logo">
-        <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
       </div>
       <div class="brand-text">
-        <strong>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</strong>
+        <strong>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</strong>
         <span>{{ $settings['school_tagline'] ?? 'UNGGUL & BERKARAKTER' }}</span>
       </div>
     </a>
@@ -109,7 +109,7 @@
       <div class="mobile-nav-inner">
         <div class="mobile-nav-header">
           <span><i class="fa-solid fa-compass"></i> Menu Navigasi</span>
-          <span class="mobile-nav-school">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</span>
+          <span class="mobile-nav-school">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</span>
         </div>
 
         @auth
@@ -251,9 +251,9 @@
       <div class="footer-brand">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
           <div style="width: 42px; height: 42px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 4px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
-          <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #ffffff;">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h3>
+          <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #ffffff;">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h3>
         </div>
         <p>Sekolah Dasar unggulan yang mencetak generasi bertakwa, cerdas, berkarakter, dan siap menghadapi era digital.</p>
       </div>
@@ -268,7 +268,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>&copy; {{ date('Y') }} {{ $settings['school_name'] ?? 'SD Negeri Lama' }}. All Rights Reserved.</p>
+      <p>&copy; {{ date('Y') }} {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}. All Rights Reserved.</p>
       <p>Maju Bersama Mendidik Bangsa</p>
     </div>
   </footer>

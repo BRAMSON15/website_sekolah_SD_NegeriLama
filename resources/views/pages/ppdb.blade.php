@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Pendaftaran PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="page-header">
   <h1>Penerimaan Peserta Didik Baru (PPDB)</h1>
-  <p>Tahun Ajaran {{ date('Y') }}/{{ date('Y') + 1 }} - {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</p>
+  <p>Tahun Ajaran {{ date('Y') }}/{{ date('Y') + 1 }} - {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</p>
 </div>
 
 <div class="page-content">

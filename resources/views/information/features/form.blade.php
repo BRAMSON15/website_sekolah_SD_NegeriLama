@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ($feature->exists ? 'Edit Fitur / Layanan' : 'Tambah Fitur / Layanan') . ' - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', ($feature->exists ? 'Edit Fitur / Layanan' : 'Tambah Fitur / Layanan') . ' - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">

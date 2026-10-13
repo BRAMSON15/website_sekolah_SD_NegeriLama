@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Data Pendaftar PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Data Pendaftar PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -8,7 +8,7 @@
         <div>
             <span class="panel-eyebrow">PENERIMAAN PESERTA DIDIK BARU</span>
             <h2>Kelola Data PPDB</h2>
-            <p>Data calon peserta didik baru yang mendaftar melalui sistem PPDB online {{ $settings['school_name'] ?? 'SD Negeri Lama' }}.</p>
+            <p>Data calon peserta didik baru yang mendaftar melalui sistem PPDB online {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <a href="{{ route('admin.ppdb.export.pdf') }}" class="btn btn-danger" style="background: #ef4444; border-color: #ef4444; color: #fff; display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">

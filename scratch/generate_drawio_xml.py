@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Generate Draw.io (diagrams.net) XML for Service Layer Architecture of SD Negeri Lama.
+Generate Draw.io (diagrams.net) XML for Service Layer Architecture of SD Negeri Negeri Lama.
 """
 
 import xml.etree.ElementTree as ET
@@ -17,7 +17,7 @@ def create_drawio_xml():
     
     diagram = ET.SubElement(mxfile, 'diagram', {
         'id': 'service-layer-sdnl',
-        'name': 'Arsitektur Service Layer - SD Negeri Lama'
+        'name': 'Arsitektur Service Layer - SD Negeri Negeri Lama'
     })
     
     model = ET.SubElement(diagram, 'mxGraphModel', {
@@ -87,7 +87,7 @@ def create_drawio_xml():
     add_cell(
         'title_box',
         '<font style="font-size: 20px;"><b>DIAGRAM ARSITEKTUR SERVICE LAYER (CLEAN ARCHITECTURE)</b></font><br/>'
-        '<font style="font-size: 13px; color: #64748B;">Sistem Informasi Manajemen Sekolah Terpadu, PPDB Online & Portal Guru - SD Negeri Lama (Laravel 13)</font>',
+        '<font style="font-size: 13px; color: #64748B;">Sistem Informasi Manajemen Sekolah Terpadu, PPDB Online & Portal Guru - SD Negeri Negeri Lama (Laravel 13)</font>',
         'text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;',
         300, 20, 800, 50
     )

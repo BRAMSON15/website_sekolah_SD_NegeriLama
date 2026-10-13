@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', ($classroom->exists ? 'Edit Kelas' : 'Buat Kelas') . ' - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', ($classroom->exists ? 'Edit Kelas' : 'Buat Kelas') . ' - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="welcome" style="margin-bottom:24px"><div class="welcome-text"><h1><i class="fa-solid fa-users-rectangle"></i> {{ $classroom->exists ? 'Edit Kelas' : 'Buat Kelas' }}</h1><p>Informasi ini akan digunakan pada pilihan kelas materi dan video.</p></div></div>

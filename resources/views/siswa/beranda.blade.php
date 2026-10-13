@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ruang Belajar Siswa - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Ruang Belajar Siswa - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <!-- Hero Section -->
@@ -14,7 +14,7 @@
     </div>
 
     <h1 style="font-size: clamp(1.75rem, 5.5vw, 3.2rem); line-height: 1.2; font-weight: 800; color: #ffffff; margin-bottom: 18px; letter-spacing: -0.5px; text-shadow: 0 2px 8px rgba(15, 23, 42, 0.55);">
-      Ruang Belajar Digital <span style="color: #93c5fd;">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</span>
+      Ruang Belajar Digital <span style="color: #93c5fd;">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</span>
     </h1>
 
     <p style="font-size: clamp(0.92rem, 2.5vw, 1.1rem); color: #ffffff; margin-bottom: 26px; max-width: 620px; text-shadow: 0 2px 6px rgba(15, 23, 42, 0.55); line-height: 1.6;">

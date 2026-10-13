@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', 'Dashboard Guru - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', 'Dashboard Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 @if (session('success'))
@@ -16,7 +16,7 @@
             Selamat datang, {{ Auth::user()->name }}! 👋
         </h1>
         <p>
-            Semoga hari ini penuh dengan inspirasi dan semangat untuk mencerdaskan generasi bangsa di {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}.
+            Semoga hari ini penuh dengan inspirasi dan semangat untuk mencerdaskan generasi bangsa di {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.
         </p>
     </div>
 
@@ -28,7 +28,7 @@
 
         <div class="board">
             <span>{{ Auth::user()->subject ?: 'Guru Pengajar' }}</span>
-            <small>{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</small>
+            <small>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</small>
         </div>
     </div>
 </div>

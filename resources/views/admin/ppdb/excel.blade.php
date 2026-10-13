@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Data Calon Peserta Didik Baru PPDB - {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</title>
+    <title>Data Calon Peserta Didik Baru PPDB - {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -58,7 +58,7 @@
             <td colspan="15" class="kop-instansi" style="border: none;">PEMERINTAH KOTA AMBON &bull; DINAS PENDIDIKAN</td>
         </tr>
         <tr>
-            <td colspan="15" class="kop-school" style="border: none;">{{ strtoupper($settings['school_name'] ?? 'SD NEGERI LAMA') }}</td>
+            <td colspan="15" class="kop-school" style="border: none;">{{ strtoupper($settings['school_name'] ?? 'SD Negeri Negeri Lama') }}</td>
         </tr>
         <tr>
             <td colspan="15" class="kop-instansi" style="border: none;">REKAPITULASI PENDAFTARAN PESERTA DIDIK BARU (PPDB) ONLINE</td>

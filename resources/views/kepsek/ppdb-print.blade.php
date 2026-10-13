@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Rekap PPDB Online - SD Negeri Lama Ambon</title>
+    <title>Cetak Rekap PPDB Online - SD Negeri Negeri Lama Ambon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
             <img src="{{ asset('mentahan2/logo_sekolah.png') }}" alt="Logo" class="kop-logo" onerror="this.src='{{ asset('mentahan2/logo_header.png') }}'">
             <div class="kop-text">
                 <h4>Pemerintah Kota Ambon &bull; Dinas Pendidikan</h4>
-                <h2>{{ $settings['school_name'] ?? 'SD NEGERI LAMA AMBON' }}</h2>
+                <h2>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama AMBON' }}</h2>
                 <p>{{ $settings['address'] ?? 'Jl. Laksdya Leo Wattimena, Negeri Lama, Kec. Baguala, Kota Ambon, Maluku' }}</p>
                 <p>Telp: {{ $settings['phone'] ?? '082328631457' }} | Pos-el: {{ $settings['email'] ?? 'sdnegerilama@ambon.com' }}</p>
             </div>
@@ -127,7 +127,7 @@
         <div class="signature-section">
             <div class="sig-box">
                 <div class="date">Kota Ambon, {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</div>
-                <div class="role-title">Kepala SD Negeri Lama</div>
+                <div class="role-title">Kepala SD Negeri Negeri Lama</div>
                 <div class="principal-name">{{ $settings['principal_name'] ?? 'Drs. H. Ahmad Dahlan, M.Pd.' }}</div>
                 <div class="nip">NIP. {{ Auth::user()->nip ?? '197505081999031001' }}</div>
             </div>

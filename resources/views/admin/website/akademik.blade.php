@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Konten Akademik - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Konten Akademik - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label>Deskripsi Pelaksanaan Kurikulum</label>
                 @php
-                    $defaultCurriculumDesc = ($settings['school_name'] ?? 'SD Negeri Lama') . " menerapkan Kurikulum Merdeka yang berfokus pada pengembangan minat, bakat, dan pembentukan Karakter Pelajar Pancasila. Sistem pembelajaran dirancang agar fleksibel dan interaktif melalui Projek Penguatan Profil Pelajar Pancasila (P5) serta penguasaan literasi dan numerasi yang berkesinambungan.";
+                    $defaultCurriculumDesc = ($settings['school_name'] ?? 'SD Negeri Negeri Lama') . " menerapkan Kurikulum Merdeka yang berfokus pada pengembangan minat, bakat, dan pembentukan Karakter Pelajar Pancasila. Sistem pembelajaran dirancang agar fleksibel dan interaktif melalui Projek Penguatan Profil Pelajar Pancasila (P5) serta penguasaan literasi dan numerasi yang berkesinambungan.";
                 @endphp
                 <textarea name="curriculum_desc" class="form-control" rows="5" required placeholder="Tuliskan deskripsi lengkap kurikulum...">{{ old('curriculum_desc', $settings['curriculum_desc'] ?? $defaultCurriculumDesc) }}</textarea>
                 <span class="form-hint">Jelaskan fokus, metode, dan tujuan kurikulum bagi peserta didik.</span>

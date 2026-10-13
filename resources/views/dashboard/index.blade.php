@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 @if (session('success'))
@@ -14,7 +14,7 @@
 <div class="hero">
   <div class="hero-copy">
     <h1>Selamat Datang, {{ Auth::user()->name }}!</h1>
-    <p>Kelola data sekolah dan pusat informasi {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }} dengan mudah dan efisien melalui panel kontrol admin ini.</p>
+    <p>Kelola data sekolah dan pusat informasi {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }} dengan mudah dan efisien melalui panel kontrol admin ini.</p>
     <a href="{{ route('admin.informasi') }}" class="primary-btn" style="display: inline-block; text-decoration: none;">
       <i class="fa fa-info-circle"></i> &nbsp; Kelola Informasi Sekolah
     </a>

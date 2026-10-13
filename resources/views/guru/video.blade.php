@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', 'Kelola Video Edukasi & Pembelajaran - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', 'Kelola Video Edukasi & Pembelajaran - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('mentahan2/css/guru-video.css') }}?v={{ filemtime(public_path('mentahan2/css/guru-video.css')) ?: time() }}">

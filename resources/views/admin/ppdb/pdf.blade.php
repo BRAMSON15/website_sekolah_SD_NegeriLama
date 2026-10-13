@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Rekapitulasi Data Pendaftar PPDB - {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</title>
+    <title>Rekapitulasi Data Pendaftar PPDB - {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</title>
     <style>
         @page {
             margin: 1.2cm 1.5cm;
@@ -156,7 +156,7 @@
             <td class="kop-text">
                 <div class="instansi">PEMERINTAH KOTA AMBON</div>
                 <div class="dinas">DINAS PENDIDIKAN</div>
-                <div class="school-name">{{ strtoupper($settings['school_name'] ?? 'SD NEGERI LAMA') }}</div>
+                <div class="school-name">{{ strtoupper($settings['school_name'] ?? 'SD Negeri Negeri Lama') }}</div>
                 <div class="address">
                     {{ $settings['school_address'] ?? $settings['address'] ?? 'Jl. Guru L. Nanlohy, Desa Negeri Lama, Kec. Baguala, Kota Ambon, Maluku' }}<br>
                     Telepon: {{ $settings['phone'] ?? '(0911) 361234' }} &bull; Pos-el: {{ $settings['email'] ?? 'sdnegerilama@ambonkota.sch.id' }} &bull; NPSN: {{ $settings['npsn'] ?? '60101992' }}
@@ -264,7 +264,7 @@
                             Ambon, {{ date('d F Y') }}<br>
                             <strong>Kepala Sekolah / Panitia PPDB</strong>
                             <br><br><br><br>
-                            <strong><u>{{ $settings['headmaster_name'] ?? 'Kepala SD Negeri Lama' }}</u></strong><br>
+                            <strong><u>{{ $settings['headmaster_name'] ?? 'Kepala SD Negeri Negeri Lama' }}</u></strong><br>
                             <span>NIP. {{ $settings['headmaster_nip'] ?? '19780512 200501 1 008' }}</span>
                         </td>
                     </tr>

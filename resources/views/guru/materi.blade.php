@@ -1,6 +1,6 @@
 @extends('layouts.guru')
 
-@section('title', 'Materi Pembelajaran - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))
+@section('title', 'Materi Pembelajaran - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <!-- NOTIFICATION ALERTS -->

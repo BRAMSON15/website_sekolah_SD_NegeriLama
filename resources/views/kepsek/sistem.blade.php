@@ -179,7 +179,7 @@
                 <div class="flex items-center gap-3 mb-2">
                     <i class="fa-solid fa-school text-amber-400 text-lg"></i>
                     <div>
-                        <h4 class="font-bold text-sm text-white">{{ $settings['school_name'] ?? 'SD NEGERI LAMA AMBON' }}</h4>
+                        <h4 class="font-bold text-sm text-white">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama AMBON' }}</h4>
                         <p class="text-[11px] text-slate-300">NPSN: 60101968 &bull; Terakreditasi {{ $settings['stat_akreditasi'] ?? 'A' }}</p>
                     </div>
                 </div>

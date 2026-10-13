@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Informasi - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Informasi - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -8,7 +8,7 @@
         <div>
             <span class="panel-eyebrow">PUSAT KONTEN SEKOLAH</span>
             <h2>Kelola Informasi</h2>
-            <p>Atur pengumuman dan fitur layanan yang tampil pada website {{ $settings['school_name'] ?? 'SD Negeri Lama' }}.</p>
+            <p>Atur pengumuman dan fitur layanan yang tampil pada website {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.</p>
         </div>
         <i class="fa fa-bullhorn information-hero-icon" aria-hidden="true"></i>
     </div>

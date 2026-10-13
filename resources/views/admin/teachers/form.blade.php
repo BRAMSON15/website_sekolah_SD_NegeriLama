@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', ($teacher->exists ? 'Edit Akun Guru' : 'Tambah Akun Guru') . ' - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', ($teacher->exists ? 'Edit Akun Guru' : 'Tambah Akun Guru') . ' - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">

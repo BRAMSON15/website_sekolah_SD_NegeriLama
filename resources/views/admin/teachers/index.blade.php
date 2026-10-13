@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Akun Guru - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Akun Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -15,7 +15,7 @@
         <div>
             <span class="panel-eyebrow">KELOLA AKUN MANAJEMEN</span>
             <h2>Data & Akun Guru</h2>
-            <p>Kelola data pendidik, NIP, serta akses akun portal guru {{ $settings['school_name'] ?? 'SD Negeri Lama' }}.</p>
+            <p>Kelola data pendidik, NIP, serta akses akun portal guru {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.</p>
         </div>
         <a href="{{ route('admin.teachers.create') }}" class="btn btn-primary">
             <i class="fa fa-plus"></i> Tambah Akun Guru

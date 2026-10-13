@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Informasi Kontak - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Informasi Kontak - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -107,7 +107,7 @@
         <div class="information-panel">
             <div class="information-panel-heading">
                 <h3><i class="fa-solid fa-location-dot" style="color: #1769d9;"></i> Lokasi Sekolah di Peta</h3>
-                <p>Tentukan posisi SD Negeri Lama. Klik peta atau geser penanda untuk mengatur koordinat.</p>
+                <p>Tentukan posisi SD Negeri Negeri Lama. Klik peta atau geser penanda untuk mengatur koordinat.</p>
             </div>
 
             <div class="row">

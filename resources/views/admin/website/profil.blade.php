@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Konten Profil - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Konten Profil - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -48,8 +48,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Nama Resmi Sekolah</label>
-                        <input type="text" name="school_name" class="form-control" value="{{ old('school_name', $settings['school_name'] ?? 'SD NEGERI LAMA') }}" required>
-                        <span class="form-hint">Contoh: SD NEGERI LAMA AMBON</span>
+                        <input type="text" name="school_name" class="form-control" value="{{ old('school_name', $settings['school_name'] ?? 'SD Negeri Negeri Lama') }}" required>
+                        <span class="form-hint">Contoh: SD Negeri Negeri Lama AMBON</span>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -100,14 +100,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Jabatan / Gelar</label>
-                        <input type="text" name="principal_title" class="form-control" value="{{ old('principal_title', $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Lama') }}" required>
+                        <input type="text" name="principal_title" class="form-control" value="{{ old('principal_title', $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Negeri Lama') }}" required>
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>Isi Pesan Sambutan</label>
-                <textarea name="principal_message" class="form-control" rows="5" required placeholder="Tuliskan kata sambutan kepala sekolah di sini...">{{ old('principal_message', $settings['principal_message'] ?? 'Selamat datang di SD Negeri Lama. Kami senantiasa berkomitmen untuk menciptakan lingkungan belajar yang aman, nyaman, dan menginspirasi bagi seluruh peserta didik. Dengan dukungan tenaga pendidik yang profesional serta sarana pembelajaran modern, kami siap mencetak generasi masa depan yang unggul dan berdaya saing.') }}</textarea>
+                <textarea name="principal_message" class="form-control" rows="5" required placeholder="Tuliskan kata sambutan kepala sekolah di sini...">{{ old('principal_message', $settings['principal_message'] ?? 'Selamat datang di SD Negeri Negeri Lama. Kami senantiasa berkomitmen untuk menciptakan lingkungan belajar yang aman, nyaman, dan menginspirasi bagi seluruh peserta didik. Dengan dukungan tenaga pendidik yang profesional serta sarana pembelajaran modern, kami siap mencetak generasi masa depan yang unggul dan berdaya saing.') }}</textarea>
                 <span class="form-hint">Sambutan ini ditampilkan pada Beranda utama dan halaman Profil Sekolah.</span>
             </div>
         </div>
@@ -121,7 +121,7 @@
             <div class="form-group">
                 <label>Ringkasan Sejarah</label>
                 @php
-                    $defaultHistory = "SD Negeri Lama didirikan dengan tekad luhur untuk mencerdaskan kehidupan bangsa di daerah ini. Berawal dari beberapa ruang kelas sederhana, sekolah kini telah berkembang pesat menjadi salah satu institusi pendidikan dasar unggulan yang melahirkan ribuan alumni berprestasi di berbagai bidang.";
+                    $defaultHistory = "SD Negeri Negeri Lama didirikan dengan tekad luhur untuk mencerdaskan kehidupan bangsa di daerah ini. Berawal dari beberapa ruang kelas sederhana, sekolah kini telah berkembang pesat menjadi salah satu institusi pendidikan dasar unggulan yang melahirkan ribuan alumni berprestasi di berbagai bidang.";
                 @endphp
                 <textarea name="school_history" class="form-control" rows="4" placeholder="Tuliskan ringkasan sejarah sekolah...">{{ old('school_history', $settings['school_history'] ?? $defaultHistory) }}</textarea>
             </div>

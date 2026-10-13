@@ -50,7 +50,7 @@ class SiswaController extends Controller
         $student = $this->siswaService->authenticateByNisn($nisn, $request);
 
         if (! $student) {
-            return back()->with('error_nisn', 'Nomor NISN "' . $nisn . '" tidak terdaftar sebagai siswa aktif SD Negeri Lama. Silakan periksa kembali.')
+            return back()->with('error_nisn', 'Nomor NISN "' . $nisn . '" tidak terdaftar sebagai siswa aktif SD Negeri Negeri Lama. Silakan periksa kembali.')
                 ->withInput();
         }
 

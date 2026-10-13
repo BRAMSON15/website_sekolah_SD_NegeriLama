@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Arsip Pengumuman - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Arsip Pengumuman - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="page-header">
   <h1>Pengumuman Sekolah</h1>
-  <p>Informasi dan pengumuman resmi terbaru dari {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</p>
+  <p>Informasi dan pengumuman resmi terbaru dari {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</p>
 </div>
 
 <div class="page-content">

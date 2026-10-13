@@ -12,7 +12,7 @@
 
   $roleConfig = [
       'guru' => [
-          'title'       => 'Portal Masuk Guru - ' . ($settings['school_name'] ?? 'SD Negeri Lama'),
+          'title'       => 'Portal Masuk Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Portal Dewan Guru',
           'badge_icon'  => 'fa-solid fa-chalkboard-user',
           'badge_style' => 'background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe;',
@@ -22,7 +22,7 @@
           'btn_style'   => 'background: #2563eb; color: #ffffff;',
       ],
       'kepsek' => [
-          'title'       => 'Portal Supervisi Kepala Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Lama'),
+          'title'       => 'Portal Supervisi Kepala Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Supervisi Eksekutif',
           'badge_icon'  => 'fa-solid fa-crown',
           'badge_style' => 'background: #fef3c7; color: #b45309; border: 1.5px solid #fcd34d;',
@@ -32,7 +32,7 @@
           'btn_style'   => 'background: #0f172a; color: #ffffff;',
       ],
       'admin' => [
-          'title'       => 'Portal Administrator - ' . ($settings['school_name'] ?? 'SD Negeri Lama'),
+          'title'       => 'Portal Administrator - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Portal Administrator',
           'badge_icon'  => 'fa-solid fa-user-shield',
           'badge_style' => 'background: #e0e7ff; color: #4338ca; border: 1.5px solid #c7d2fe;',
@@ -58,7 +58,7 @@
     
     <div style="text-align: center; margin-bottom: 24px;">
       <div style="width: 68px; height: 68px; background: #ffffff; border: 1px solid var(--border); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); padding: 8px; overflow: hidden;">
-        <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" style="width: 100%; height: 100%; object-fit: contain;">
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
       </div>
 
       <!-- Distinct Role Badge -->
@@ -155,7 +155,7 @@
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses khusus Administrator Pengelola Website SD Negeri Lama.</span>
+          <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses khusus Administrator Pengelola Website SD Negeri Negeri Lama.</span>
         </div>
 
         <button type="submit" class="btn-login" style="border: none; width: 100%; justify-content: center; padding: 14px; font-size: 1rem; cursor: pointer; border-radius: 10px; {{ $currentConfig['btn_style'] }}">
@@ -185,7 +185,7 @@
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses terbatas pimpinan satuan pendidikan SD Negeri Lama.</span>
+          <span style="display: block; font-size: 0.76rem; color: var(--muted); margin-top: 5px;">*Akses terbatas pimpinan satuan pendidikan SD Negeri Negeri Lama.</span>
         </div>
 
         <button type="submit" class="btn-login" style="border: none; width: 100%; justify-content: center; padding: 14px; font-size: 1rem; cursor: pointer; border-radius: 10px; {{ $currentConfig['btn_style'] }}">

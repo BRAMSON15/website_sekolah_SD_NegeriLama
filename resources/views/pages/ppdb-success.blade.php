@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran Berhasil - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Pendaftaran Berhasil - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="page-header">

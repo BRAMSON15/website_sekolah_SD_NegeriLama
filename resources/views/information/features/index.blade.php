@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Fitur dan Layanan - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
+@section('title', 'Kelola Fitur dan Layanan - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="information-home">

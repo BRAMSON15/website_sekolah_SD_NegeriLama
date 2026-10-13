@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $settings['school_name'] ?? 'SD Negeri Lama - Modern & Berkarakter')
+@section('title', $settings['school_name'] ?? 'SD Negeri Negeri Lama - Modern & Berkarakter')
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -21,7 +21,7 @@
       {!! $settings['hero_title'] ?? 'Mewujudkan Generasi <span>Cerdas, Kreatif & Berkarakter</span>' !!}
     </h1>
     <p style="font-size: clamp(0.92rem, 2.5vw, 1.1rem); color: #ffffff; margin-bottom: 28px; max-width: 580px; text-shadow: 0 2px 6px rgba(15, 23, 42, 0.55); line-height: 1.6;">
-      {{ $settings['hero_description'] ?? 'Selamat datang di portal resmi SD Negeri Lama.' }}
+      {{ $settings['hero_description'] ?? 'Selamat datang di portal resmi SD Negeri Negeri Lama.' }}
     </p>
     <div class="hero-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
       <a href="{{ route('ppdb') }}" class="btn-login" style="padding: 14px 28px; font-size: 1rem; border-radius: 12px;">
@@ -76,10 +76,10 @@
       </span>
       <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--dark); margin-bottom: 10px;">Membimbing dengan Hati, Mendidik dengan Prestasi</h2>
       <p style="color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 24px;">
-        "{{ $settings['principal_message'] ?? 'Selamat datang di SD Negeri Lama.' }}"
+        "{{ $settings['principal_message'] ?? 'Selamat datang di SD Negeri Negeri Lama.' }}"
       </p>
       <div style="font-size: 1.1rem; font-weight: 800; color: var(--dark);">{{ $settings['principal_name'] ?? 'Drs. H. Ahmad Dahlan, M.Pd.' }}</div>
-      <div style="font-size: 0.85rem; color: var(--muted);">{{ $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Lama' }}</div>
+      <div style="font-size: 0.85rem; color: var(--muted);">{{ $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Negeri Lama' }}</div>
     </div>
   </div>
 </section>
@@ -164,18 +164,18 @@
     // Pass school settings to welcome.js
     window.schoolLatitude = {{ $settings['school_latitude'] ?? '-3.695' }};
     window.schoolLongitude = {{ $settings['school_longitude'] ?? '128.18' }};
-    window.schoolName = @json($settings['school_name'] ?? 'SD Negeri Lama');
+    window.schoolName = @json($settings['school_name'] ?? 'SD Negeri Negeri Lama');
     window.schoolAddress = @json($settings['address'] ?? 'Lokasi sekolah');
   </script>
   <div style="max-width: 1280px; margin: 0 auto 24px;">
     <span style="color: #16825d; font-weight: 700; font-size: 0.85rem;">LOKASI SEKOLAH</span>
-    <h2 id="school-location-title" style="font-size: 2rem; font-weight: 800; color: var(--dark); margin: 8px 0;">Temukan {{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h2>
+    <h2 id="school-location-title" style="font-size: 2rem; font-weight: 800; color: var(--dark); margin: 8px 0;">Temukan {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h2>
     <p style="color: var(--muted); margin: 0;">Peta lokasi dan alamat sekolah untuk membantu kunjungan Anda.</p>
   </div>
   <div class="school-location-layout">
     <div id="school-public-map" role="application" aria-label="Peta lokasi sekolah"></div>
     <div class="school-location-copy">
-      <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--dark); margin-bottom: 10px;">{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h3>
+      <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--dark); margin-bottom: 10px;">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h3>
       <p style="color: var(--muted); line-height: 1.7; margin: 0 0 20px;">{{ $settings['address'] ?? 'Alamat sekolah belum tersedia.' }}</p>
       <a href="https://www.openstreetmap.org/?mlat={{ $settings['school_latitude'] ?? '-3.695' }}&mlon={{ $settings['school_longitude'] ?? '128.18' }}#map=17/{{ $settings['school_latitude'] ?? '-3.695' }}/{{ $settings['school_longitude'] ?? '128.18' }}" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; color: #1769d9; font-weight: 700; text-decoration: none;">
         <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka peta lengkap

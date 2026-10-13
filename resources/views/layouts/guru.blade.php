@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard Guru - ' . ($settings['school_name'] ?? 'SD NEGERI LAMA'))</title>
+    <title>@yield('title', 'Dashboard Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))</title>
 
     <!-- Anti-Flicker Preload Script for Sidebar -->
     <script>
@@ -50,11 +50,11 @@
 
         <div class="school-logo">
             <div class="logo-icon">
-                <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
+                <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
             </div>
 
             <div style="flex: 1; min-width: 0;">
-                <h2 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $settings['school_name'] ?? 'SD NEGERI LAMA' }}</h2>
+                <h2 style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h2>
                 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">Bermutu • Berkarakter • Berprestasi</span>
             </div>
 
