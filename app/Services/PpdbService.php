@@ -32,10 +32,27 @@ class PpdbService
      */
     public function register(array $data): PpdbRegistration
     {
-        $data['registration_number'] = $this->generateRegistrationNumber();
-        $data['status'] = 'pending';
+        try {
+            $data['registration_number'] = $this->generateRegistrationNumber();
+            $data['status'] = 'pending';
 
-        return PpdbRegistration::create($data);
+            $registration = PpdbRegistration::create($data);
+
+            \Log::info('PPDB Registration Created Successfully', [
+                'registration_id' => $registration->id,
+                'registration_number' => $registration->registration_number,
+                'student_name' => $registration->student_name,
+            ]);
+
+            return $registration;
+        } catch (\Exception $e) {
+            \Log::error('PPDB Registration Failed', [
+                'message' => $e->getMessage(),
+                'data' => $data,
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
     }
 
     /**
