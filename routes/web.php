@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\AdminTeacherController;
 use App\Http\Controllers\AdminStudentController;
@@ -146,4 +146,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/kelola/kontak', [AdminWebsiteController::class, 'kontak'])->name('admin.website.kontak');
     Route::post('/admin/kelola/kontak', [AdminWebsiteController::class, 'updateKontak'])->name('admin.website.kontak.update');
+});
+    Route::get('/admin/ppdb/monitoring', [PpdbController::class, 'monitoringDashboard'])->name('admin.ppdb.monitoring');
+    Route::get('/admin/ppdb/export/excel', [PpdbController::class, 'exportExcel'])->name('admin.ppdb.export.excel');
 });
