@@ -1,0 +1,1 @@
+@livewire('teacher-activity-monitor', ['pollingInterval' => 3000])

@@ -49,4 +49,20 @@ class User extends Authenticatable
         return $this->hasMany(Assignment::class);
     }
 
+    /**
+     * Relasi dengan aktivitas guru
+     */
+    public function activities()
+    {
+        return $this->hasMany(\App\Models\Monitoring\TeacherActivity::class, 'user_id');
+    }
+
+    /**
+     * Relasi dengan performa guru
+     */
+    public function performance()
+    {
+        return $this->hasOne(\App\Models\Monitoring\TeacherPerformance::class, 'user_id');
+    }
+
 }

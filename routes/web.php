@@ -10,6 +10,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\KepalaSekolahController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\TeacherMonitoringController;
 use Illuminate\Support\Facades\Route;
 
 // Public Front Page Routes
@@ -44,6 +45,26 @@ Route::middleware('auth')->group(function () {
     Route::get('/kepsek/monitoring/pembelajaran', [KepalaSekolahController::class, 'monitoringPembelajaran'])->name('kepsek.monitoring.pembelajaran');
     Route::get('/kepsek/monitoring/ppdb', [KepalaSekolahController::class, 'monitoringPpdb'])->name('kepsek.monitoring.ppdb');
     Route::get('/kepsek/monitoring/sistem', [KepalaSekolahController::class, 'monitoringSistem'])->name('kepsek.monitoring.sistem');
+
+    // Teacher Activity & Performance Monitoring (Real-time Livewire Polling)
+    Route::prefix('/kepsek/monitoring')->middleware(['auth', 'role:kepala_sekolah,kepsek,admin'])->group(function () {
+        // Dashboard views
+        Route::get('/aktivitas', [TeacherMonitoringController::class, 'activityDashboard'])->name('kepsek.monitoring.activity');
+        Route::get('/performa', [TeacherMonitoringController::class, 'performanceDashboard'])->name('kepsek.monitoring.performance');
+        
+        // API endpoints for real-time data
+        Route::get('/api/activities', [TeacherMonitoringController::class, 'getActivitiesData'])->name('kepsek.monitoring.api.activities');
+        Route::get('/api/activities/stats', [TeacherMonitoringController::class, 'getActivitiesStats'])->name('kepsek.monitoring.api.activities.stats');
+        Route::get('/api/performance', [TeacherMonitoringController::class, 'getPerformanceData'])->name('kepsek.monitoring.api.performance');
+        Route::get('/api/performance/stats', [TeacherMonitoringController::class, 'getPerformanceStats'])->name('kepsek.monitoring.api.performance.stats');
+        
+        // Activity recording
+        Route::post('/api/activities/record', [TeacherMonitoringController::class, 'recordActivity'])->name('kepsek.monitoring.api.record');
+        Route::put('/api/performance/{userId}', [TeacherMonitoringController::class, 'updatePerformance'])->name('kepsek.monitoring.api.update_performance');
+        
+        // Export
+        Route::get('/export/activities', [TeacherMonitoringController::class, 'exportActivities'])->name('kepsek.monitoring.export.activities');
+    });
 
     // Portal Siswa Routes (Khusus Siswa Terdaftar)
     Route::get('/siswa/beranda', [SiswaController::class, 'beranda'])->name('siswa.beranda');
