@@ -27,7 +27,7 @@
         <div class="information-panel-heading">
             <div>
                 <span class="panel-eyebrow">DATA PENDAFTAR</span>
-                <h4>Daftar Calon Siswa Terdaftar</h4>
+                <h4>Daftar Calon Siswa Terdaftar <span style="font-size: 12px; color: #64748b;">(Auto-refresh setiap 3 detik)</span></h4>
             </div>
             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <a href="{{ route('admin.ppdb.export.pdf') }}" style="background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(220, 38, 38, 0.08);">
@@ -36,53 +36,11 @@
                 <a href="{{ route('admin.ppdb.export.excel') }}" style="background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(22, 101, 52, 0.08);">
                     <i class="fa-solid fa-file-excel"></i> Excel
                 </a>
-                <span class="information-count">{{ $registrations->total() }} Pendaftar</span>
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nomor Pendaftaran</th>
-                        <th>Nama Siswa</th>
-                        <th>Orang Tua/Wali</th>
-                        <th>Kontak</th>
-                        <th>Tanggal</th>
-                        <th class="text-right">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($registrations as $registration)
-                    <tr>
-                        <td>
-                            <code style="background: #eef4ff; color: #1769d9; padding: 4px 8px; border-radius: 6px; font-weight: 700;">{{ $registration->registration_number }}</code>
-                        </td>
-                        <td>
-                            <strong>{{ $registration->student_name }}</strong>
-                            <small class="table-subtext">{{ $registration->gender === 'L' ? 'Laki-laki' : 'Perempuan' }} &bull; Asal: {{ $registration->previous_school ?? 'TK/PAUD' }}</small>
-                        </td>
-                        <td>{{ $registration->parent_name }}</td>
-                        <td>{{ $registration->phone }}</td>
-                        <td>{{ $registration->created_at ? $registration->created_at->format('d M Y') : '-' }}</td>
-                        <td class="text-right">
-                            <span class="information-status information-status-active">{{ ucfirst($registration->status) }}</span>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-center" style="padding: 24px; color: #8aa0bc;">Belum ada calon siswa yang mendaftar.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if($registrations->hasPages())
-        <div style="margin-top: 20px;">
-            {{ $registrations->links() }}
-        </div>
-        @endif
+        <!-- Livewire Realtime Component -->
+        @livewire('ppdb-registrations-list')
     </div>
 </div>
 @endsection

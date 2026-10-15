@@ -118,9 +118,8 @@ class PpdbController extends Controller
     public function index()
     {
         $settings = $this->websiteService->getSettings();
-        $registrations = $this->ppdbService->getRegistrations();
 
-        return view("admin.ppdb.index", compact("settings", "registrations"));
+        return view("admin.ppdb.index", compact("settings"));
     }
 
     public function monitoringDashboard()
