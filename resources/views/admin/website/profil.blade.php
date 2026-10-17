@@ -8,7 +8,7 @@
         <div>
             <span class="panel-eyebrow">KELOLA WEBSITE / PROFIL</span>
             <h2>Kelola Konten Profil Sekolah</h2>
-            <p>Atur visi, misi, sambutan kepala sekolah, dan ringkasan profil untuk halaman publik.</p>
+            <p>Atur visi, misi, tujuan sekolah, dan ringkasan profil untuk halaman publik.</p>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
             <a href="{{ route('profil') }}" target="_blank" class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.4); text-decoration: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
@@ -84,31 +84,19 @@
             </div>
         </div>
 
-        <!-- Panel 3: Sambutan Kepala Sekolah -->
+        <!-- Panel 3: Tujuan Sekolah -->
         <div class="information-panel">
             <div class="information-panel-heading">
-                <h3><i class="fa-solid fa-user-tie" style="color: #1769d9;"></i> Sambutan Kepala Sekolah</h3>
-                <p>Pesan sambutan resmi untuk menyapa pengunjung dan calon wali murid</p>
+                <h3><i class="fa-solid fa-target" style="color: #1769d9;"></i> Tujuan Sekolah</h3>
+                <p>Tujuan dan target pencapaian yang ingin dicapai sekolah</p>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Nama Lengkap Kepala Sekolah</label>
-                        <input type="text" name="principal_name" class="form-control" value="{{ old('principal_name', $settings['principal_name'] ?? 'Drs. H. Ahmad Dahlan, M.Pd.') }}" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Jabatan / Gelar</label>
-                        <input type="text" name="principal_title" class="form-control" value="{{ old('principal_title', $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Negeri Lama') }}" required>
-                    </div>
-                </div>
-            </div>
-
             <div class="form-group">
-                <label>Isi Pesan Sambutan</label>
-                <textarea name="principal_message" class="form-control" rows="5" required placeholder="Tuliskan kata sambutan kepala sekolah di sini...">{{ old('principal_message', $settings['principal_message'] ?? 'Selamat datang di SD Negeri Negeri Lama. Kami senantiasa berkomitmen untuk menciptakan lingkungan belajar yang aman, nyaman, dan menginspirasi bagi seluruh peserta didik. Dengan dukungan tenaga pendidik yang profesional serta sarana pembelajaran modern, kami siap mencetak generasi masa depan yang unggul dan berdaya saing.') }}</textarea>
-                <span class="form-hint">Sambutan ini ditampilkan pada Beranda utama dan halaman Profil Sekolah.</span>
+                <label>Tujuan Sekolah (1 Baris per Poin Tujuan)</label>
+                @php
+                    $defaultObjectives = "Mengembangkan potensi peserta didik secara optimal dalam aspek akademik dan non-akademik.\nMembentuk karakter siswa yang beriman, bertakwa, jujur, dan bertanggung jawab.\nMenciptakan lingkungan belajar yang kondusif, inovatif, dan berbasis teknologi informasi.\nMeningkatkan prestasi siswa dalam bidang akademik dan ekstrakurikuler.\nMempersiapkan siswa sebagai generasi bangsa yang kompetitif dan berkualitas.";
+                @endphp
+                <textarea name="school_objectives" class="form-control" rows="6" required placeholder="Tuliskan tiap butir tujuan pada baris baru...">{{ old('school_objectives', $settings['school_objectives'] ?? $defaultObjectives) }}</textarea>
+                <span class="form-hint">💡 Tips: Tekan <strong>Enter</strong> untuk membuat butir poin tujuan baru. Tiap baris otomatis menjadi bullet point tersendiri di halaman publik.</span>
             </div>
         </div>
 

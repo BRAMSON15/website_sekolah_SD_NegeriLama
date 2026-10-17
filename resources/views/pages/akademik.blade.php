@@ -325,33 +325,24 @@
   <!-- ============================================================== -->
   <!-- 2. KURIKULUM MERDEKA                                           -->
   <!-- ============================================================== -->
+  @if(!empty($settings['curriculum_title']))
   <div class="card-box" style="margin-bottom: 30px; padding: 30px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); border: 1px solid var(--border);">
-    <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-book-open-reader"></i> {{ $settings['curriculum_title'] ?? 'Kurikulum Merdeka' }}</h2>
+    <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-book-open-reader"></i> {{ $settings['curriculum_title'] }}</h2>
     <p style="color: var(--muted); line-height: 1.8; margin-bottom: 0;">
-      {!! nl2br(e($settings['curriculum_desc'] ?? (($settings['school_name'] ?? 'SD Negeri Negeri Lama') . ' menerapkan Kurikulum Merdeka yang berfokus pada pengembangan minat, bakat, dan pembentukan Karakter Pelajar Pancasila. Sistem pembelajaran dirancang agar fleksibel dan interaktif melalui Projek Penguatan Profil Pelajar Pancasila (P5).'))) !!}
+      {!! nl2br(e($settings['curriculum_desc'] ?? '')) !!}
     </p>
   </div>
+  @endif
 
   <!-- ============================================================== -->
   <!-- 3. EKSTRAKURIKULER                                             -->
   <!-- ============================================================== -->
   <div class="card-box" style="padding: 30px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); border: 1px solid var(--border);">
     <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-medal"></i> Ekstrakurikuler</h2>
+    @if(!empty($settings['extracurriculars']))
     <p style="color: var(--muted); margin-bottom: 20px;">Kami menyediakan berbagai wadah pengembangan bakat non-akademik bagi peserta didik:</p>
     @php
-      $defaultEskuls = [
-        'Pramuka (Wajib)',
-        'Sepak Bola & Futsal',
-        'Seni Musik & Pianika',
-        'Seni Lukis & Mewarnai',
-        'Ekskul Komputer / Coding',
-        'Pencak Silat'
-      ];
-      if (!empty($settings['extracurriculars'])) {
-        $eskuls = array_filter(array_map('trim', explode("\n", $settings['extracurriculars'])));
-      } else {
-        $eskuls = $defaultEskuls;
-      }
+      $eskuls = array_filter(array_map('trim', explode("\n", $settings['extracurriculars'])));
 
       $getIcon = function($name) {
         $lower = strtolower($name);
@@ -375,6 +366,12 @@
       </div>
       @endforeach
     </div>
+    @else
+    <div style="padding: 30px; text-align: center; color: var(--muted); background: var(--light-bg); border-radius: 12px;">
+      <i class="fa-solid fa-inbox" style="font-size: 2rem; opacity: 0.3; margin-bottom: 10px; display: block;"></i>
+      <p>Admin belum menambahkan data ekstrakurikuler. Silakan kembali kemudian.</p>
+    </div>
+    @endif
   </div>
 </div>
 

@@ -11,32 +11,26 @@
 <div class="page-content">
   <div class="card-box">
     <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-bullseye"></i> Visi & Misi</h2>
+    @if(!empty($settings['school_vision']))
     <div style="margin-bottom: 24px;">
       <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Visi</h3>
       <p style="color: var(--muted); font-size: 1rem; padding-left: 16px; border-left: 4px solid var(--primary);">
-        "{{ $settings['school_vision'] ?? 'Terwujudnya Peserta Didik yang Bertaqwa, Berprestasi Tinggi, Berkarakter Pancasila, dan Berwawasan Lingkungan Global.' }}"
+        "{{ $settings['school_vision'] }}"
       </p>
     </div>
+    @endif
     <div>
       <h3 style="font-size: 1.1rem; margin-bottom: 8px;">Misi</h3>
+      @if(!empty($settings['school_mission']))
       @php
-        $defaultMissions = [
-          'Menanamkan nilai-nilai keimanan dan ketaqwaan kepada Tuhan Yang Maha Esa melalui kegiatan keagamaan rutin.',
-          'Menyelenggarakan proses pembelajaran yang aktif, kreatif, inovatif, dan menyenangkan berbasis teknologi informasi.',
-          'Mendorong dan memfasilitasi siswa untuk menguasai ilmu pengetahuan dan teknologi serta meraih prestasi dalam lomba akademik maupun non-akademik.',
-          'Membentuk karakter siswa yang sopan, santun, jujur, serta memiliki kepedulian sosial dan lingkungan.'
-        ];
-        if (!empty($settings['school_mission'])) {
-          $missions = array_filter(array_map('trim', explode("\n", $settings['school_mission'])));
-        } else {
-          $missions = $defaultMissions;
-        }
+        $missions = array_filter(array_map('trim', explode("\n", $settings['school_mission'])));
       @endphp
       <ul style="color: var(--muted); padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
         @foreach($missions as $mission)
           <li>{{ $mission }}</li>
         @endforeach
       </ul>
+      @endif
     </div>
   </div>
 
@@ -49,13 +43,18 @@
   </div>
   @endif
 
+  @if(!empty($settings['school_objectives']))
   <div class="card-box">
-    <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-user-tie"></i> Sambutan Kepala Sekolah</h2>
-    <p style="color: var(--muted); line-height: 1.8; margin-bottom: 16px;">
-      "{{ $settings['principal_message'] ?? 'Selamat datang di SD Negeri Negeri Lama.' }}"
-    </p>
-    <div style="font-weight: 800; color: var(--dark);">{{ $settings['principal_name'] ?? 'Drs. H. Ahmad Dahlan, M.Pd.' }}</div>
-    <div style="font-size: 0.85rem; color: var(--muted);">{{ $settings['principal_title'] ?? 'Kepala Sekolah SD Negeri Negeri Lama' }}</div>
+    <h2 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 16px;"><i class="fa-solid fa-target"></i> Tujuan Sekolah</h2>
+    @php
+      $objectives = array_filter(array_map('trim', explode("\n", $settings['school_objectives'])));
+    @endphp
+    <ul style="color: var(--muted); padding-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+      @foreach($objectives as $objective)
+        <li>{{ $objective }}</li>
+      @endforeach
+    </ul>
   </div>
+  @endif
 </div>
 @endsection

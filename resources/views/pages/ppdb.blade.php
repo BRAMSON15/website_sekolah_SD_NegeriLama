@@ -41,22 +41,11 @@
     </div>
   </div>
 
+  @if(!empty($settings['ppdb_requirements']))
   <div class="card-box">
     <h2 style="font-size: 1.3rem; color: var(--dark); margin-bottom: 16px;"><i class="fa-solid fa-list-check"></i> Syarat Pendaftaran</h2>
     @php
-      $defaultRequirements = [
-        'Usia minimal 6 tahun per 1 Juli ' . date('Y') . '.',
-        'Fotokopi Akta Kelahiran (2 Lembar).',
-        'Fotokopi Kartu Keluarga / KK (2 Lembar).',
-        'Fotokopi KTP Kedua Orang Tua / Wali (1 Lembar).',
-        'Pas Foto Ukuran 3x4 berwarna (4 Lembar).',
-        'Fotokopi Ijazah TK / RA (Jika Ada).'
-      ];
-      if (!empty($settings['ppdb_requirements'])) {
-        $reqs = array_filter(array_map('trim', explode("\n", $settings['ppdb_requirements'])));
-      } else {
-        $reqs = $defaultRequirements;
-      }
+      $reqs = array_filter(array_map('trim', explode("\n", $settings['ppdb_requirements'])));
     @endphp
     <ul style="color: var(--muted); padding-left: 20px; line-height: 2;">
       @foreach($reqs as $req)
@@ -64,31 +53,40 @@
       @endforeach
     </ul>
   </div>
+  @endif
 
+  @if(!empty($settings['ppdb_step_1_title']) && !empty($settings['ppdb_step_2_title']))
   <div class="card-box">
     <h2 style="font-size: 1.3rem; color: var(--dark); margin-bottom: 16px;"><i class="fa-solid fa-timeline"></i> Alur Pendaftaran</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; text-align: center;">
       <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
         <div style="width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800;">1</div>
-        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_1_title'] ?? 'Isi Formulir' }}</h4>
-        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_1_desc'] ?? 'Melalui portal online atau datang langsung ke sekolah.' }}</p>
+        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_1_title'] }}</h4>
+        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_1_desc'] ?? 'Langkah pertama pendaftaran' }}</p>
       </div>
+      @if(!empty($settings['ppdb_step_2_title']))
       <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
         <div style="width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800;">2</div>
-        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_2_title'] ?? 'Verifikasi Berkas' }}</h4>
-        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_2_desc'] ?? 'Penyerahan dokumen persyaratan ke panitia PPDB.' }}</p>
+        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_2_title'] }}</h4>
+        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_2_desc'] ?? 'Langkah kedua pendaftaran' }}</p>
       </div>
+      @endif
+      @if(!empty($settings['ppdb_step_3_title']))
       <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
         <div style="width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800;">3</div>
-        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_3_title'] ?? 'Pengumuman' }}</h4>
-        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_3_desc'] ?? 'Hasil seleksi diumumkan via portal & papan pengumuman.' }}</p>
+        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_3_title'] }}</h4>
+        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_3_desc'] ?? 'Langkah ketiga pendaftaran' }}</p>
       </div>
+      @endif
+      @if(!empty($settings['ppdb_step_4_title']))
       <div style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
         <div style="width: 40px; height: 40px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 800;">4</div>
-        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_4_title'] ?? 'Daftar Ulang' }}</h4>
-        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_4_desc'] ?? 'Konfirmasi kehadiran dan kelengkapan seragam.' }}</p>
+        <h4 style="font-size: 1rem; margin-bottom: 4px;">{{ $settings['ppdb_step_4_title'] }}</h4>
+        <p style="font-size: 0.85rem; color: var(--muted);">{{ $settings['ppdb_step_4_desc'] ?? 'Langkah keempat pendaftaran' }}</p>
       </div>
+      @endif
     </div>
   </div>
+  @endif
 </div>
 @endsection

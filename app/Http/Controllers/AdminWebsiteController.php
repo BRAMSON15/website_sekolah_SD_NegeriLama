@@ -28,15 +28,13 @@ class AdminWebsiteController extends Controller
             'school_tagline'     => ['nullable', 'string', 'max:255'],
             'school_vision'      => ['required', 'string'],
             'school_mission'     => ['required', 'string'],
+            'school_objectives'  => ['required', 'string'],
             'school_history'     => ['nullable', 'string'],
-            'principal_name'     => ['required', 'string', 'max:150'],
-            'principal_title'    => ['required', 'string', 'max:150'],
-            'principal_message'  => ['required', 'string'],
         ]);
 
         $this->websiteService->saveSettings($validated);
 
-        return redirect()->route('admin.website.profil')->with('success', 'Konten Profil Sekolah, Visi & Misi berhasil disimpan.');
+        return redirect()->route('admin.website.profil')->with('success', 'Konten Profil Sekolah, Visi, Misi & Tujuan berhasil disimpan.');
     }
 
     /* -------------------------------------------------------------
