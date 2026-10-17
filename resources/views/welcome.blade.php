@@ -125,7 +125,7 @@
     </div>
 
     <!-- Sidebar Column -->
-    <div>
+    <!-- <div>
       <div class="quick-access-panel" style="background: var(--card-bg); border-radius: var(--radius); padding: 28px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--light-bg);">
           <h3 style="font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; color: var(--dark);">
@@ -155,7 +155,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </section>
 
