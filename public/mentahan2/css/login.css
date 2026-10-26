@@ -3,201 +3,232 @@
  * Password visibility toggle and responsive form styling
  */
 
+/* ===== DESKTOP BASE ===== */
+.login-card-box {
+  max-width: 420px !important;
+}
+
 /* ===== MOBILE RESPONSIVENESS ===== */
 @media (max-width: 768px) {
   .login-page-wrap {
-    padding: 16px 2% !important;
+    padding: 14px 2% !important;
     min-height: auto !important;
   }
   
   .login-card-box {
-    padding: 16px 12px !important;
+    max-width: 400px !important;
+    padding: 16px 14px !important;
     border-radius: 8px !important;
     width: 100% !important;
-    max-width: 100% !important;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
   }
 }
 
 @media (max-width: 576px) {
   .login-page-wrap {
-    padding: 12px 2% !important;
+    padding: 10px 2% !important;
     min-height: auto !important;
   }
   
   .login-card-box {
-    padding: 14px 10px !important;
+    max-width: 100% !important;
+    padding: 12px 10px !important;
     border-radius: 8px !important;
     width: 100% !important;
-    max-width: 100% !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
   }
 
   /* Header section mobile */
   .login-card-box > div:first-child {
-    margin-bottom: 8px !important;
+    margin-bottom: 10px !important;
   }
 
   /* Logo mobile */
   .login-card-box div[style*="width: 56px"] {
     width: 48px !important;
     height: 48px !important;
-    margin: 0 auto 4px !important;
+    margin: 0 auto 5px !important;
     border-radius: 8px !important;
   }
 
   /* Badge mobile */
   .login-card-box div[style*="display: inline-flex"][style*="gap: 4px"] {
-    font-size: 0.55rem !important;
-    padding: 1px 6px !important;
-    margin-bottom: 2px !important;
+    font-size: 0.56rem !important;
+    padding: 2px 8px !important;
+    margin-bottom: 3px !important;
   }
 
   /* Main heading mobile */
   .login-card-box h2 {
-    font-size: 1rem !important;
-    margin-bottom: 1px !important;
+    font-size: 1.05rem !important;
+    margin: 0 0 3px 0 !important;
+    line-height: 1.2 !important;
   }
 
   /* Subtitle mobile */
   .login-card-box > div:first-child > p {
-    font-size: 0.72rem !important;
+    font-size: 0.73rem !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
   }
 
   /* Session banner mobile */
   .login-card-box div[style*="background: #eff6ff"] {
-    padding: 6px 7px !important;
-    margin-bottom: 8px !important;
+    padding: 7px 8px !important;
+    margin-bottom: 10px !important;
     border-radius: 6px !important;
   }
 
-  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.58rem"] {
-    font-size: 0.52rem !important;
+  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.60rem"] {
+    font-size: 0.54rem !important;
   }
 
-  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.82rem"] {
-    font-size: 0.75rem !important;
+  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.85rem"] {
+    font-size: 0.78rem !important;
   }
 
-  .login-card-box div[style*="background: #eff6ff"] span[style*="font-size: 0.6rem"] {
-    font-size: 0.55rem !important;
+  .login-card-box div[style*="background: #eff6ff"] span[style*="font-size: 0.62rem"] {
+    font-size: 0.56rem !important;
   }
 
   .login-card-box div[style*="background: #eff6ff"] p {
-    font-size: 0.6rem !important;
-    margin: 1px 0 0 0 !important;
+    font-size: 0.62rem !important;
+    margin: 2px 0 0 0 !important;
   }
 
   .login-card-box div[style*="background: #eff6ff"] a,
   .login-card-box div[style*="background: #eff6ff"] button {
-    padding: 3px 5px !important;
-    font-size: 0.58rem !important;
+    padding: 4px 7px !important;
+    font-size: 0.62rem !important;
   }
 
   /* Success message mobile */
   .login-card-box div[style*="background: #ecfdf5"] {
-    padding: 6px 7px !important;
-    margin-bottom: 8px !important;
-    font-size: 0.68rem !important;
-    gap: 4px !important;
+    padding: 7px 8px !important;
+    margin-bottom: 10px !important;
+    font-size: 0.70rem !important;
+    gap: 5px !important;
   }
 
   .login-card-box div[style*="background: #ecfdf5"] i {
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
   }
 
   /* Error message mobile */
   .login-card-box div[style*="background: #fef2f2"] {
-    padding: 6px 7px !important;
-    margin-bottom: 8px !important;
-    font-size: 0.68rem !important;
+    padding: 7px 8px !important;
+    margin-bottom: 10px !important;
+    font-size: 0.70rem !important;
   }
 
   .login-card-box ul {
-    padding-left: 10px !important;
-    font-size: 0.68rem !important;
+    padding-left: 12px !important;
+    font-size: 0.70rem !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+  }
+
+  .login-card-box ul li {
+    margin-bottom: 2px !important;
   }
 
   /* Form labels mobile */
   .login-card-box label {
-    font-size: 0.68rem !important;
-    margin-bottom: 3px !important;
+    font-size: 0.70rem !important;
+    margin-bottom: 4px !important;
+    font-weight: 700 !important;
   }
 
   .login-card-box label i {
-    margin-right: 2px !important;
+    margin-right: 3px !important;
   }
 
   /* Form inputs mobile */
   .login-card-box input[type="text"],
   .login-card-box input[type="password"],
   .login-card-box input[type="email"] {
-    padding: 7px 8px !important;
-    font-size: 0.82rem !important;
+    padding: 8px 10px !important;
+    font-size: 0.85rem !important;
   }
 
   /* Form helper text mobile */
-  .login-card-box span[style*="display: block; font-size: 0.65rem"],
-  .login-card-box span[style*="font-size: 0.65rem"] {
-    font-size: 0.6rem !important;
-    margin-top: 1px !important;
+  .login-card-box span[style*="display: block; font-size"] {
+    font-size: 0.62rem !important;
+    margin-top: 2px !important;
   }
 
   /* Form gap mobile */
   form {
-    gap: 8px !important;
+    gap: 10px !important;
   }
 
   /* Submit button mobile */
   .login-card-box button[type="submit"] {
-    padding: 8px !important;
-    font-size: 0.82rem !important;
+    padding: 9px 14px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
   }
 
   .login-card-box button[type="submit"] i {
-    margin-right: 2px !important;
+    margin-right: 4px !important;
+  }
+
+  .login-card-box button[type="submit"]:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   }
 }
 
 @media (max-width: 380px) {
+  .login-page-wrap {
+    padding: 8px 2% !important;
+  }
+
   .login-card-box {
-    padding: 12px 8px !important;
+    max-width: 100% !important;
+    padding: 10px 8px !important;
   }
 
   .login-card-box > div:first-child {
-    margin-bottom: 6px !important;
+    margin-bottom: 8px !important;
   }
 
   .login-card-box div[style*="width: 48px"] {
-    width: 42px !important;
-    height: 42px !important;
-    margin: 0 auto 3px !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 auto 4px !important;
   }
 
   .login-card-box h2 {
-    font-size: 0.95rem !important;
-    margin-bottom: 1px !important;
+    font-size: 0.98rem !important;
+    margin-bottom: 2px !important;
   }
 
   .login-card-box > div:first-child > p {
-    font-size: 0.68rem !important;
+    font-size: 0.70rem !important;
   }
 
   .login-card-box label {
-    font-size: 0.65rem !important;
-    margin-bottom: 2px !important;
+    font-size: 0.68rem !important;
+    margin-bottom: 3px !important;
   }
 
   .login-card-box input[type="text"],
   .login-card-box input[type="password"] {
-    padding: 6px 7px !important;
-    font-size: 0.8rem !important;
+    padding: 7px 9px !important;
+    font-size: 0.82rem !important;
   }
 
   .login-card-box button[type="submit"] {
-    padding: 7px !important;
-    font-size: 0.8rem !important;
+    padding: 8px 12px !important;
+    font-size: 0.82rem !important;
   }
+
+  form {
+    gap: 9px !important;
+  }
+}
+
 
   form {
     gap: 7px !important;
