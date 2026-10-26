@@ -1,23 +1,210 @@
 /**
- * Login Page Styles
- * Password visibility toggle and form styling
+ * Login Page Styles - Mobile Optimized & Compact
+ * Password visibility toggle and responsive form styling
  */
 
-/* Responsive Media Query */
-@media (max-width: 576px) {
+/* ===== MOBILE RESPONSIVENESS ===== */
+@media (max-width: 768px) {
   .login-page-wrap {
-    padding: 24px 12px !important;
+    padding: 16px 2% !important;
     min-height: auto !important;
   }
+  
   .login-card-box {
-    padding: 24px 16px !important;
-    border-radius: 14px !important;
+    padding: 16px 12px !important;
+    border-radius: 8px !important;
     width: 100% !important;
     max-width: 100% !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
   }
 }
 
-/* Password Input Wrapper */
+@media (max-width: 576px) {
+  .login-page-wrap {
+    padding: 12px 2% !important;
+    min-height: auto !important;
+  }
+  
+  .login-card-box {
+    padding: 14px 10px !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Header section mobile */
+  .login-card-box > div:first-child {
+    margin-bottom: 8px !important;
+  }
+
+  /* Logo mobile */
+  .login-card-box div[style*="width: 56px"] {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto 4px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Badge mobile */
+  .login-card-box div[style*="display: inline-flex"][style*="gap: 4px"] {
+    font-size: 0.55rem !important;
+    padding: 1px 6px !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* Main heading mobile */
+  .login-card-box h2 {
+    font-size: 1rem !important;
+    margin-bottom: 1px !important;
+  }
+
+  /* Subtitle mobile */
+  .login-card-box > div:first-child > p {
+    font-size: 0.72rem !important;
+  }
+
+  /* Session banner mobile */
+  .login-card-box div[style*="background: #eff6ff"] {
+    padding: 6px 7px !important;
+    margin-bottom: 8px !important;
+    border-radius: 6px !important;
+  }
+
+  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.58rem"] {
+    font-size: 0.52rem !important;
+  }
+
+  .login-card-box div[style*="background: #eff6ff"] div[style*="font-size: 0.82rem"] {
+    font-size: 0.75rem !important;
+  }
+
+  .login-card-box div[style*="background: #eff6ff"] span[style*="font-size: 0.6rem"] {
+    font-size: 0.55rem !important;
+  }
+
+  .login-card-box div[style*="background: #eff6ff"] p {
+    font-size: 0.6rem !important;
+    margin: 1px 0 0 0 !important;
+  }
+
+  .login-card-box div[style*="background: #eff6ff"] a,
+  .login-card-box div[style*="background: #eff6ff"] button {
+    padding: 3px 5px !important;
+    font-size: 0.58rem !important;
+  }
+
+  /* Success message mobile */
+  .login-card-box div[style*="background: #ecfdf5"] {
+    padding: 6px 7px !important;
+    margin-bottom: 8px !important;
+    font-size: 0.68rem !important;
+    gap: 4px !important;
+  }
+
+  .login-card-box div[style*="background: #ecfdf5"] i {
+    font-size: 0.8rem !important;
+  }
+
+  /* Error message mobile */
+  .login-card-box div[style*="background: #fef2f2"] {
+    padding: 6px 7px !important;
+    margin-bottom: 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .login-card-box ul {
+    padding-left: 10px !important;
+    font-size: 0.68rem !important;
+  }
+
+  /* Form labels mobile */
+  .login-card-box label {
+    font-size: 0.68rem !important;
+    margin-bottom: 3px !important;
+  }
+
+  .login-card-box label i {
+    margin-right: 2px !important;
+  }
+
+  /* Form inputs mobile */
+  .login-card-box input[type="text"],
+  .login-card-box input[type="password"],
+  .login-card-box input[type="email"] {
+    padding: 7px 8px !important;
+    font-size: 0.82rem !important;
+  }
+
+  /* Form helper text mobile */
+  .login-card-box span[style*="display: block; font-size: 0.65rem"],
+  .login-card-box span[style*="font-size: 0.65rem"] {
+    font-size: 0.6rem !important;
+    margin-top: 1px !important;
+  }
+
+  /* Form gap mobile */
+  form {
+    gap: 8px !important;
+  }
+
+  /* Submit button mobile */
+  .login-card-box button[type="submit"] {
+    padding: 8px !important;
+    font-size: 0.82rem !important;
+  }
+
+  .login-card-box button[type="submit"] i {
+    margin-right: 2px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .login-card-box {
+    padding: 12px 8px !important;
+  }
+
+  .login-card-box > div:first-child {
+    margin-bottom: 6px !important;
+  }
+
+  .login-card-box div[style*="width: 48px"] {
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 auto 3px !important;
+  }
+
+  .login-card-box h2 {
+    font-size: 0.95rem !important;
+    margin-bottom: 1px !important;
+  }
+
+  .login-card-box > div:first-child > p {
+    font-size: 0.68rem !important;
+  }
+
+  .login-card-box label {
+    font-size: 0.65rem !important;
+    margin-bottom: 2px !important;
+  }
+
+  .login-card-box input[type="text"],
+  .login-card-box input[type="password"] {
+    padding: 6px 7px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .login-card-box button[type="submit"] {
+    padding: 7px !important;
+    font-size: 0.8rem !important;
+  }
+
+  form {
+    gap: 7px !important;
+  }
+}
+
+/* ===== PASSWORD TOGGLE BUTTON ===== */
 .password-input-wrapper {
   position: relative;
   display: flex;
@@ -26,32 +213,44 @@
 }
 
 .password-input-wrapper input {
-  padding-right: 45px;
+  padding-right: 36px;
 }
 
-/* Password Toggle Button */
 .password-toggle-btn {
   position: absolute;
-  right: 12px;
+  right: 8px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   color: var(--muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
   transition: all 0.2s ease;
 }
 
 .password-toggle-btn:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.04);
   color: var(--primary);
 }
 
 .password-toggle-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.92);
+}
+
+@media (max-width: 576px) {
+  .password-toggle-btn {
+    right: 6px;
+    font-size: 0.8rem;
+    width: 24px;
+    height: 24px;
+  }
+
+  .password-input-wrapper input {
+    padding-right: 32px;
+  }
 }

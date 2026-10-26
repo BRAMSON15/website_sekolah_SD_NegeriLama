@@ -1,11 +1,11 @@
 /**
- * Welcome Page Styles
+ * Welcome Page Styles - Mobile Optimized
  * School location map section styling
  */
 
 /* School Location Section */
 .school-location-section {
-  padding: 76px 6%;
+  padding: 60px 4%;
   background: #eef5f2;
 }
 
@@ -13,7 +13,7 @@
 .school-location-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(240px, 0.7fr);
-  gap: 32px;
+  gap: 28px;
   align-items: stretch;
   max-width: 1280px;
   margin: 0 auto;
@@ -22,7 +22,7 @@
 /* School Public Map Container */
 #school-public-map {
   width: 100%;
-  height: 390px;
+  height: 360px;
   border: 1px solid #cbd9d4;
   border-radius: 8px;
   z-index: 0;
@@ -39,15 +39,86 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .school-location-section {
-    padding: 56px 5%;
+    padding: 40px 4%;
   }
 
   .school-location-layout {
     grid-template-columns: 1fr;
-    gap: 22px;
+    gap: 16px;
   }
 
   #school-public-map {
-    height: 320px;
+    height: 280px;
+  }
+
+  .school-location-section > div:first-child {
+    margin-bottom: 16px !important;
+  }
+
+  .school-location-section h2 {
+    font-size: 1.6rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .school-location-section p {
+    font-size: 0.88rem !important;
+  }
+
+  .school-location-copy h3 {
+    font-size: 1rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  .school-location-copy p {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 14px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .school-location-section {
+    padding: 32px 3%;
+  }
+
+  #school-public-map {
+    height: 240px;
+  }
+
+  .school-location-section > div:first-child {
+    margin-bottom: 12px !important;
+  }
+
+  .school-location-section > div:first-child span {
+    font-size: 0.75rem !important;
+  }
+
+  .school-location-section h2 {
+    font-size: 1.3rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  .school-location-section p {
+    font-size: 0.8rem !important;
+  }
+
+  .school-location-copy h3 {
+    font-size: 0.9rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .school-location-copy p {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .school-location-copy a {
+    font-size: 0.8rem !important;
+    gap: 5px !important;
+  }
+
+  .school-location-copy a i {
+    font-size: 0.75rem !important;
   }
 }

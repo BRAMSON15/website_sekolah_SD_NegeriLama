@@ -249,11 +249,11 @@
   <footer>
     <div class="footer-grid">
       <div class="footer-brand">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
-          <div style="width: 42px; height: 42px; background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 4px; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; @media (max-width: 768px) { gap: 5px; margin-bottom: 4px; } @media (max-width: 576px) { gap: 4px; margin-bottom: 2px; }">
+          <div style="width: 38px; height: 38px; background: #ffffff; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 3px; overflow: hidden; flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.12); @media (max-width: 768px) { width: 28px; height: 28px; border-radius: 6px; padding: 2px; } @media (max-width: 576px) { width: 24px; height: 24px; border-radius: 5px; padding: 1px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }">
             <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
           </div>
-          <h3 style="margin: 0; font-size: 1.3rem; font-weight: 800; color: #ffffff;">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h3>
+          <h3 style="margin: 0; font-size: 1.2rem; font-weight: 800; color: #ffffff; @media (max-width: 768px) { font-size: 0.88rem; } @media (max-width: 576px) { font-size: 0.76rem; }">{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h3>
         </div>
         <p>Sekolah Dasar unggulan yang mencetak generasi bertakwa, cerdas, berkarakter, dan siap menghadapi era digital.</p>
       </div>

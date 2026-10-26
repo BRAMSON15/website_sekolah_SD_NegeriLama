@@ -29,7 +29,7 @@
       background-color: var(--light-bg);
       line-height: 1.6;
       overflow-x: hidden;
-      padding-top: 80px;
+      padding-top: 120px;
     }
 
     a {
@@ -46,6 +46,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1001;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .top-info span {
@@ -80,7 +87,7 @@
       padding: 0 6%;
       border-bottom: 1px solid var(--border);
       position: fixed;
-      top: 0;
+      top: 32px;
       left: 0;
       right: 0;
       z-index: 1000;
@@ -223,33 +230,33 @@
     footer {
       background: var(--dark);
       color: #94a3b8;
-      padding: 60px 6% 30px;
-      margin-top: 60px;
+      padding: 50px 6% 24px;
+      margin-top: 50px;
     }
 
     .footer-grid {
       display: grid;
       grid-template-columns: 1.5fr repeat(3, 1fr);
       gap: 40px;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .footer-brand h3 {
       color: #ffffff;
-      font-size: 1.3rem;
-      margin-bottom: 12px;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
     }
 
     .footer-brand p {
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 16px;
     }
 
     .footer-col h4 {
       color: #ffffff;
-      font-size: 1rem;
-      margin-bottom: 20px;
+      font-size: 0.98rem;
+      margin-bottom: 18px;
     }
 
     .footer-col ul {
@@ -257,11 +264,11 @@
     }
 
     .footer-col ul li {
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .footer-col ul li a {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .footer-col ul li a:hover {
@@ -270,16 +277,195 @@
 
     .footer-bottom {
       border-top: 1px solid #1e293b;
-      padding-top: 24px;
+      padding-top: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
+    }
+
+    /* Footer Mobile Optimization */
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 48px 5%;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .page-header p {
+        font-size: 0.95rem;
+      }
+
+      .page-content {
+        padding: 48px 5%;
+      }
+
+      .card-box {
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .page-header {
+        padding: 36px 4%;
+      }
+
+      .page-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+      }
+
+      .page-header p {
+        font-size: 0.8rem;
+      }
+
+      .page-content {
+        padding: 32px 4%;
+      }
+
+      .card-box {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .card-box h2 {
+        font-size: 1.15rem !important;
+        margin-bottom: 10px !important;
+      }
+
+      .card-box h3 {
+        font-size: 0.92rem !important;
+        margin-bottom: 5px !important;
+      }
+
+      .card-box p {
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
+      }
+
+      .card-box ul {
+        font-size: 0.82rem !important;
+        padding-left: 14px !important;
+        line-height: 1.5 !important;
+      }
+
+      .card-box ul li {
+        margin-bottom: 4px !important;
+      }
+    }
+
+    /* Footer Mobile Optimization */
+    @media (max-width: 768px) {
+      footer {
+        padding: 24px 5% 14px;
+        margin-top: 28px;
+      }
+
+      .footer-grid {
+        gap: 18px;
+        margin-bottom: 16px;
+      }
+
+      .footer-brand h3 {
+        font-size: 0.88rem;
+        margin-bottom: 4px;
+      }
+
+      .footer-brand p {
+        font-size: 0.72rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+      }
+
+      .footer-col h4 {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .footer-col ul li {
+        margin-bottom: 5px;
+        font-size: 0.75rem;
+      }
+
+      .footer-bottom {
+        padding-top: 10px;
+        font-size: 0.7rem;
+        gap: 6px;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        line-height: 1.2;
+      }
+    }
+
+    @media (max-width: 576px) {
+      footer {
+        padding: 16px 3% 10px;
+        margin-top: 16px;
+      }
+
+      .footer-grid {
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .footer-brand {
+        margin-bottom: 2px;
+      }
+
+      .footer-brand h3 {
+        font-size: 0.78rem;
+        margin-bottom: 2px;
+        font-weight: 800;
+      }
+
+      .footer-brand p {
+        font-size: 0.65rem;
+        margin-bottom: 0;
+        line-height: 1.25;
+      }
+
+      .footer-col h4 {
+        font-size: 0.72rem;
+        margin-bottom: 5px;
+        font-weight: 700;
+      }
+
+      .footer-col ul li {
+        margin-bottom: 3px;
+        font-size: 0.64rem;
+        line-height: 1.2;
+      }
+
+      .footer-col ul li i {
+        margin-right: 3px;
+        font-size: 0.6rem;
+      }
+
+      .footer-bottom {
+        padding-top: 5px;
+        font-size: 0.6rem;
+        gap: 1px;
+        flex-direction: column;
+        text-align: center;
+        border-top: 1px solid #1e293b;
+      }
+
+      .footer-bottom p {
+        margin: 0;
+        line-height: 1.1;
+      }
     }
 
     @media (max-width: 768px) {
       .top-bar { display: none; }
-      .navbar { height: 68px; padding: 0 16px; }
+      body { padding-top: 80px; }
+      .navbar { height: 68px; padding: 0 16px; top: 0; }
       .brand { gap: 10px; }
       .brand-logo { width: 42px; height: 42px; border-radius: 10px; padding: 3px; }
       .brand-text strong { font-size: 1rem; line-height: 1.2; white-space: nowrap; }
