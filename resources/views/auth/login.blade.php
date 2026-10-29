@@ -15,31 +15,37 @@
           'title'       => 'Portal Masuk Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Portal Dewan Guru',
           'badge_icon'  => 'fa-solid fa-chalkboard-user',
-          'badge_style' => 'background: #eff6ff; color: #1d4ed8; border: 1.5px solid #bfdbfe;',
+          'badge_class' => 'badge-guru',
           'heading'     => 'Portal Guru Pengajar',
-          'subtitle'    => 'Masuk ke ruang kerja digital guru untuk mengelola modul ajar, video edukasi, dan pengumuman sekolah.',
+          'subtitle'    => 'Masuk ke ruang kerja digital guru untuk mengelola modul ajar, video edukasi, dan materi pembelajaran.',
           'btn_text'    => 'Masuk Portal Guru',
-          'btn_style'   => 'background: #2563eb; color: #ffffff;',
+          'btn_class'   => 'btn-login-guru',
+          'icon'        => 'fa-solid fa-chalkboard-user',
+          'role_class'  => 'role-guru',
       ],
       'kepsek' => [
           'title'       => 'Portal Supervisi Kepala Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Supervisi Eksekutif',
           'badge_icon'  => 'fa-solid fa-crown',
-          'badge_style' => 'background: #fef3c7; color: #b45309; border: 1.5px solid #fcd34d;',
+          'badge_class' => 'badge-kepsek',
           'heading'     => 'Supervisi Kepala Sekolah',
           'subtitle'    => 'Panel eksekutif pemantauan mutu pendidikan, monitoring dewan guru, pendaftaran PPDB, dan status sistem.',
           'btn_text'    => 'Masuk Supervisi Kepsek',
-          'btn_style'   => 'background: #0f172a; color: #ffffff;',
+          'btn_class'   => 'btn-login-kepsek',
+          'icon'        => 'fa-solid fa-user-tie',
+          'role_class'  => 'role-kepsek',
       ],
       'admin' => [
           'title'       => 'Portal Administrator - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'),
           'badge'       => 'Portal Administrator',
           'badge_icon'  => 'fa-solid fa-user-shield',
-          'badge_style' => 'background: #e0e7ff; color: #4338ca; border: 1.5px solid #c7d2fe;',
+          'badge_class' => 'badge-admin',
           'heading'     => 'Administrator Portal',
           'subtitle'    => 'Masuk sebagai pengelola sistem untuk administrasi website sekolah, data akun guru, dan publikasi berita.',
           'btn_text'    => 'Masuk Panel Admin',
-          'btn_style'   => 'background: #1e40af; color: #ffffff;',
+          'btn_class'   => 'btn-login-admin',
+          'icon'        => 'fa-solid fa-shield-halved',
+          'role_class'  => 'role-admin',
       ],
   ];
 
@@ -50,142 +56,129 @@
 
 @section('styles')
   <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) ?: time() }}">
-  <style>
-    .login-form { display: flex; flex-direction: column; gap: 10px; }
-    .form-group { display: flex; flex-direction: column; }
-    .form-label { display: block; font-weight: 700; font-size: 0.72rem; color: var(--dark); margin-bottom: 4px; }
-    .form-input { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.85rem; outline: none; transition: border-color 0.2s; }
-    .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1); }
-    .form-helper { display: block; font-size: 0.65rem; color: var(--muted); margin-top: 3px; }
-    .form-submit { border: none; width: 100%; padding: 9px; font-size: 0.88rem; cursor: pointer; border-radius: 8px; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-    .form-submit:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
-    
-    @media (max-width: 576px) {
-      .login-form { gap: 12px; }
-      .form-label { font-size: 0.70rem; margin-bottom: 5px; }
-      .form-input { padding: 10px 12px; font-size: 0.88rem; }
-      .form-helper { font-size: 0.62rem; margin-top: 4px; }
-      .form-submit { padding: 11px; font-size: 0.90rem; }
-    }
-    
-    @media (max-width: 380px) {
-      .login-form { gap: 14px; }
-      .form-label { font-size: 0.68rem; }
-      .form-input { padding: 10px; font-size: 0.85rem; }
-      .form-helper { font-size: 0.60rem; }
-    }
-  </style>
 @endsection
 
 @section('content')
-<div class="login-page-wrap" style="min-height: calc(100vh - 300px); display: flex; align-items: center; justify-content: center; padding: 24px 3%; background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.62)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-  <div class="login-card-box" style="background: #ffffff; border-radius: var(--radius); padding: 22px; border: 1px solid var(--border); box-shadow: var(--shadow-lg); width: 100%; max-width: 420px; box-sizing: border-box;">
+<div class="login-page-wrap">
+  <div class="login-card-box {{ $currentConfig['role_class'] }}">
     
-    <!-- Card Header -->
-    <div style="text-align: center; margin-bottom: 14px;">
-      <div style="width: 56px; height: 56px; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); padding: 6px; overflow: hidden;">
-        <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" style="width: 100%; height: 100%; object-fit: contain;">
+    <!-- Card Header Branding -->
+    <div class="login-card-header">
+      <div class="login-logo-wrap">
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
       </div>
 
-      <!-- Distinct Role Badge -->
-      <div style="display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 14px; font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2px; margin-bottom: 4px; {{ $currentConfig['badge_style'] }}">
-        <i class="{{ $currentConfig['badge_icon'] }}"></i> {{ $currentConfig['badge'] }}
+      <div class="login-badge {{ $currentConfig['badge_class'] }}">
+        <i class="{{ $currentConfig['badge_icon'] }}"></i>
+        <span>{{ $currentConfig['badge'] }}</span>
       </div>
 
-      <h2 style="font-size: 1.15rem; font-weight: 800; color: var(--dark); margin: 0 0 4px 0; line-height: 1.3;">{{ $currentConfig['heading'] }}</h2>
-      <p style="font-size: 0.75rem; color: var(--muted); line-height: 1.4; margin: 0;">{{ $currentConfig['subtitle'] }}</p>
+      <h1 class="login-title">{{ $currentConfig['heading'] }}</h1>
+      <p class="login-subtitle">{{ $currentConfig['subtitle'] }}</p>
     </div>
 
     @auth
-    <!-- Active Session Banner for Authenticated Users -->
-    <div style="background: #eff6ff; border: 1.5px solid #bfdbfe; border-radius: 8px; padding: 9px 11px; margin-bottom: 12px; text-align: left;">
-      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
-        <div>
-          <div style="font-size: 0.60rem; text-transform: uppercase; font-weight: 800; color: #2563eb; letter-spacing: 0.3px; margin-bottom: 2px;">
-            <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Sesi Masuk
-          </div>
-          <div style="font-size: 0.85rem; font-weight: 800; color: #1e3a8a;">
-            {{ Auth::user()->name }}
-            <span style="font-size: 0.62rem; font-weight: 700; background: #dbeafe; color: #1d4ed8; padding: 2px 6px; border-radius: 999px; margin-left: 4px;">{{ strtoupper(Auth::user()->role) }}</span>
-          </div>
-          <p style="font-size: 0.67rem; color: #64748b; margin: 3px 0 0; line-height: 1.3;">
-            Anda sedang masuk. Langsung ke dashboard?
-          </p>
-        </div>
-        <div style="display: flex; gap: 4px; align-items: center; flex-wrap: wrap; margin-top: 2px;">
-          @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
-            <a href="{{ route('kepsek.dashboard') }}" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; font-size: 0.67rem; font-weight: 700; border-radius: 5px; background: #0f172a; color: #fff; text-decoration: none;">
-              <i class="fa-solid fa-user-tie"></i> Monitoring
-            </a>
-          @elseif(Auth::user()->role === 'guru')
-            <a href="{{ route('guru.dashboard') }}" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; font-size: 0.67rem; font-weight: 700; border-radius: 5px; background: #2563eb; color: #fff; text-decoration: none;">
-              <i class="fa-solid fa-chalkboard-user"></i> Portal
-            </a>
-          @elseif(Auth::user()->role === 'admin')
-            <a href="{{ route('dashboard') }}" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; font-size: 0.67rem; font-weight: 700; border-radius: 5px; background: #2563eb; color: #fff; text-decoration: none;">
-              <i class="fa-solid fa-gauge"></i> Dashboard
-            </a>
-          @else
-            <a href="{{ route('siswa.beranda') }}" style="display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; font-size: 0.67rem; font-weight: 700; border-radius: 5px; background: #2563eb; color: #fff; text-decoration: none;">
-              <i class="fa-solid fa-graduation-cap"></i> Belajar
-            </a>
-          @endif
-          <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
-            @csrf
-            <button type="submit" style="display: inline-flex; align-items: center; gap: 3px; padding: 5px 7px; font-size: 0.67rem; font-weight: 700; border-radius: 5px; background: #fee2e2; border: 0.5px solid #fecaca; color: #dc2626; cursor: pointer;">
-              <i class="fa-solid fa-right-from-bracket"></i> Keluar
-            </button>
-          </form>
-        </div>
+    <!-- Active Session Banner for Logged-in Users -->
+    <div class="active-session-banner">
+      <div class="session-tag">
+        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Sesi Masuk Aktif
+      </div>
+      <div class="session-user">
+        <span>{{ Auth::user()->name }}</span>
+        <span class="session-role">{{ strtoupper(Auth::user()->role) }}</span>
+      </div>
+      <p class="session-desc">
+        Anda saat ini sedang dalam sesi aktif. Ingin langsung menuju panel?
+      </p>
+      <div class="active-session-actions">
+        @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
+          <a href="{{ route('kepsek.dashboard') }}" class="btn-session-dash">
+            <i class="fa-solid fa-gauge-high"></i> Buka Monitoring
+          </a>
+        @elseif(Auth::user()->role === 'guru')
+          <a href="{{ route('guru.dashboard') }}" class="btn-session-dash">
+            <i class="fa-solid fa-chalkboard-user"></i> Buka Portal Guru
+          </a>
+        @elseif(Auth::user()->role === 'admin')
+          <a href="{{ route('dashboard') }}" class="btn-session-dash">
+            <i class="fa-solid fa-gauge"></i> Buka Dashboard Admin
+          </a>
+        @else
+          <a href="{{ route('siswa.beranda') }}" class="btn-session-dash">
+            <i class="fa-solid fa-graduation-cap"></i> Buka Ruang Belajar
+          </a>
+        @endif
+
+        <form action="{{ route('logout') }}" method="POST" style="margin: 0; display: inline;">
+          @csrf
+          <button type="submit" class="btn-session-logout">
+            <i class="fa-solid fa-right-from-bracket"></i> Keluar
+          </button>
+        </form>
       </div>
     </div>
     @endauth
 
     @if (session('success'))
-    <div style="background: #ecfdf5; border-left: 3px solid #10b981; color: #065f46; padding: 8px 10px; border-radius: 6px; font-size: 0.73rem; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-      <i class="fa-solid fa-circle-check" style="font-size: 0.9rem; color: #10b981; flex-shrink: 0;"></i>
+    <div class="login-alert login-alert-success">
+      <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 1.1rem; margin-top: 1px;"></i>
       <div>{{ session('success') }}</div>
     </div>
     @endif
 
     @if ($errors->any())
-    <div style="background: #fef2f2; border-left: 3px solid #ef4444; color: #991b1b; padding: 8px 10px; border-radius: 6px; font-size: 0.73rem; margin-bottom: 12px;">
-      <ul style="margin: 0; padding-left: 14px; line-height: 1.5;">
+    <div class="login-alert login-alert-danger">
+      <i class="fa-solid fa-circle-exclamation" style="color: #ef4444; font-size: 1.1rem; margin-top: 1px; flex-shrink: 0;"></i>
+      <ul>
         @foreach ($errors->all() as $error)
-          <li style="margin-bottom: 3px;">{{ $error }}</li>
+          <li>{{ $error }}</li>
         @endforeach
       </ul>
     </div>
     @endif
 
-    <!-- Role Form Renders Exclusively Based on URL Link (No Switcher Tabs) -->
+    <!-- Form Section -->
     @if ($roleKey === 'admin')
       <!-- ================= FORM LOGIN ADMIN ================= -->
       <form id="form-login-admin" action="{{ route('login') }}" method="POST" class="login-form">
         @csrf
         <input type="hidden" name="login_type" value="admin">
+        
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-envelope" style="color: #1e40af; margin-right: 4px;"></i> Email atau Username
+          <label class="form-label" for="admin-email">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Email atau Username</span>
           </label>
-          <input type="text" name="email" value="{{ old('email') }}" placeholder="admin@sdnegerilama.sch.id" required class="form-input">
+          <div class="input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <input type="text" id="admin-email" name="email" value="{{ old('email') }}" placeholder="Contoh: admin@sdnegerilama.sch.id" required autofocus class="input-field input-with-icon">
+          </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-lock" style="color: #1e40af; margin-right: 4px;"></i> Kata Sandi
+          <label class="form-label" for="admin-password">
+            <i class="fa-solid fa-lock"></i>
+            <span>Kata Sandi</span>
           </label>
-          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; background: #fff; display: flex; align-items: center;">
-            <input type="password" name="password" placeholder="••••••••" required style="flex: 1; box-sizing: border-box; padding: 8px 10px; border: none; border-radius: 8px; font-family: inherit; font-size: 0.85rem; outline: none; background: transparent;">
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" style="padding: 8px 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.9rem;">
+          <div class="input-wrapper password-input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="admin-password" name="password" placeholder="Masukkan kata sandi admin" required class="input-field input-with-icon">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Tampilkan kata sandi" aria-label="Tampilkan kata sandi">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <span class="form-helper">*Akses khusus Administrator.</span>
+          <span class="form-helper">
+            <i class="fa-solid fa-shield-halved" style="font-size: 0.7rem; color: #4f46e5;"></i> Akses khusus Administrator Sistem.
+          </span>
         </div>
 
-        <button type="submit" class="form-submit" style="{{ $currentConfig['btn_style'] }}">
-          <i class="fa-solid fa-right-to-bracket"></i> {{ $currentConfig['btn_text'] }}
+        <button type="submit" class="btn-submit {{ $currentConfig['btn_class'] }}">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>{{ $currentConfig['btn_text'] }}</span>
         </button>
       </form>
 
@@ -194,28 +187,42 @@
       <form id="form-login-kepsek" action="{{ route('login') }}" method="POST" class="login-form">
         @csrf
         <input type="hidden" name="login_type" value="kepala_sekolah">
+        
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-user-tie" style="color: #0f172a; margin-right: 4px;"></i> NIP, Email, atau Nama
+          <label class="form-label" for="kepsek-identifier">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>NIP, Email, atau Nama</span>
           </label>
-          <input type="text" name="kepsek_identifier" value="{{ old('kepsek_identifier') }}" placeholder="Contoh: 197505081999031001" required class="form-input">
+          <div class="input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-id-badge"></i>
+            </div>
+            <input type="text" id="kepsek-identifier" name="kepsek_identifier" value="{{ old('kepsek_identifier') }}" placeholder="Contoh: 197505081999031001" required autofocus class="input-field input-with-icon">
+          </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-lock" style="color: #0f172a; margin-right: 4px;"></i> Kata Sandi
+          <label class="form-label" for="kepsek-password">
+            <i class="fa-solid fa-lock"></i>
+            <span>Kata Sandi</span>
           </label>
-          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; background: #fff; display: flex; align-items: center;">
-            <input type="password" name="kepsek_password" placeholder="••••••••" required style="flex: 1; box-sizing: border-box; padding: 8px 10px; border: none; border-radius: 8px; font-family: inherit; font-size: 0.85rem; outline: none; background: transparent;">
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" style="padding: 8px 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.9rem;">
+          <div class="input-wrapper password-input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="kepsek-password" name="kepsek_password" placeholder="Masukkan kata sandi" required class="input-field input-with-icon">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Tampilkan kata sandi" aria-label="Tampilkan kata sandi">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <span class="form-helper">*Akses terbatas pimpinan satuan pendidikan.</span>
+          <span class="form-helper">
+            <i class="fa-solid fa-lock" style="font-size: 0.7rem; color: #d97706;"></i> Akses terbatas untuk pimpinan satuan pendidikan.
+          </span>
         </div>
 
-        <button type="submit" class="form-submit" style="{{ $currentConfig['btn_style'] }}">
-          <i class="fa-solid fa-building-columns"></i> {{ $currentConfig['btn_text'] }}
+        <button type="submit" class="btn-submit {{ $currentConfig['btn_class'] }}">
+          <i class="fa-solid fa-building-columns"></i>
+          <span>{{ $currentConfig['btn_text'] }}</span>
         </button>
       </form>
 
@@ -224,31 +231,53 @@
       <form id="form-login-guru" action="{{ route('login') }}" method="POST" class="login-form">
         @csrf
         <input type="hidden" name="login_type" value="guru">
+        
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-user-tie" style="color: var(--primary); margin-right: 4px;"></i> Nama, NIP, atau Email
+          <label class="form-label" for="guru-name">
+            <i class="fa-solid fa-user-tie"></i>
+            <span>Nama Lengkap, NIP, atau Email</span>
           </label>
-          <input type="text" name="name" value="{{ old('name') }}" placeholder="Contoh: Budi Santoso atau 198507122010011002" required class="form-input">
+          <div class="input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+            <input type="text" id="guru-name" name="name" value="{{ old('name') }}" placeholder="Contoh: Budi Santoso atau NIP guru" required autofocus class="input-field input-with-icon">
+          </div>
         </div>
 
         <div class="form-group">
-          <label class="form-label">
-            <i class="fa-solid fa-id-card" style="color: var(--primary); margin-right: 4px;"></i> NIP / Kata Sandi
+          <label class="form-label" for="guru-nip">
+            <i class="fa-solid fa-key"></i>
+            <span>NIP / Kata Sandi</span>
           </label>
-          <div class="password-input-wrapper" style="box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; background: #fff; display: flex; align-items: center;">
-            <input type="password" name="nip" placeholder="Masukkan NIP atau kata sandi" required style="flex: 1; box-sizing: border-box; padding: 8px 10px; border: none; border-radius: 8px; font-family: inherit; font-size: 0.85rem; outline: none; background: transparent;">
-            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" style="padding: 8px 10px; background: none; border: none; color: #94a3b8; cursor: pointer; font-size: 0.9rem;">
+          <div class="input-wrapper password-input-wrapper">
+            <div class="input-icon-box">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="guru-nip" name="nip" placeholder="Masukkan NIP atau kata sandi Anda" required class="input-field input-with-icon">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility(this)" title="Tampilkan kata sandi" aria-label="Tampilkan kata sandi">
               <i class="fa-solid fa-eye"></i>
             </button>
           </div>
-          <span class="form-helper">*Gunakan NIP atau kata sandi yang telah diatur.</span>
+          <span class="form-helper">
+            <i class="fa-solid fa-circle-info" style="font-size: 0.7rem; color: #2563eb;"></i> Gunakan NIP atau kata sandi yang telah didaftarkan.
+          </span>
         </div>
 
-        <button type="submit" class="form-submit" style="{{ $currentConfig['btn_style'] }}">
-          <i class="fa-solid fa-chalkboard-user"></i> {{ $currentConfig['btn_text'] }}
+        <button type="submit" class="btn-submit {{ $currentConfig['btn_class'] }}">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span>{{ $currentConfig['btn_text'] }}</span>
         </button>
       </form>
     @endif
+
+    <!-- Card Footer / Back Link -->
+    <div class="login-card-footer">
+      <a href="{{ route('home') }}" class="back-home-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Kembali ke Beranda Utama</span>
+      </a>
+    </div>
 
   </div>
 </div>

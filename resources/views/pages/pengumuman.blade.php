@@ -1,38 +1,139 @@
 @extends('layouts.app')
 
-@section('title', 'Arsip Pengumuman - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
+@section('title', 'Arsip Pengumuman - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
-<div class="page-header">
-  <h1>Pengumuman Sekolah</h1>
-  <p>Informasi dan pengumuman resmi terbaru dari {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</p>
+<!-- Modern Header Banner with School Image -->
+<div class="page-header announcement-page-header" style="background-image: linear-gradient(rgba(15, 23, 42, 0.58), rgba(30, 64, 175, 0.58)), url('{{ asset('mentahan2/img/image1.png') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="announcement-header-inner">
+    <div class="announcement-badge-pill">
+      <i class="fa-solid fa-bullhorn"></i> Pusat Informasi Resmi
+    </div>
+    <h1 class="announcement-main-title">Warta & Pengumuman Sekolah</h1>
+    <p style="color: #e2e8f0; font-size: 1.05rem; max-width: 650px; margin: 0 auto; line-height: 1.6; text-shadow: 0 1px 4px rgba(15, 23, 42, 0.55);">
+      Informasi resmi, agenda kegiatan, dan surat edaran terkini dari {{ $settings['school_name'] ?? 'SD Negeri Lama' }}
+    </p>
+  </div>
 </div>
 
 <div class="page-content">
-  <div class="card-box">
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-      @forelse($announcements as $announcement)
-      <div class="announcement-archive-item" style="display: flex; gap: 18px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
-        <div class="announcement-archive-badge" style="background: var(--primary); color: #fff; border-radius: 12px; padding: 12px 16px; text-align: center; min-width: 70px; align-self: flex-start; flex-shrink: 0;">
-          <div style="font-size: 1.4rem; font-weight: 800; line-height: 1;">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</div>
-          <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; margin-top: 4px;">{{ $announcement->published_at ? $announcement->published_at->format('M Y') : date('M Y') }}</div>
-        </div>
-        <div style="min-width: 0; flex: 1;">
-          <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; line-height: 1.35;">
-            <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--dark); text-decoration: none;">{{ $announcement->title }}</a>
-          </h3>
-          <p style="color: var(--muted); font-size: 0.92rem; margin-bottom: 12px; line-height: 1.5;">{{ Str::limit($announcement->content, 180) }}</p>
-          <a href="{{ route('pengumuman.show', $announcement->slug) }}" style="color: var(--primary); font-weight: 700; font-size: 0.85rem; text-decoration: none;">Baca Selengkapnya <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-      </div>
-      @empty
-      <p style="color: var(--muted);">Belum ada pengumuman.</p>
-      @endforelse
+  <div class="announcement-detail-wrapper">
+
+    <!-- Breadcrumbs Navigation -->
+    <nav class="announcement-breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ route('home') }}"><i class="fa-solid fa-house-chimney"></i> Beranda</a>
+      <span class="sep"><i class="fa-solid fa-chevron-right"></i></span>
+      <span class="current">Pengumuman Sekolah</span>
+    </nav>
+
+    <!-- Search & Filter Bar -->
+    <div class="announcement-search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="announcementSearchInput" placeholder="Cari judul, topik, atau kata kunci pengumuman..." onkeyup="filterAnnouncements()">
+      <span id="announcementSearchCount" style="font-size: 0.82rem; font-weight: 700; color: #64748b; white-space: nowrap;">
+        Total: {{ $announcements->total() }} Pengumuman
+      </span>
     </div>
 
-    <div style="margin-top: 30px;">
+    <!-- Announcement Feed Cards Grid -->
+    <div class="announcement-feed-grid" id="announcementFeedList">
+      @forelse($announcements as $announcement)
+      <article class="announcement-feed-card" data-title="{{ strtolower($announcement->title) }}" data-content="{{ strtolower($announcement->content) }}">
+        <!-- Date Badge -->
+        <div class="announcement-feed-date-badge">
+          <div class="announcement-feed-date-day">{{ $announcement->published_at ? $announcement->published_at->format('d') : date('d') }}</div>
+          <div class="announcement-feed-date-month">{{ $announcement->published_at ? $announcement->published_at->locale('id')->isoFormat('MMM Y') : date('M Y') }}</div>
+        </div>
+
+        <!-- Content -->
+        <div class="announcement-feed-content">
+          <div class="announcement-feed-top-meta">
+            <span class="announcement-feed-tag">
+              <i class="fa-solid fa-bullhorn"></i> Pengumuman Resmi
+            </span>
+            <span class="announcement-feed-time">
+              <i class="fa-regular fa-clock"></i> ± {{ max(1, ceil(str_word_count(strip_tags($announcement->content)) / 160)) }} Menit Baca
+            </span>
+          </div>
+
+          <h2 class="announcement-feed-title">
+            <a href="{{ route('pengumuman.show', $announcement->slug) }}">{{ $announcement->title }}</a>
+          </h2>
+
+          <p class="announcement-feed-excerpt">
+            {{ Str::limit(strip_tags($announcement->content), 200) }}
+          </p>
+
+          <div class="announcement-feed-footer">
+            <div class="announcement-feed-author">
+              <i class="fa-solid fa-building-columns" style="color: #2563eb;"></i>
+              <span>Humas & Tata Usaha</span>
+            </div>
+            <a href="{{ route('pengumuman.show', $announcement->slug) }}" class="announcement-feed-btn">
+              <span>Baca Selengkapnya</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+      @empty
+      <div style="background: #ffffff; border-radius: 16px; padding: 50px 20px; text-align: center; border: 1px dashed #cbd5e1;">
+        <i class="fa-solid fa-bullhorn" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 16px;"></i>
+        <h3 style="font-size: 1.2rem; font-weight: 700; color: #334155;">Belum Ada Pengumuman</h3>
+        <p style="color: #64748b; font-size: 0.95rem; margin-top: 6px;">Saat ini belum ada pengumuman resmi yang dipublikasikan oleh sekolah.</p>
+      </div>
+      @endforelse
+
+      <!-- No Search Results Found Fallback (hidden by default) -->
+      <div id="noSearchResults" style="display: none; background: #ffffff; border-radius: 16px; padding: 50px 20px; text-align: center; border: 1px dashed #cbd5e1;">
+        <i class="fa-solid fa-magnifying-glass" style="font-size: 2.8rem; color: #94a3b8; margin-bottom: 14px;"></i>
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: #1e293b;">Tidak Ditemukan Pengumuman</h3>
+        <p style="color: #64748b; font-size: 0.9rem; margin-top: 6px;">Coba gunakan kata kunci pencarian yang lain.</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div style="margin-top: 36px; display: flex; justify-content: center;">
       {{ $announcements->links() }}
     </div>
+
   </div>
 </div>
+
+<script>
+function filterAnnouncements() {
+  const query = document.getElementById('announcementSearchInput').value.toLowerCase().trim();
+  const cards = document.querySelectorAll('#announcementFeedList .announcement-feed-card');
+  const emptyState = document.getElementById('noSearchResults');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const title = card.getAttribute('data-title') || '';
+    const content = card.getAttribute('data-content') || '';
+    if (query === '' || title.includes(query) || content.includes(query)) {
+      card.style.display = 'flex';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  if (emptyState) {
+    if (visibleCount === 0 && query !== '') {
+      emptyState.style.display = 'block';
+    } else {
+      emptyState.style.display = 'none';
+    }
+  }
+
+  const countBadge = document.getElementById('announcementSearchCount');
+  if (countBadge) {
+    if (query !== '') {
+      countBadge.innerText = visibleCount + ' Ditemukan';
+    } else {
+      countBadge.innerText = 'Total: {{ $announcements->total() }} Pengumuman';
+    }
+  }
+}
+</script>
 @endsection

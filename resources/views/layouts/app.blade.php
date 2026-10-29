@@ -47,17 +47,19 @@
     </a>
 
     <nav class="nav-menu">
-      <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Beranda</a>
-      @auth
-        @if(Auth::user()->role === 'siswa')
-          <a href="{{ route('siswa.beranda') }}" class="{{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="color: #2563eb; font-weight: 700;"><i class="fa-solid fa-graduation-cap"></i> Ruang Belajar</a>
-        @endif
-      @endauth
-      <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-school"></i> Profil</a>
-      <a href="{{ route('akademik') }}" class="{{ request()->routeIs('akademik') ? 'active' : '' }}"><i class="fa-solid fa-book-open"></i> Akademik</a>
-      <a href="{{ route('fasilitas') }}" class="{{ request()->routeIs('fasilitas') ? 'active' : '' }}"><i class="fa-solid fa-building"></i> Fasilitas</a>
-      <a href="{{ route('ppdb') }}" class="{{ request()->routeIs('ppdb') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> PPDB</a>
-      <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'active' : '' }}"><i class="fa-solid fa-address-book"></i> Kontak</a>
+      @if(!request()->routeIs('siswa.*'))
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Beranda</a>
+        @auth
+          @if(Auth::user()->role === 'siswa')
+            <a href="{{ route('siswa.beranda') }}" class="{{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="color: #2563eb; font-weight: 700;"><i class="fa-solid fa-graduation-cap"></i> Ruang Belajar</a>
+          @endif
+        @endauth
+        <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-school"></i> Profil</a>
+        <a href="{{ route('akademik') }}" class="{{ request()->routeIs('akademik') ? 'active' : '' }}"><i class="fa-solid fa-book-open"></i> Akademik</a>
+        <a href="{{ route('fasilitas') }}" class="{{ request()->routeIs('fasilitas') ? 'active' : '' }}"><i class="fa-solid fa-building"></i> Fasilitas</a>
+        <a href="{{ route('ppdb') }}" class="{{ request()->routeIs('ppdb') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> PPDB</a>
+        <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'active' : '' }}"><i class="fa-solid fa-address-book"></i> Kontak</a>
+      @endif
     </nav>
 
     <div class="nav-actions">
@@ -122,6 +124,7 @@
         </div>
         @endauth
 
+        @if(!request()->routeIs('siswa.*'))
         <a href="{{ route('home') }}" class="mobile-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
           <div class="mobile-nav-icon"><i class="fa-solid fa-house"></i></div>
           <div class="mobile-nav-text">
@@ -130,6 +133,7 @@
           </div>
           <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </a>
+        @endif
 
         @auth
           @if(in_array(Auth::user()->role, ['kepala_sekolah', 'kepsek']))
@@ -153,6 +157,7 @@
           @endif
         @endauth
 
+        @if(!request()->routeIs('siswa.*'))
         <a href="{{ route('profil') }}" class="mobile-nav-link {{ request()->routeIs('profil') ? 'active' : '' }}">
           <div class="mobile-nav-icon"><i class="fa-solid fa-school"></i></div>
           <div class="mobile-nav-text">
@@ -197,6 +202,7 @@
           </div>
           <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </a>
+        @endif
 
         <div class="mobile-nav-divider"></div>
 
