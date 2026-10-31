@@ -1,8 +1,25 @@
 /**
- * Modern Responsive Login Page Styles
- * Designed for High-End Desktop and Mobile Simulator / Smartphone Experience
+ * Modern Responsive Login Page Styles - Touch Optimized for Real Devices
+ * Designed for high-end desktop and real smartphone experience
  * SD Negeri Negeri Lama Portal
+ * 
+ * Performance considerations:
+ * - Minimal transitions (0.15s ease-out only on essential properties)
+ * - No transforms except on :active for feedback
+ * - Simplified shadows to reduce paint operations
+ * - -webkit prefixes for iOS compatibility
+ * - No hover states on mobile (using :active instead)
+ * - Removed duplicate/conflicting CSS rules
  */
+
+/* ===================================================
+   GLOBAL OPTIMIZATION FOR REAL DEVICES
+   =================================================== */
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
 
 /* ===================================================
    1. PAGE WRAPPER & BACKGROUND
@@ -22,24 +39,11 @@
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
-}
-
-/* Subtle decorative ambient glow behind card */
-.login-page-wrap::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 580px;
-  height: 580px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, rgba(30, 64, 175, 0) 70%);
-  pointer-events: none;
-  z-index: 1;
+  contain: layout style paint;
 }
 
 /* ===================================================
-   2. LOGIN CARD CONTAINER
+   2. LOGIN CARD CONTAINER - TOUCH OPTIMIZED
    =================================================== */
 .login-card-box {
   position: relative;
@@ -51,14 +55,12 @@
   padding: 34px 30px;
   box-sizing: border-box;
   border: 1px solid rgba(226, 232, 240, 0.95);
-  box-shadow: 
-    0 24px 48px -12px rgba(15, 23, 42, 0.32),
-    0 0 0 1px rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.25);
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  -webkit-font-smoothing: antialiased;
+  will-change: transform;
 }
 
-/* Top accent color bar based on active portal */
 .login-card-box::before {
   content: '';
   position: absolute;
@@ -95,17 +97,12 @@
   border-radius: 16px;
   background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
   border: 2px solid #e2e8f0;
-  box-shadow: 0 4px 14px -2px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px;
   box-sizing: border-box;
-  transition: transform 0.2s ease;
-}
-
-.login-logo-wrap:hover {
-  transform: translateY(-2px);
 }
 
 .login-logo-wrap img {
@@ -233,12 +230,12 @@
   background: #2563eb;
   color: #ffffff;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-session-dash:hover {
+.btn-session-dash:active {
   background: #1d4ed8;
-  transform: translateY(-1px);
 }
 
 .btn-session-logout {
@@ -253,10 +250,11 @@
   border: 1px solid #fecaca;
   color: #dc2626;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn-session-logout:hover {
+.btn-session-logout:active {
   background: #fca5a5;
   color: #991b1b;
 }
@@ -300,7 +298,7 @@
 }
 
 /* ===================================================
-   5. FORM & INPUT CONTROLS
+   5. FORM & INPUT CONTROLS - TOUCH OPTIMIZED
    =================================================== */
 .login-form {
   display: flex;
@@ -338,7 +336,7 @@
   color: #4f46e5;
 }
 
-/* Unified Touch-friendly Input Wrapper */
+/* Input Wrapper - Optimized for Real Devices */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -347,29 +345,35 @@
   background: #f8fafc;
   border: 1.5px solid #cbd5e1;
   border-radius: 12px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.15s ease-out, background 0.15s ease-out, box-shadow 0.15s ease-out;
   box-sizing: border-box;
-}
-
-.input-wrapper:hover {
-  border-color: #94a3b8;
-  background: #ffffff;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  contain: layout style;
 }
 
 .input-wrapper:focus-within {
   border-color: #2563eb;
   background: #ffffff;
-  box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.14);
+  box-shadow: 0 0 0 2.5px rgba(37, 99, 235, 0.12);
 }
 
-.role-kepsek .input-wrapper:focus-within {
+.input-wrapper:active {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 2.5px rgba(37, 99, 235, 0.12);
+}
+
+.role-kepsek .input-wrapper:focus-within,
+.role-kepsek .input-wrapper:active {
   border-color: #d97706;
-  box-shadow: 0 0 0 3.5px rgba(217, 119, 6, 0.14);
+  box-shadow: 0 0 0 2.5px rgba(217, 119, 6, 0.12);
 }
 
-.role-admin .input-wrapper:focus-within {
+.role-admin .input-wrapper:focus-within,
+.role-admin .input-wrapper:active {
   border-color: #4f46e5;
-  box-shadow: 0 0 0 3.5px rgba(79, 70, 229, 0.14);
+  box-shadow: 0 0 0 2.5px rgba(79, 70, 229, 0.12);
 }
 
 .input-icon-box {
@@ -382,19 +386,7 @@
   font-size: 0.95rem;
   flex-shrink: 0;
   pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-.input-wrapper:focus-within .input-icon-box {
-  color: #2563eb;
-}
-
-.role-kepsek .input-wrapper:focus-within .input-icon-box {
-  color: #d97706;
-}
-
-.role-admin .input-wrapper:focus-within .input-icon-box {
-  color: #4f46e5;
+  transition: color 0.15s ease-out;
 }
 
 .input-field {
@@ -410,6 +402,8 @@
   color: #0f172a;
   outline: none;
   box-sizing: border-box;
+  -webkit-appearance: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 .input-field::placeholder {
@@ -418,7 +412,7 @@
   font-weight: 400;
 }
 
-/* Password Toggle Button */
+/* Password Toggle Button - Touch Optimized (44x44px minimum) */
 .password-toggle-btn {
   width: 44px;
   height: 44px;
@@ -432,17 +426,17 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease-out, background 0.15s ease-out;
   flex-shrink: 0;
-}
-
-.password-toggle-btn:hover {
-  color: #0f172a;
-  background: rgba(0, 0, 0, 0.05);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  padding: 0;
+  contain: layout style;
 }
 
 .password-toggle-btn:active {
-  transform: scale(0.92);
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .form-helper {
@@ -456,11 +450,12 @@
 }
 
 /* ===================================================
-   6. SUBMIT BUTTON
+   6. SUBMIT BUTTON - TOUCH OPTIMIZED
    =================================================== */
 .btn-submit {
   width: 100%;
   height: 48px;
+  min-height: 48px;
   border: none;
   border-radius: 12px;
   font-family: inherit;
@@ -472,45 +467,43 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.15s ease-out, box-shadow 0.15s ease-out;
   margin-top: 6px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  padding: 0;
+  contain: layout style;
+  will-change: background, box-shadow;
 }
 
 .btn-submit.btn-login-guru {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.30);
 }
 
-.btn-submit.btn-login-guru:hover {
+.btn-submit.btn-login-guru:active {
   background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 }
 
 .btn-submit.btn-login-kepsek {
   background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.30);
 }
 
-.btn-submit.btn-login-kepsek:hover {
+.btn-submit.btn-login-kepsek:active {
   background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.45);
-  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.25);
 }
 
 .btn-submit.btn-login-admin {
   background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
-  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.35);
+  box-shadow: 0 4px 12px rgba(30, 64, 175, 0.30);
 }
 
-.btn-submit.btn-login-admin:hover {
+.btn-submit.btn-login-admin:active {
   background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
-  box-shadow: 0 6px 18px rgba(30, 64, 175, 0.45);
-  transform: translateY(-1px);
-}
-
-.btn-submit:active {
-  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
 }
 
 /* ===================================================
@@ -558,14 +551,14 @@
   font-size: 0.76rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: background 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.role-chip:hover {
+.role-chip:active {
   background: #eff6ff;
   border-color: #bfdbfe;
   color: #1d4ed8;
-  transform: translateY(-1px);
 }
 
 .role-chip i {
@@ -582,16 +575,17 @@
   text-decoration: none;
   padding: 6px 12px;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: color 0.15s ease-out, background 0.15s ease-out;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.back-home-link:hover {
+.back-home-link:active {
   color: #1e40af;
   background: #f1f5f9;
 }
 
 /* ===================================================
-   8. MOBILE RESPONSIVENESS & SIMULATOR OPTIMIZATION
+   8. MOBILE RESPONSIVENESS - REAL DEVICE OPTIMIZED
    =================================================== */
 @media (max-width: 768px) {
   .login-page-wrap {
@@ -603,7 +597,7 @@
     max-width: 420px;
     padding: 28px 24px;
     border-radius: 20px;
-    box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.26);
+    box-shadow: 0 16px 32px -10px rgba(15, 23, 42, 0.20);
   }
 
   .login-title {
@@ -612,6 +606,11 @@
 }
 
 @media (max-width: 576px) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
   .login-page-wrap {
     min-height: calc(100vh - 120px);
     padding: 24px 14px;
@@ -622,7 +621,7 @@
     max-width: 100%;
     padding: 26px 20px;
     border-radius: 18px;
-    box-shadow: 0 14px 32px -8px rgba(15, 23, 42, 0.22);
+    box-shadow: 0 12px 28px -8px rgba(15, 23, 42, 0.18);
   }
 
   .login-logo-wrap {
@@ -663,22 +662,26 @@
   .input-field {
     height: 46px;
     font-size: 0.90rem;
+    padding: 0 12px 0 0;
   }
 
   .input-icon-box {
     height: 46px;
     width: 38px;
+    font-size: 0.90rem;
   }
 
   .password-toggle-btn {
     height: 42px;
     width: 42px;
+    font-size: 0.88rem;
   }
 
   .btn-submit {
     height: 46px;
     font-size: 0.92rem;
     border-radius: 11px;
+    min-height: 46px;
   }
 
   .role-chip {
@@ -698,26 +701,29 @@
   }
 
   .login-logo-wrap {
-    width: 48px;
-    height: 48px;
-    padding: 6px;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px;
   }
 
   .login-title {
-    font-size: 1.15rem;
-  }
-
-  .login-subtitle {
-    font-size: 0.76rem;
+    font-size: 1.10rem;
+    margin-bottom: 3px;
   }
 
   .input-field {
-    height: 44px;
     font-size: 0.88rem;
+    height: 44px;
+  }
+
+  .input-icon-box {
+    height: 44px;
+    width: 36px;
   }
 
   .btn-submit {
     height: 44px;
     font-size: 0.88rem;
+    min-height: 44px;
   }
 }
