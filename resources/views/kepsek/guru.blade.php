@@ -3,127 +3,200 @@
 @section('title', 'Monitoring Guru & Tenaga Pendidik - Kepala Sekolah')
 @section('page-title', 'Monitoring Guru & Kinerja Pengajaran')
 
-@section('content')
 @section('styles')
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-guru.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-guru.css')) ?: time() }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
 @endsection
 
 @section('content')
-  <div class="metric-mini-card">
-    <div class="icon" style="background: #eff6ff; color: #2563eb;">
-      <i class="fa-solid fa-chalkboard-user"></i>
-    </div>
-    <div>
-      <h4>{{ $totalTeachers }}</h4>
-      <span>Total Guru Terdaftar</span>
+@php
+    $activeTeachers = $teachers->filter(fn ($t) => ($t->materials_count ?? 0) > 0 || ($t->videos_count ?? 0) > 0)->count();
+    $activeRate = $teachers->count() > 0 ? (int) round($activeTeachers / $teachers->count() * 100) : 0;
+@endphp
+
+<!-- Hero -->
+<section class="exec-hero">
+  <div class="exec-hero-glow exec-hero-glow--gold" aria-hidden="true"></div>
+  <div class="exec-hero-glow exec-hero-glow--blue" aria-hidden="true"></div>
+
+  <div class="exec-hero-main">
+    <span class="exec-hero-chip">
+      <i class="fa-solid fa-chalkboard-user"></i> Supervisi Akademik
+    </span>
+    <h1>Kinerja <span>Dewan Guru</span></h1>
+    <p>
+      Pantau keaktifan tenaga pendidik dalam menyusun modul materi dan video pembelajaran
+      sebagai bahan evaluasi supervisi akademik.
+    </p>
+    <div class="exec-hero-meta">
+      <span><i class="fa-regular fa-calendar-days"></i> {{ now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+      <span><i class="fa-solid fa-user-group"></i> {{ $totalTeachers }} guru terdaftar</span>
+      <span class="exec-hero-status"><span class="pulse-dot"></span> {{ $activeTeachers }} aktif berkonten</span>
     </div>
   </div>
 
-  <div class="metric-mini-card">
-    <div class="icon" style="background: #f0fdf4; color: #16a34a;">
-      <i class="fa-solid fa-book"></i>
+  <div class="exec-hero-actions">
+    <a href="{{ route('kepsek.monitoring.pembelajaran') }}" class="hero-btn hero-btn--gold">
+      <i class="fa-solid fa-book-open-reader"></i> Supervisi Konten
+    </a>
+    <a href="{{ route('kepsek.dashboard') }}" class="hero-btn hero-btn--ghost">
+      <i class="fa-solid fa-gauge-high"></i> Dashboard
+    </a>
+  </div>
+</section>
+
+<!-- Metric Cards -->
+<div class="metric-grid">
+  <div class="metric-card metric-card--blue">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Total Guru</span>
+      <h3>{{ $totalTeachers }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-users"></i> Tenaga pendidik terdaftar</span>
     </div>
-    <div>
-      <h4>{{ $totalMaterialsUploaded }}</h4>
-      <span>Modul Materi Disediakan</span>
-    </div>
+    <i class="fa-solid fa-chalkboard-user metric-ghost" aria-hidden="true"></i>
   </div>
 
-  <div class="metric-mini-card">
-    <div class="icon" style="background: #fef2f2; color: #dc2626;">
-      <i class="fa-solid fa-circle-play"></i>
+  <div class="metric-card metric-card--emerald">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-user-check"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Guru Aktif</span>
+      <h3>{{ $activeTeachers }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-arrow-trend-up"></i> {{ $activeRate }}% dari daftar ini</span>
     </div>
-    <div>
-      <h4>{{ $totalVideosUploaded }}</h4>
-      <span>Video Edukasi Diunggah</span>
+    <i class="fa-solid fa-user-check metric-ghost" aria-hidden="true"></i>
+  </div>
+
+  <div class="metric-card metric-card--cyan">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-book"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Modul Materi</span>
+      <h3>{{ $totalMaterialsUploaded }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-folder-open"></i> Bahan ajar digital</span>
     </div>
+    <i class="fa-solid fa-book metric-ghost" aria-hidden="true"></i>
+  </div>
+
+  <div class="metric-card metric-card--rose">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-circle-play"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Video Edukasi</span>
+      <h3>{{ $totalVideosUploaded }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-film"></i> Media pembelajaran</span>
+    </div>
+    <i class="fa-solid fa-circle-play metric-ghost" aria-hidden="true"></i>
   </div>
 </div>
 
-<!-- Main Table Card -->
-<div class="box-card">
-  <!-- Filter & Search Toolbar -->
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 22px;">
+<!-- Toolbar -->
+<div class="box-card kp-toolbar">
+  <div class="kp-toolbar-head">
     <div>
-      <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-dark);">Daftar Kinerja & Aktivitas Tenaga Pendidik</h3>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+      <h3 class="kp-section-title">
+        <span class="title-icon title-icon--blue"><i class="fa-solid fa-list-check"></i></span>
+        Daftar Kinerja Tenaga Pendidik
+      </h3>
+      <p class="kp-section-sub">
         Evaluasi pemanfaatan media digital oleh dewan guru untuk kegiatan belajar mengajar peserta didik.
       </p>
     </div>
 
-    <form method="GET" action="{{ route('kepsek.monitoring.guru') }}" style="display: flex; gap: 8px;">
-      <div style="position: relative;">
-        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem;"></i>
-        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama / NIP / mapel..." style="padding: 9px 14px 9px 34px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; outline: none; width: 240px;">
+    <form method="GET" action="{{ route('kepsek.monitoring.guru') }}" class="kp-search-form">
+      <div class="kp-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama, NIP, atau mata pelajaran...">
       </div>
-      <button type="submit" style="background: var(--primary); color: #ffffff; border: none; padding: 9px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer;">
-        Cari
+      <button type="submit" class="kp-btn kp-btn--primary">
+        <i class="fa-solid fa-magnifying-glass"></i> Cari
       </button>
       @if($search)
-      <a href="{{ route('kepsek.monitoring.guru') }}" style="background: #e2e8f0; color: #475569; padding: 9px 12px; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
-        Reset
-      </a>
+        <a href="{{ route('kepsek.monitoring.guru') }}" class="kp-btn kp-btn--soft">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </a>
       @endif
     </form>
   </div>
+</div>
 
-  <div style="overflow-x: auto;">
-    <table class="table-custom">
+<!-- Teacher Table -->
+<div class="box-card">
+  <div class="box-card-header">
+    <div class="box-card-title">
+      <span class="title-icon title-icon--blue"><i class="fa-solid fa-table-list"></i></span>
+      Rekap Aktivitas &amp; Kontribusi Konten
+    </div>
+    <span class="badge-tag">{{ $teachers->count() }} guru ditampilkan</span>
+  </div>
+
+  @if($teachers->isNotEmpty())
+    <div class="active-rate">
+      <div class="active-rate-text">
+        <strong>{{ $activeRate }}%</strong>
+        <span>guru pada daftar ini telah mengunggah materi atau video ({{ $activeTeachers }} dari {{ $teachers->count() }})</span>
+      </div>
+      <div class="active-rate-bar" role="progressbar" aria-valuenow="{{ $activeRate }}" aria-valuemin="0" aria-valuemax="100">
+        <span style="width: {{ $activeRate }}%;"></span>
+      </div>
+    </div>
+  @endif
+
+  <div class="table-wrap">
+    <table class="table-clean">
       <thead>
         <tr>
-          <th style="width: 50px;">No</th>
-          <th>Nama Guru & Gelar</th>
+          <th>Guru &amp; Akun</th>
           <th>NIP</th>
           <th>Mata Pelajaran</th>
-          <th style="text-align: center;">Modul Materi</th>
-          <th style="text-align: center;">Video Edukasi</th>
+          <th class="text-center">Modul</th>
+          <th class="text-center">Video</th>
           <th>Status Keaktifan</th>
-          <th style="text-align: right;">Aksi Supervisi</th>
+          <th class="text-right">Aksi</th>
         </tr>
       </thead>
       <tbody>
-        @forelse($teachers as $index => $t)
-        <tr>
-          <td style="color: var(--text-muted); font-weight: 700;">{{ $index + 1 }}</td>
-          <td>
-            <div style="font-weight: 700; color: #0f172a; font-size: 0.92rem;">{{ $t->name }}</div>
-            <div style="font-size: 0.76rem; color: #64748b;"><i class="fa-solid fa-envelope" style="font-size: 0.7rem;"></i> {{ $t->email }}</div>
-          </td>
-          <td><code>{{ $t->nip ?? 'Belum Diisi' }}</code></td>
-          <td>
-            <span class="badge-tag" style="background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">
-              <i class="fa-solid fa-book-bookmark"></i> {{ $t->subject ?? 'Guru Kelas' }}
-            </span>
-          </td>
-          <td style="text-align: center; font-weight: 800; font-size: 1rem; color: #0284c7;">
-            {{ $t->materials_count }}
-          </td>
-          <td style="text-align: center; font-weight: 800; font-size: 1rem; color: #dc2626;">
-            {{ $t->videos_count }}
-          </td>
-          <td>
-            @if($t->materials_count > 0 || $t->videos_count > 0)
-              <span class="badge-tag" style="background: #ecfdf5; color: #059669; border: 1px solid #bbf7d0;">
-                <i class="fa-solid fa-circle-check"></i> Aktif Berkontribusi
-              </span>
-            @else
-              <span class="badge-tag" style="background: #fefce8; color: #a16207; border: 1px solid #fef08a;">
-                <i class="fa-solid fa-triangle-exclamation"></i> Belum Ada Konten
-              </span>
-            @endif
-          </td>
-          <td style="text-align: right;">
-            <a href="{{ route('kepsek.monitoring.pembelajaran', ['search' => $t->name]) }}" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; background: #f1f5f9; color: #1e293b; font-size: 0.8rem; font-weight: 700; text-decoration: none; border: 1px solid var(--border);">
-              <i class="fa-solid fa-eye"></i> Periksa Konten
-            </a>
-          </td>
-        </tr>
+        @forelse($teachers as $t)
+          <tr>
+            <td>
+              <div class="teacher-cell">
+                <span class="avatar-initial avatar-initial--{{ ($loop->index % 5) + 1 }}">
+                  {{ strtoupper(mb_substr($t->name, 0, 1)) }}
+                </span>
+                <div class="teacher-identity">
+                  <div class="teacher-name">{{ $t->name }}</div>
+                  <div class="teacher-mail">{{ $t->email }}</div>
+                </div>
+              </div>
+            </td>
+            <td><code class="code-pill">{{ $t->nip ?? 'Belum diisi' }}</code></td>
+            <td><span class="subject-badge">{{ $t->subject ?? 'Guru Kelas' }}</span></td>
+            <td class="text-center"><span class="count-pill count-pill--blue">{{ $t->materials_count }}</span></td>
+            <td class="text-center"><span class="count-pill count-pill--rose">{{ $t->videos_count }}</span></td>
+            <td>
+              @if($t->materials_count > 0 || $t->videos_count > 0)
+                <span class="status-chip status-chip--green"><i class="fa-solid fa-circle-check"></i> Aktif</span>
+              @else
+                <span class="status-chip status-chip--slate"><i class="fa-solid fa-clock"></i> Belum Unggah</span>
+              @endif
+            </td>
+            <td class="text-right">
+              <a href="{{ route('kepsek.monitoring.pembelajaran', ['search' => $t->name]) }}" class="kp-btn kp-btn--soft kp-btn--sm">
+                <i class="fa-solid fa-eye"></i> Periksa
+              </a>
+            </td>
+          </tr>
         @empty
-        <tr>
-          <td colspan="8" style="text-align: center; padding: 30px; color: #94a3b8;">
-            Tidak ditemukan data guru yang sesuai dengan pencarian "{{ $search }}".
-          </td>
-        </tr>
+          <tr>
+            <td colspan="7">
+              <div class="empty-state">
+                <i class="fa-solid fa-user-slash"></i>
+                <p>Tidak ada guru yang cocok dengan pencarian "{{ $search }}".</p>
+              </div>
+            </td>
+          </tr>
         @endforelse
       </tbody>
     </table>

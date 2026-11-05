@@ -1,208 +1,263 @@
 @extends('layouts.kepsek')
 
-@section('title', 'Monitoring PPDB Online')
+@section('title', 'Monitoring PPDB Online - Kepala Sekolah')
+@section('page-title', 'Monitoring PPDB Online')
+
+@section('styles')
+<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
+<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
+@endsection
 
 @section('content')
-<div class="space-y-6">
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-        <div>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200 mb-2">
-                <i class="fa-solid fa-id-card-clip"></i> Penerimaan Peserta Didik Baru
-            </span>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Monitoring PPDB Online</h1>
-            <p class="text-sm text-slate-500 mt-1">Supervisi pendaftaran siswa baru, verifikasi berkas, dan kuota penerimaan jalur seleksi.</p>
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('kepsek.monitoring.ppdb', array_merge(request()->query(), ['print' => 1])) }}" target="_blank"
-               class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center gap-2">
-                <i class="fa-solid fa-print"></i> Cetak Rekap PPDB
-            </a>
-        </div>
+@php
+    $pct = fn ($n) => $totalAll > 0 ? (int) round($n / $totalAll * 100) : 0;
+    $approvedPct = $pct($totalApproved);
+    $pendingPct = $pct($totalPending);
+    $rejectedPct = $pct($totalRejected);
+@endphp
+
+<!-- Hero -->
+<section class="exec-hero">
+  <div class="exec-hero-glow exec-hero-glow--gold" aria-hidden="true"></div>
+  <div class="exec-hero-glow exec-hero-glow--blue" aria-hidden="true"></div>
+
+  <div class="exec-hero-main">
+    <span class="exec-hero-chip">
+      <i class="fa-solid fa-id-card-clip"></i> Penerimaan Peserta Didik Baru
+    </span>
+    <h1>Monitoring <span>PPDB Online</span></h1>
+    <p>
+      Supervisi pendaftaran siswa baru, verifikasi berkas, dan kuota penerimaan
+      pada setiap jalur seleksi secara terintegrasi.
+    </p>
+    <div class="exec-hero-meta">
+      <span><i class="fa-regular fa-calendar-days"></i> {{ now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+      <span><i class="fa-solid fa-users"></i> {{ $totalAll }} pendaftar</span>
+      <span class="exec-hero-status"><span class="pulse-dot"></span> {{ $totalPending }} menunggu verifikasi</span>
+    </div>
+  </div>
+
+  <div class="exec-hero-actions">
+    <a href="{{ route('kepsek.monitoring.ppdb', array_merge(request()->query(), ['print' => 1])) }}" target="_blank" class="hero-btn hero-btn--gold">
+      <i class="fa-solid fa-print"></i> Cetak Rekap
+    </a>
+    <a href="{{ route('kepsek.dashboard') }}" class="hero-btn hero-btn--ghost">
+      <i class="fa-solid fa-gauge-high"></i> Dashboard
+    </a>
+  </div>
+</section>
+
+<!-- Metric Cards -->
+<div class="metric-grid">
+  <div class="metric-card metric-card--blue">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-users"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Total Pendaftar</span>
+      <h3>{{ $totalAll }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-id-card"></i> Berkas masuk</span>
+    </div>
+    <i class="fa-solid fa-users metric-ghost" aria-hidden="true"></i>
+  </div>
+
+  <div class="metric-card metric-card--amber">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Menunggu Verifikasi</span>
+      <h3>{{ $totalPending }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-clock"></i> {{ $pendingPct }}% dari pendaftar</span>
+    </div>
+    <i class="fa-solid fa-hourglass-half metric-ghost" aria-hidden="true"></i>
+  </div>
+
+  <div class="metric-card metric-card--emerald">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Siswa Diterima</span>
+      <h3>{{ $totalApproved }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-check-double"></i> {{ $approvedPct }}% diterima</span>
+    </div>
+    <i class="fa-solid fa-circle-check metric-ghost" aria-hidden="true"></i>
+  </div>
+
+  <div class="metric-card metric-card--rose">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+    <div class="metric-info">
+      <span class="metric-label">Tidak Lolos</span>
+      <h3>{{ $totalRejected }}</h3>
+      <span class="metric-note"><i class="fa-solid fa-xmark"></i> {{ $rejectedPct }}% ditolak</span>
+    </div>
+    <i class="fa-solid fa-circle-xmark metric-ghost" aria-hidden="true"></i>
+  </div>
+</div>
+
+<!-- Verification Summary -->
+<div class="box-card kp-toolbar">
+  <div class="box-card-header" style="margin-bottom:16px;">
+    <div class="box-card-title">
+      <span class="title-icon title-icon--amber"><i class="fa-solid fa-clipboard-check"></i></span>
+      Ringkasan Verifikasi Berkas
+    </div>
+    <span class="badge-tag">{{ $totalLaki }} laki-laki &bull; {{ $totalPerempuan }} perempuan</span>
+  </div>
+
+  <div class="kp-verify-grid">
+    <div class="kp-verify-item">
+      <div class="kp-verify-top">
+        <span>Diterima</span>
+        <strong>{{ $totalApproved }}</strong>
+      </div>
+      <div class="kp-verify-bar kp-verify-bar--green"><span style="width: {{ $approvedPct }}%;"></span></div>
+      <div class="kp-verify-note">{{ $approvedPct }}% dari total pendaftar</div>
     </div>
 
-    <!-- Stat Metrics -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-users"></i>
-            </div>
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Pendaftar</p>
-                <h3 class="text-2xl font-bold text-slate-800">{{ $totalAll }}</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-hourglass-half"></i>
-            </div>
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Verifikasi Berkas</p>
-                <h3 class="text-2xl font-bold text-amber-600">{{ $totalPending }}</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Siswa Diterima</p>
-                <h3 class="text-2xl font-bold text-emerald-600">{{ $totalApproved }}</h3>
-            </div>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
-            <div class="w-12 h-12 rounded-xl bg-rose-50 border border-rose-100 text-rose-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </div>
-            <div>
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tidak Lolos</p>
-                <h3 class="text-2xl font-bold text-rose-600">{{ $totalRejected }}</h3>
-            </div>
-        </div>
+    <div class="kp-verify-item">
+      <div class="kp-verify-top">
+        <span>Menunggu</span>
+        <strong>{{ $totalPending }}</strong>
+      </div>
+      <div class="kp-verify-bar kp-verify-bar--amber"><span style="width: {{ $pendingPct }}%;"></span></div>
+      <div class="kp-verify-note">{{ $pendingPct }}% perlu ditindaklanjuti</div>
     </div>
 
-    <!-- Filter Bar -->
-    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-        <form action="{{ route('kepsek.monitoring.ppdb') }}" method="GET" class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-            <!-- Status Tabs -->
-            <div class="flex items-center p-1 bg-slate-100 rounded-xl overflow-x-auto">
-                <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'all', 'track' => $track, 'search' => $search]) }}"
-                   class="px-4 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ ($status === 'all') ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
-                   Semua ({{ $totalAll }})
-                </a>
-                <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'menunggu', 'track' => $track, 'search' => $search]) }}"
-                   class="px-4 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ ($status === 'menunggu') ? 'bg-white text-amber-700 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
-                   Menunggu ({{ $totalPending }})
-                </a>
-                <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'diterima', 'track' => $track, 'search' => $search]) }}"
-                   class="px-4 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ ($status === 'diterima') ? 'bg-white text-emerald-700 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
-                   Diterima ({{ $totalApproved }})
-                </a>
-                <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'ditolak', 'track' => $track, 'search' => $search]) }}"
-                   class="px-4 py-2 rounded-lg text-xs font-semibold transition-all whitespace-nowrap {{ ($status === 'ditolak') ? 'bg-white text-rose-700 shadow-sm' : 'text-slate-500 hover:text-slate-900' }}">
-                   Ditolak ({{ $totalRejected }})
-                </a>
-            </div>
+    <div class="kp-verify-item">
+      <div class="kp-verify-top">
+        <span>Ditolak</span>
+        <strong>{{ $totalRejected }}</strong>
+      </div>
+      <div class="kp-verify-bar kp-verify-bar--rose"><span style="width: {{ $rejectedPct }}%;"></span></div>
+      <div class="kp-verify-note">{{ $rejectedPct }}% tidak lolos seleksi</div>
+    </div>
+  </div>
+</div>
 
-            <!-- Controls -->
-            <input type="hidden" name="status" value="{{ $status }}">
-            <div class="flex flex-wrap items-center gap-3">
-                <select name="track" onchange="this.form.submit()" class="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-slate-50 text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="all" {{ ($track === 'all') ? 'selected' : '' }}>Semua Jalur Pendaftaran</option>
-                    <option value="Zonasi" {{ ($track === 'Zonasi') ? 'selected' : '' }}>Jalur Zonasi</option>
-                    <option value="Afirmasi" {{ ($track === 'Afirmasi') ? 'selected' : '' }}>Jalur Afirmasi</option>
-                    <option value="Perpindahan Tugas Orang Tua" {{ ($track === 'Perpindahan Tugas Orang Tua') ? 'selected' : '' }}>Perpindahan Tugas</option>
-                    <option value="Prestasi" {{ ($track === 'Prestasi') ? 'selected' : '' }}>Jalur Prestasi</option>
-                </select>
+<!-- Filter -->
+<div class="box-card kp-toolbar">
+  <form action="{{ route('kepsek.monitoring.ppdb') }}" method="GET" class="kp-filter-form">
+    <div class="kp-tabs">
+      <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'all', 'track' => $track, 'search' => $search]) }}"
+         class="kp-tab {{ $status === 'all' ? 'active' : '' }}">
+        Semua <span class="kp-tab-count">{{ $totalAll }}</span>
+      </a>
+      <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'menunggu', 'track' => $track, 'search' => $search]) }}"
+         class="kp-tab {{ $status === 'menunggu' ? 'active' : '' }}">
+        Menunggu <span class="kp-tab-count">{{ $totalPending }}</span>
+      </a>
+      <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'diterima', 'track' => $track, 'search' => $search]) }}"
+         class="kp-tab {{ $status === 'diterima' ? 'active' : '' }}">
+        Diterima <span class="kp-tab-count">{{ $totalApproved }}</span>
+      </a>
+      <a href="{{ route('kepsek.monitoring.ppdb', ['status' => 'ditolak', 'track' => $track, 'search' => $search]) }}"
+         class="kp-tab {{ $status === 'ditolak' ? 'active' : '' }}">
+        Ditolak <span class="kp-tab-count">{{ $totalRejected }}</span>
+      </a>
+    </div>
 
-                <div class="relative min-w-[200px]">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama, nomor reg, asal TK..."
-                           class="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+    <input type="hidden" name="status" value="{{ $status }}">
+    <div class="kp-filter-group">
+      <select name="track" class="kp-select" onchange="this.form.submit()">
+        <option value="all" {{ ($track === 'all') ? 'selected' : '' }}>Semua Jalur</option>
+        <option value="Zonasi" {{ ($track === 'Zonasi') ? 'selected' : '' }}>Jalur Zonasi</option>
+        <option value="Afirmasi" {{ ($track === 'Afirmasi') ? 'selected' : '' }}>Jalur Afirmasi</option>
+        <option value="Perpindahan Tugas Orang Tua" {{ ($track === 'Perpindahan Tugas Orang Tua') ? 'selected' : '' }}>Perpindahan Tugas</option>
+        <option value="Prestasi" {{ ($track === 'Prestasi') ? 'selected' : '' }}>Jalur Prestasi</option>
+      </select>
+
+      <div class="kp-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" name="search" value="{{ $search }}" placeholder="Cari nama, nomor reg, asal TK...">
+      </div>
+
+      <button type="submit" class="kp-btn kp-btn--primary">
+        <i class="fa-solid fa-filter"></i> Terapkan
+      </button>
+
+      @if($search || $track !== 'all' || $status !== 'all')
+        <a href="{{ route('kepsek.monitoring.ppdb') }}" class="kp-btn kp-btn--soft" title="Reset filter">
+          <i class="fa-solid fa-rotate-left"></i>
+        </a>
+      @endif
+    </div>
+  </form>
+</div>
+
+<!-- Registrations Table -->
+<div class="box-card">
+  <div class="box-card-header">
+    <div class="box-card-title">
+      <span class="title-icon title-icon--cyan"><i class="fa-solid fa-folder-open"></i></span>
+      Daftar Berkas Calon Siswa Baru
+    </div>
+    <span class="badge-tag">{{ $registrations->count() }} pendaftar ditampilkan</span>
+  </div>
+
+  @if($registrations->isEmpty())
+    <div class="empty-state">
+      <i class="fa-solid fa-folder-open"></i>
+      <p>Tidak ada data pendaftaran yang sesuai dengan filter saat ini.</p>
+    </div>
+  @else
+    <div class="table-wrap">
+      <table class="table-clean">
+        <thead>
+          <tr>
+            <th>No. Registrasi</th>
+            <th>Nama Calon Siswa</th>
+            <th class="text-center">L/P</th>
+            <th>Jalur Pendaftaran</th>
+            <th>Asal Sekolah</th>
+            <th>Wali / Kontak</th>
+            <th class="text-center">Status</th>
+            <th class="text-right">Waktu Daftar</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($registrations as $reg)
+            <tr>
+              <td><code class="code-pill">{{ $reg->registration_number }}</code></td>
+              <td>
+                <div class="teacher-cell">
+                  <span class="avatar-initial avatar-initial--{{ ($loop->index % 5) + 1 }}">
+                    {{ strtoupper(mb_substr($reg->full_name ?: 'S', 0, 1)) }}
+                  </span>
+                  <div class="teacher-identity">
+                    <div class="teacher-name">{{ $reg->full_name }}</div>
+                    <div class="teacher-mail">NISN: {{ $reg->nisn ?: '-' }}</div>
+                  </div>
                 </div>
-
-                <button type="submit" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition-all shadow-sm">
-                    Terapkan
-                </button>
-
-                @if($search || $track !== 'all' || $status !== 'all')
-                    <a href="{{ route('kepsek.monitoring.ppdb') }}" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-medium transition-all" title="Reset filter">
-                        <i class="fa-solid fa-rotate-left"></i>
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
-
-    <!-- Registrations Table -->
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-                <h2 class="text-base font-bold text-slate-800">Daftar Berkas Calon Siswa Baru</h2>
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                    {{ $registrations->count() }} Pendaftar
+              </td>
+              <td class="text-center">
+                <span class="kp-gender {{ $reg->gender === 'L' ? 'kp-gender--l' : 'kp-gender--p' }}">
+                  {{ $reg->gender ?? '-' }}
                 </span>
-            </div>
-        </div>
-
-        @if($registrations->isEmpty())
-            <div class="p-12 text-center text-slate-400">
-                <i class="fa-solid fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                <p class="font-medium text-slate-600">Tidak ada data pendaftaran PPDB ditemukan</p>
-                <p class="text-xs mt-1">Coba sesuaikan filter status atau kata pencarian Anda.</p>
-            </div>
-        @else
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs">
-                    <thead class="bg-slate-50 border-b border-slate-100 text-slate-500 font-semibold uppercase tracking-wider">
-                        <tr>
-                            <th class="px-5 py-3.5">No. Registrasi</th>
-                            <th class="px-4 py-3.5">Nama Calon Siswa</th>
-                            <th class="px-4 py-3.5 text-center">L/P</th>
-                            <th class="px-4 py-3.5">Jalur Pendaftaran</th>
-                            <th class="px-4 py-3.5">Asal Sekolah / TK</th>
-                            <th class="px-4 py-3.5">Wali / No. Kontak</th>
-                            <th class="px-4 py-3.5 text-center">Status</th>
-                            <th class="px-5 py-3.5 text-right">Waktu Daftar</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        @foreach($registrations as $reg)
-                            <tr class="hover:bg-slate-50/70 transition-colors">
-                                <td class="px-5 py-4">
-                                    <span class="font-mono font-bold text-slate-800 bg-slate-100 px-2 py-1 rounded text-[11px]">
-                                        {{ $reg->registration_number }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4">
-                                    <div class="font-bold text-slate-800 text-sm">{{ $reg->full_name }}</div>
-                                    <p class="text-slate-400 text-[11px]">NISN: {{ $reg->nisn ?: '-' }}</p>
-                                </td>
-                                <td class="px-4 py-4 text-center">
-                                    <span class="font-semibold text-xs {{ $reg->gender === 'L' ? 'text-blue-600' : 'text-pink-600' }}">
-                                        {{ $reg->gender ?? '-' }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4">
-                                    <span class="inline-block px-2.5 py-1 rounded-md text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-100">
-                                        {{ $reg->registration_track ?? 'Zonasi' }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-4 text-slate-700 font-medium">
-                                    {{ $reg->previous_school ?: '-' }}
-                                </td>
-                                <td class="px-4 py-4">
-                                    <div class="font-medium text-slate-800">{{ $reg->parent_name ?: 'Orang Tua / Wali' }}</div>
-                                    <p class="text-slate-500 text-[11px]">{{ $reg->phone ?? '-' }}</p>
-                                </td>
-                                <td class="px-4 py-4 text-center">
-                                    @if($reg->status === 'diterima')
-                                        <span class="inline-flex items-center gap-1 font-bold text-[11px] px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase">
-                                            <i class="fa-solid fa-check"></i> Diterima
-                                        </span>
-                                    @elseif($reg->status === 'ditolak')
-                                        <span class="inline-flex items-center gap-1 font-bold text-[11px] px-2.5 py-1 rounded-md bg-rose-50 text-rose-700 border border-rose-200 uppercase">
-                                            <i class="fa-solid fa-xmark"></i> Ditolak
-                                        </span>
-                                    @else
-                                        <span class="inline-flex items-center gap-1 font-bold text-[11px] px-2.5 py-1 rounded-md bg-amber-50 text-amber-700 border border-amber-200 uppercase">
-                                            <i class="fa-solid fa-clock"></i> Menunggu
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-5 py-4 text-right text-slate-500">
-                                    {{ $reg->created_at->format('d/m/Y H:i') }}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        @endif
+              </td>
+              <td><span class="subject-badge">{{ $reg->registration_track ?? 'Zonasi' }}</span></td>
+              <td>{{ $reg->previous_school ?: '-' }}</td>
+              <td>
+                <div class="teacher-name" style="max-width:170px;">{{ $reg->parent_name ?: 'Orang Tua / Wali' }}</div>
+                <div class="teacher-mail">{{ $reg->phone ?? '-' }}</div>
+              </td>
+              <td class="text-center">
+                @if(in_array($reg->status, ['diterima', 'accepted', 'approved'], true))
+                  <span class="status-chip status-chip--green"><i class="fa-solid fa-check"></i> Diterima</span>
+                @elseif(in_array($reg->status, ['ditolak', 'rejected'], true))
+                  <span class="status-chip status-chip--red"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+                @else
+                  <span class="status-chip status-chip--amber"><i class="fa-solid fa-clock"></i> Menunggu</span>
+                @endif
+              </td>
+              <td class="text-right">
+                <span class="teacher-mail">{{ $reg->created_at->format('d/m/Y') }}</span>
+                <div class="teacher-mail">{{ $reg->created_at->format('H:i') }} WIT</div>
+              </td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
+  @endif
 </div>
 @endsection

@@ -3,10 +3,14 @@
  * Handles opening/closing video modal and iframe manipulation
  */
 
-function openVideoModal(title, url, type) {
+function openVideoModal(trigger) {
+  const title = trigger.dataset.title || 'Video Pembelajaran';
+  const url = trigger.dataset.url || '';
+  const type = trigger.dataset.source || '';
+
   document.getElementById('modalVideoTitle').innerText = title;
   const iframe = document.getElementById('videoIframe');
-  
+
   let targetSrc = url;
   if (type === 'youtube' && !targetSrc.includes('embed')) {
     const match = targetSrc.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);

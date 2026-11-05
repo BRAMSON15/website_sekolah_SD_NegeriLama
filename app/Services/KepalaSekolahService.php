@@ -162,8 +162,18 @@ class KepalaSekolahService
 
         $query = PpdbRegistration::query();
 
+        $statusGroups = [
+            'menunggu' => ['pending', 'menunggu'],
+            'diterima' => ['accepted', 'approved', 'diterima'],
+            'ditolak' => ['rejected', 'ditolak'],
+        ];
+
+        $statusValues = $statusGroups[$status] ?? null;
+
         if ($status && $status !== 'all') {
-            $query->where('status', $status);
+            $statusValues
+                ? $query->whereIn('status', $statusValues)
+                : $query->where('status', $status);
         }
         if ($track && $track !== 'all') {
             $query->where('registration_track', $track);
@@ -180,9 +190,9 @@ class KepalaSekolahService
         $registrations = $query->latest()->get();
 
         $totalAll = PpdbRegistration::count();
-        $totalPending = PpdbRegistration::where('status', 'menunggu')->count();
-        $totalApproved = PpdbRegistration::where('status', 'diterima')->count();
-        $totalRejected = PpdbRegistration::where('status', 'ditolak')->count();
+        $totalPending = PpdbRegistration::whereIn('status', $statusGroups['menunggu'])->count();
+        $totalApproved = PpdbRegistration::whereIn('status', $statusGroups['diterima'])->count();
+        $totalRejected = PpdbRegistration::whereIn('status', $statusGroups['ditolak'])->count();
 
         $totalLaki = PpdbRegistration::where('gender', 'L')->count();
         $totalPerempuan = PpdbRegistration::where('gender', 'P')->count();
