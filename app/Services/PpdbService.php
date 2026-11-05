@@ -1,22 +1,110 @@
-<?php
+﻿<?php
 
 namespace App\Services;
 
+use App\Models\Monitoring\PpdbActivity;
 use App\Models\PpdbRegistration;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class PpdbService
 {
+    protected PpdbMonitoringService $monitoringService;
+
+    public function __construct(PpdbMonitoringService $monitoringService)
+    {
+        $this->monitoringService = $monitoringService;
+    }
+
+    /**
+     * Get registered applicants with pagination
+     */
     public function getRegistrations(int $perPage = 15): LengthAwarePaginator
     {
         return PpdbRegistration::latest()->paginate($perPage);
     }
 
     /**
-     * Generate unique registration number.
+     * Validate registration data with custom messages
+     */
+    public function validateRegistration(array $data): array
+    {
+        return validator($data, $this->getValidationRules(), $this->getValidationMessages())->validate();
+    }
+
+    /**
+     * Get validation rules for registration
+     */
+    private function getValidationRules(): array
+    {
+        return [
+            "student_name" => ["required", "string", "max:150"],
+            "birth_place" => ["required", "string", "max:100"],
+            "birth_date" => ["required", "date", "before_or_equal:".now()->subYears(5)->format("Y-m-d")],
+            "gender" => ["required", "in:L,P"],
+            "nik" => ["nullable", "digits:16"],
+            "kk_number" => ["nullable", "digits:16"],
+            "parent_name" => ["required", "string", "max:150"],
+            "phone" => ["required", "string", "max:25"],
+            "email" => ["nullable", "email", "max:150"],
+            "address" => ["required", "string", "max:1000"],
+            "previous_school" => ["nullable", "string", "max:150"],
+            "supporting_file_kk" => ["required", "file", "mimes:pdf,jpg,jpeg,png", "max:5120"],
+            "supporting_file_akte" => ["nullable", "file", "mimes:pdf,jpg,jpeg,png", "max:5120"],
+            "supporting_file_rapor" => ["nullable", "file", "mimes:pdf,jpg,jpeg,png", "max:5120"],
+        ];
+    }
+
+    /**
+     * Get validation custom messages
+     */
+    private function getValidationMessages(): array
+    {
+        return [
+            "birth_date.before_or_equal" => "Usia calon peserta didik minimal 5 tahun.",
+            "*.required" => "Kolom ini wajib diisi.",
+            "*.digits" => "Kolom ini harus berisi :digits angka.",
+            "supporting_file_kk.required" => "Kartu Keluarga wajib diunggah.",
+            "supporting_file_kk.mimes" => "File KK harus berformat PDF, JPG, atau PNG.",
+            "supporting_file_kk.max" => "Ukuran file KK tidak boleh melebihi 5MB.",
+            "supporting_file_akte.mimes" => "File Akte harus berformat PDF, JPG, atau PNG.",
+            "supporting_file_akte.max" => "Ukuran file Akte tidak boleh melebihi 5MB.",
+            "supporting_file_rapor.mimes" => "File Rapor harus berformat PDF, JPG, atau PNG.",
+            "supporting_file_rapor.max" => "Ukuran file Rapor tidak boleh melebihi 5MB.",
+        ];
+    }
+
+    /**
+     * Handle supporting file uploads
+     */
+    public function handleSupportingFileUploads(Request $request): array
+    {
+        $fileFields = ['kk', 'akte', 'rapor'];
+        $uploadedFiles = [];
+
+        foreach ($fileFields as $field) {
+            $fileKey = "supporting_file_{$field}";
+            
+            if ($request->hasFile($fileKey)) {
+                $file = $request->file($fileKey);
+                
+                if (!$file->isValid()) {
+                    throw new \Exception("File {$field} tidak valid atau korup");
+                }
+                
+                $uploadedFiles[$fileKey] = $file->store("ppdb/supporting-files", "public");
+            }
+        }
+
+        return $uploadedFiles;
+    }
+
+    /**
+     * Generate unique registration number
      */
     public function generateRegistrationNumber(): string
     {
@@ -28,7 +116,7 @@ class PpdbService
     }
 
     /**
-     * Register new student applicant.
+     * Register new student applicant
      */
     public function register(array $data): PpdbRegistration
     {
@@ -44,6 +132,9 @@ class PpdbService
                 'student_name' => $registration->student_name,
             ]);
 
+            // Record activity for this new registration
+            $this->recordRegistrationActivity($registration);
+
             return $registration;
         } catch (\Exception $e) {
             \Log::error('PPDB Registration Failed', [
@@ -56,7 +147,20 @@ class PpdbService
     }
 
     /**
-     * Generate PDF output for PPDB registrations.
+     * Record activity when registration is created
+     */
+    private function recordRegistrationActivity(PpdbRegistration $registration): void
+    {
+        $this->monitoringService->recordActivity(
+            $registration->id,
+            PpdbActivity::TYPE_CREATED,
+            "Registrasi baru dari {$registration->parent_name}",
+            ["student_name" => $registration->student_name]
+        );
+    }
+
+    /**
+     * Generate PDF output for PPDB registrations
      */
     public function generatePdfExport(array $settings): array
     {
@@ -108,7 +212,7 @@ class PpdbService
     }
 
     /**
-     * Generate Excel export spreadsheet content for PPDB registrations.
+     * Generate Excel export spreadsheet content for PPDB registrations
      */
     public function generateExcelExport(array $settings): array
     {
