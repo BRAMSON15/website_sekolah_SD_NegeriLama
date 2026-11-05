@@ -21,14 +21,14 @@
       Selamat datang, <strong>{{ $user->name }}</strong>{{ $studentProfile ? ' (' . $studentProfile->class_name . ' - NISN: ' . $studentProfile->nisn . ')' : '' }}! Akses seluruh video edukasi interaktif dan modul materi ajar digital persembahan bapak/ibu guru untuk kegiatan belajar mandirimu.
     </p>
 
-    <div class="hero-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
+    <!-- <div class="hero-buttons" style="display: flex; gap: 16px; flex-wrap: wrap;">
       <a href="#media-pembelajaran" class="btn-login" style="padding: 14px 28px; font-size: 1rem; border-radius: 12px; text-decoration: none;">
         <i class="fa-solid fa-circle-play"></i> Jelajahi Materi & Video
       </a>
       <a href="{{ route('home') }}" style="background: #ffffff; color: var(--primary); border: 2px solid var(--border); padding: 14px 28px; border-radius: 12px; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; text-decoration: none;">
         <i class="fa-solid fa-house"></i> Beranda Sekolah
       </a>
-    </div>
+    </div> -->
   </div>
 </section>
 

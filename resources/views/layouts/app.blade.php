@@ -70,10 +70,10 @@
             <span class="btn-login-text">Monitoring Kepsek</span>
           </a>
         @elseif(Auth::user()->role === 'siswa')
-          <a class="btn-login" href="{{ route('siswa.beranda') }}" title="Ruang Belajar Siswa">
+          <!-- <a class="btn-login" href="{{ route('siswa.beranda') }}" title="Ruang Belajar Siswa">
             <i class="fa-solid fa-graduation-cap"></i>
             <span class="btn-login-text">Ruang Belajar</span>
-          </a>
+          </a> -->
         @elseif(Auth::user()->role === 'guru')
           <a class="btn-login" href="{{ route('guru.dashboard') }}" title="Dashboard Guru">
             <i class="fa-solid fa-chalkboard-user"></i>
@@ -94,10 +94,10 @@
           </button>
         </form>
       @else
-        <a class="btn-login" href="{{ route('login.guru') }}" title="Portal Guru">
+        <!-- <a class="btn-login" href="{{ route('login.guru') }}" title="Portal Guru">
           <i class="fa-solid fa-right-to-bracket"></i>
           <span class="btn-login-text">Portal Guru</span>
-        </a>
+        </a> -->
       @endauth
 
       <!-- Mobile Menu Toggle Button -->
@@ -146,14 +146,14 @@
             <i class="fa-solid fa-chevron-right arrow-icon" style="color: #0f172a;"></i>
           </a>
           @elseif(Auth::user()->role === 'siswa')
-          <a href="{{ route('siswa.beranda') }}" class="mobile-nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="background: #eff6ff; border: 1px solid #bfdbfe;">
+          <!-- <a href="{{ route('siswa.beranda') }}" class="mobile-nav-link {{ request()->routeIs('siswa.*') ? 'active' : '' }}" style="background: #eff6ff; border: 1px solid #bfdbfe;">
             <div class="mobile-nav-icon" style="background: #2563eb; color: #fff;"><i class="fa-solid fa-graduation-cap"></i></div>
             <div class="mobile-nav-text">
               <span class="title" style="color: #1e40af; font-weight: 800;">Ruang Belajar Siswa</span>
               <span class="desc">Akses video edukasi & modul materi</span>
             </div>
             <i class="fa-solid fa-chevron-right arrow-icon" style="color: #2563eb;"></i>
-          </a>
+          </a> -->
           @endif
         @endauth
 
@@ -213,9 +213,9 @@
                 <i class="fa-solid fa-user-tie"></i> Monitoring Kepala Sekolah
               </a>
             @elseif(Auth::user()->role === 'siswa')
-              <a class="mobile-btn-portal" href="{{ route('siswa.beranda') }}">
+              <!-- <a class="mobile-btn-portal" href="{{ route('siswa.beranda') }}">
                 <i class="fa-solid fa-graduation-cap"></i> Masuk Ruang Belajar Siswa
-              </a>
+              </a> -->
             @elseif(Auth::user()->role === 'guru')
               <a class="mobile-btn-portal" href="{{ route('guru.dashboard') }}">
                 <i class="fa-solid fa-chalkboard-user"></i> Masuk Portal Guru
