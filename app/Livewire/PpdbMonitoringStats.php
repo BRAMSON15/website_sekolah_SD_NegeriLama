@@ -17,7 +17,7 @@ class PpdbMonitoringStats extends Component
         $this->previousStats = cache()->get('ppdb.monitoring.stats.previous', []);
     }
 
-    #[Computed(cache: true, persist: true)]
+    #[Computed]
     public function stats()
     {
         $stats = $this->monitoringService->getMonitoringStats();

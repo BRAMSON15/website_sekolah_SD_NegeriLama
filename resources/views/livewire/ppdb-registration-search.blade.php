@@ -2,7 +2,7 @@
   <!-- Search Input -->
   <div class="form-field" style="margin-bottom: 16px;">
     <label>Cari Registrasi</label>
-    <input type="text" wire:model.debounce-500ms="search" placeholder="Nama calon, orang tua, atau nomor reg..." 
+    <input type="text" wire:model.live.debounce.500ms="search" placeholder="Nama calon, orang tua, atau nomor reg..." 
            style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
     <small style="display: block; color: #7f8c8d; margin-top: 4px;">Cari by nama calon, nama orang tua, atau nomor pendaftaran</small>
   </div>
@@ -10,7 +10,7 @@
   <!-- Status Filter -->
   <div class="form-field" style="margin-bottom: 16px;">
     <label>Status</label>
-    <select wire:model="status" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+    <select wire:model.live="status" style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
       <option value="all">Semua Status</option>
       <option value="pending">Menunggu Review</option>
       <option value="diterima">Diterima</option>
@@ -23,11 +23,11 @@
     <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.9rem;">Rentang Tanggal</label>
     <div style="display: flex; gap: 8px;">
       <div style="flex: 1;">
-        <input type="date" wire:model="dateFrom" placeholder="Dari..." 
+        <input type="date" wire:model.live="dateFrom" placeholder="Dari..." 
                style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
       </div>
       <div style="flex: 1;">
-        <input type="date" wire:model="dateTo" placeholder="Sampai..." 
+        <input type="date" wire:model.live="dateTo" placeholder="Sampai..." 
                style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
       </div>
     </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Services\WebsiteContentService;
 use App\Services\TeacherMonitoringService;
 
@@ -12,16 +11,7 @@ class TeacherMonitoringController extends Controller
     public function __construct(
         protected WebsiteContentService $websiteService,
         protected TeacherMonitoringService $monitoringService
-    ) {
-        $this->middleware('auth');
-        $this->middleware(function ($request, $next) {
-            $user = Auth::user();
-            if (!in_array($user->role, ['kepala_sekolah', 'kepsek', 'admin'])) {
-                abort(403, 'Unauthorized access to teacher monitoring');
-            }
-            return $next($request);
-        });
-    }
+    ) {}
 
     /**
      * Halaman Dashboard Aktivitas Guru Real-time

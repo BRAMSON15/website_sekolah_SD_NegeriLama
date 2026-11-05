@@ -17,7 +17,7 @@ class PpdbActivityFeed extends Component
         $this->monitoringService = $service;
     }
 
-    #[Computed(cache: true)]
+    #[Computed]
     public function activities()
     {
         return $this->monitoringService->getRecentActivities($this->limit);

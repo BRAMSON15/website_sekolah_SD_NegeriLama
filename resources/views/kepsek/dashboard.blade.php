@@ -8,107 +8,149 @@
 @endsection
 
 @section('content')
+@php
+    $totalTeachersListed = $teachers->count();
+    $activeTeachers = $teachers->filter(fn ($t) => $t->materials_count > 0 || $t->videos_count > 0)->count();
+    $activeRate = $totalTeachersListed > 0 ? round($activeTeachers / $totalTeachersListed * 100) : 0;
 
-<!-- Welcome Principal Banner -->
-<div style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); border-radius: 16px; padding: 26px 30px; color: #ffffff; margin-bottom: 26px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.15); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-  <div>
-    <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(245, 158, 11, 0.2); border: 1px solid rgba(245, 158, 11, 0.4); color: #fcd34d; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+    $ppdbAccepted = $totalPpdbDiterima;
+    $ppdbPending = $totalPpdbPending;
+    $ppdbRest = max(0, $totalPpdb - $ppdbAccepted - $ppdbPending);
+    $ppdbPct = fn ($n) => $totalPpdb > 0 ? round($n / $totalPpdb * 100) : 0;
+    $acceptedPct = $ppdbPct($ppdbAccepted);
+    $pendingPct = $ppdbPct($ppdbPending);
+    $restPct = max(0, 100 - $acceptedPct - $pendingPct);
+    $donutGradient = sprintf(
+        'conic-gradient(#10b981 0%% %d%%, #f59e0b %d%% %d%%, #cbd5e1 %d%% 100%%)',
+        $acceptedPct,
+        $acceptedPct,
+        $acceptedPct + $pendingPct,
+        $acceptedPct + $pendingPct
+    );
+@endphp
+
+<!-- Executive Welcome Banner -->
+<section class="exec-hero">
+  <div class="exec-hero-glow exec-hero-glow--gold" aria-hidden="true"></div>
+  <div class="exec-hero-glow exec-hero-glow--blue" aria-hidden="true"></div>
+
+  <div class="exec-hero-main">
+    <span class="exec-hero-chip">
       <i class="fa-solid fa-crown"></i> Panel Supervisi Kepala Sekolah
-    </div>
-    <h1 style="font-size: 1.55rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.3px;">
-      Selamat Datang, {{ $user->name }}
-    </h1>
-    <p style="font-size: 0.88rem; color: #cbd5e1; max-width: 650px; line-height: 1.5;">
-      Pantau seluruh aktivitas akademik, kinerja materi & video guru, serta pendaftaran PPDB secara terintegrasi dan akurat.
+    </span>
+    <h1>Selamat Datang, <span>{{ $user->name }}</span></h1>
+    <p>
+      Pantau seluruh aktivitas akademik, kinerja materi &amp; video guru, serta pendaftaran PPDB
+      secara terintegrasi dan akurat dalam satu tampilan.
     </p>
+    <div class="exec-hero-meta">
+      <span><i class="fa-regular fa-calendar-days"></i> {{ now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+      <span><i class="fa-solid fa-school"></i> {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</span>
+      <span class="exec-hero-status"><span class="pulse-dot"></span> Data tersinkron</span>
+    </div>
   </div>
-  <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-    <a href="{{ route('kepsek.monitoring.ppdb', ['print' => 1]) }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #d97706; color: #ffffff; padding: 10px 18px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);">
+
+  <div class="exec-hero-actions">
+    <a href="{{ route('kepsek.monitoring.ppdb', ['print' => 1]) }}" target="_blank" class="hero-btn hero-btn--gold">
       <i class="fa-solid fa-file-pdf"></i> Laporan PPDB
     </a>
+    <a href="{{ route('kepsek.monitoring.guru') }}" class="hero-btn hero-btn--ghost">
+      <i class="fa-solid fa-chalkboard-user"></i> Monitoring Guru
+    </a>
   </div>
-</div>
+</section>
 
 <!-- 1. Executive Summary Metric Cards -->
 <div class="metric-grid">
-  <!-- Card 1: Total Guru -->
-  <div class="metric-card">
-    <div class="metric-icon" style="background: #eff6ff; color: #2563eb;">
-      <i class="fa-solid fa-chalkboard-user"></i>
-    </div>
+  <a href="{{ route('kepsek.monitoring.guru') }}" class="metric-card metric-card--blue">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
     <div class="metric-info">
+      <span class="metric-label">Guru &amp; Pengajar</span>
       <h3>{{ $totalGuru }}</h3>
-      <span>Guru & Pengajar</span>
+      <span class="metric-note"><i class="fa-solid fa-circle-check"></i> {{ $activeTeachers }} aktif unggah konten</span>
     </div>
-  </div>
+    <i class="fa-solid fa-chalkboard-user metric-ghost" aria-hidden="true"></i>
+  </a>
 
-  <!-- Card 2: Total Siswa Aktif -->
-  <div class="metric-card">
-    <div class="metric-icon" style="background: #f0fdf4; color: #16a34a;">
-      <i class="fa-solid fa-user-group"></i>
-    </div>
+  <div class="metric-card metric-card--emerald">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-user-group"></i></div>
     <div class="metric-info">
+      <span class="metric-label">Peserta Didik Aktif</span>
       <h3>{{ $totalSiswa }}</h3>
-      <span>Peserta Didik Aktif</span>
+      <span class="metric-note"><i class="fa-solid fa-graduation-cap"></i> Siswa terdaftar</span>
     </div>
+    <i class="fa-solid fa-user-group metric-ghost" aria-hidden="true"></i>
   </div>
 
-  <!-- Card 3: Video Edukasi Guru -->
-  <div class="metric-card">
-    <div class="metric-icon" style="background: #fef2f2; color: #dc2626;">
-      <i class="fa-solid fa-circle-play"></i>
-    </div>
+  <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'video']) }}" class="metric-card metric-card--rose">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-circle-play"></i></div>
     <div class="metric-info">
+      <span class="metric-label">Video Pembelajaran</span>
       <h3>{{ $totalVideo }}</h3>
-      <span>Video Pembelajaran</span>
+      <span class="metric-note"><i class="fa-solid fa-film"></i> Media video edukasi</span>
     </div>
-  </div>
+    <i class="fa-solid fa-circle-play metric-ghost" aria-hidden="true"></i>
+  </a>
 
-  <!-- Card 4: Modul Materi Digital -->
-  <div class="metric-card">
-    <div class="metric-icon" style="background: #f0f9ff; color: #0284c7;">
-      <i class="fa-solid fa-book"></i>
-    </div>
+  <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'materi']) }}" class="metric-card metric-card--cyan">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-book"></i></div>
     <div class="metric-info">
+      <span class="metric-label">Modul Bahan Ajar</span>
       <h3>{{ $totalMateri }}</h3>
-      <span>Modul Bahan Ajar</span>
+      <span class="metric-note"><i class="fa-solid fa-folder-open"></i> Materi digital guru</span>
     </div>
-  </div>
+    <i class="fa-solid fa-book metric-ghost" aria-hidden="true"></i>
+  </a>
 
-  <!-- Card 5: Pendaftar PPDB Online -->
-  <div class="metric-card">
-    <div class="metric-icon" style="background: #fefce8; color: #ca8a04;">
-      <i class="fa-solid fa-user-plus"></i>
-    </div>
+  <a href="{{ route('kepsek.monitoring.ppdb') }}" class="metric-card metric-card--amber">
+    <span class="metric-accent" aria-hidden="true"></span>
+    <div class="metric-icon"><i class="fa-solid fa-user-plus"></i></div>
     <div class="metric-info">
+      <span class="metric-label">Pendaftar PPDB</span>
       <h3>{{ $totalPpdb }}</h3>
-      <span>Pendaftar PPDB Baru</span>
+      <span class="metric-note"><i class="fa-solid fa-hourglass-half"></i> {{ $totalPpdbPending }} menunggu verifikasi</span>
     </div>
-  </div>
+    <i class="fa-solid fa-user-plus metric-ghost" aria-hidden="true"></i>
+  </a>
 </div>
 
-<!-- 2. Dual Column Content Area -->
+<!-- 2. Teacher Performance & PPDB Recap -->
 <div class="content-grid-2">
   <!-- Left Column: Kinerja Keaktifan Guru Pengajar -->
   <div class="box-card">
     <div class="box-card-header">
       <div class="box-card-title">
-        <i class="fa-solid fa-chart-line" style="color: #2563eb;"></i> Kinerja Konten Pembelajaran Guru
+        <span class="title-icon title-icon--blue"><i class="fa-solid fa-chart-line"></i></span>
+        Kinerja Konten Pembelajaran Guru
       </div>
       <a href="{{ route('kepsek.monitoring.guru') }}" class="box-card-link">
         Lihat Semua Guru <i class="fa-solid fa-chevron-right"></i>
       </a>
     </div>
 
-    <div style="overflow-x: auto;">
+    <div class="active-rate">
+      <div class="active-rate-text">
+        <strong>{{ $activeRate }}%</strong>
+        <span>guru telah mengunggah materi atau video ({{ $activeTeachers }} dari {{ $totalTeachersListed }})</span>
+      </div>
+      <div class="active-rate-bar" role="progressbar" aria-valuenow="{{ $activeRate }}" aria-valuemin="0" aria-valuemax="100">
+        <span style="width: {{ $activeRate }}%;"></span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
       <table class="table-clean">
         <thead>
           <tr>
             <th>Guru Pengajar</th>
             <th>NIP</th>
             <th>Mata Pelajaran</th>
-            <th style="text-align: center;">Materi</th>
-            <th style="text-align: center;">Video</th>
+            <th class="text-center">Materi</th>
+            <th class="text-center">Video</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -116,24 +158,36 @@
           @forelse($teachers as $t)
           <tr>
             <td>
-              <div style="font-weight: 700; color: #1e293b;">{{ $t->name }}</div>
-              <div style="font-size: 0.74rem; color: #64748b;">{{ $t->email }}</div>
+              <div class="teacher-cell">
+                <span class="avatar-initial avatar-initial--{{ ($loop->index % 5) + 1 }}">
+                  {{ strtoupper(mb_substr($t->name, 0, 1)) }}
+                </span>
+                <div class="teacher-identity">
+                  <div class="teacher-name">{{ $t->name }}</div>
+                  <div class="teacher-mail">{{ $t->email }}</div>
+                </div>
+              </div>
             </td>
-            <td><code>{{ $t->nip ?? '-' }}</code></td>
-            <td><span class="badge-tag" style="background: #eff6ff; color: #1d4ed8;">{{ $t->subject ?? 'Guru Kelas' }}</span></td>
-            <td style="text-align: center; font-weight: 700;">{{ $t->materials_count }}</td>
-            <td style="text-align: center; font-weight: 700; color: #dc2626;">{{ $t->videos_count }}</td>
+            <td><code class="code-pill">{{ $t->nip ?? '-' }}</code></td>
+            <td><span class="subject-badge">{{ $t->subject ?? 'Guru Kelas' }}</span></td>
+            <td class="text-center"><span class="count-pill count-pill--blue">{{ $t->materials_count }}</span></td>
+            <td class="text-center"><span class="count-pill count-pill--rose">{{ $t->videos_count }}</span></td>
             <td>
               @if($t->materials_count > 0 || $t->videos_count > 0)
-                <span class="badge-tag" style="background: #ecfdf5; color: #059669;"><i class="fa-solid fa-check"></i> Aktif Unggah</span>
+                <span class="status-chip status-chip--green"><i class="fa-solid fa-circle-check"></i> Aktif</span>
               @else
-                <span class="badge-tag" style="background: #fef2f2; color: #dc2626;"><i class="fa-solid fa-clock"></i> Belum Mengunggah</span>
+                <span class="status-chip status-chip--slate"><i class="fa-solid fa-clock"></i> Belum Unggah</span>
               @endif
             </td>
           </tr>
           @empty
           <tr>
-            <td colspan="6" style="text-align: center; color: #94a3b8; padding: 20px;">Belum ada data guru terdaftar.</td>
+            <td colspan="6">
+              <div class="empty-state">
+                <i class="fa-solid fa-chalkboard-user"></i>
+                <p>Belum ada data guru terdaftar.</p>
+              </div>
+            </td>
           </tr>
           @endforelse
         </tbody>
@@ -141,113 +195,201 @@
     </div>
   </div>
 
-  <!-- Right Column: Modul Materi Pembelajaran Terkini -->
+  <!-- Right Column: Rekap PPDB -->
   <div class="box-card">
     <div class="box-card-header">
       <div class="box-card-title">
-        <i class="fa-solid fa-book-bookmark" style="color: #0284c7;"></i> Modul Materi Ajar Terkini
+        <span class="title-icon title-icon--amber"><i class="fa-solid fa-id-card-clip"></i></span>
+        Rekap Pendaftaran PPDB
+      </div>
+      <a href="{{ route('kepsek.monitoring.ppdb') }}" class="box-card-link">
+        Detail <i class="fa-solid fa-arrow-up-right-from-square"></i>
+      </a>
+    </div>
+
+    <div class="ppdb-recap">
+      <div class="donut" style="background: {{ $donutGradient }};" role="img" aria-label="Komposisi status pendaftar PPDB">
+        <div class="donut-hole">
+          <strong>{{ $totalPpdb }}</strong>
+          <span>Total Pendaftar</span>
+        </div>
+      </div>
+
+      <ul class="ppdb-legend">
+        <li>
+          <span class="legend-dot legend-dot--green"></span>
+          <span class="legend-label">Diterima</span>
+          <strong>{{ $ppdbAccepted }}</strong>
+          <em>{{ $acceptedPct }}%</em>
+        </li>
+        <li>
+          <span class="legend-dot legend-dot--amber"></span>
+          <span class="legend-label">Menunggu</span>
+          <strong>{{ $ppdbPending }}</strong>
+          <em>{{ $pendingPct }}%</em>
+        </li>
+        <li>
+          <span class="legend-dot legend-dot--slate"></span>
+          <span class="legend-label">Belum Diputuskan</span>
+          <strong>{{ $ppdbRest }}</strong>
+          <em>{{ $restPct }}%</em>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ppdb-alert">
+      <span class="ppdb-alert-icon"><i class="fa-solid fa-bell"></i></span>
+      <div>
+        <strong>{{ $ppdbPending }} pendaftar</strong> masih menunggu verifikasi berkas.
+        <a href="{{ route('kepsek.monitoring.ppdb') }}">Tindak lanjuti</a>
+      </div>
+    </div>
+
+    <a href="{{ route('kepsek.monitoring.ppdb') }}" class="btn-block">
+      <i class="fa-solid fa-list-check"></i> Kelola Pendaftar PPDB
+    </a>
+  </div>
+</div>
+
+<!-- 3. Recent Materials & Videos -->
+<div class="content-grid-2 content-grid-2--even">
+  <!-- Modul Materi Ajar Terkini -->
+  <div class="box-card">
+    <div class="box-card-header">
+      <div class="box-card-title">
+        <span class="title-icon title-icon--cyan"><i class="fa-solid fa-book-bookmark"></i></span>
+        Modul Materi Ajar Terkini
       </div>
       <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'materi']) }}" class="box-card-link">
         Lihat Semua <i class="fa-solid fa-chevron-right"></i>
       </a>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="stream-list">
       @forelse($recentMaterials as $m)
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;">
-        <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
-          <div style="width: 38px; height: 38px; border-radius: 8px; background: #f0f9ff; color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
-            <i class="fa-solid fa-file-lines"></i>
-          </div>
-          <div style="min-width: 0;">
-            <div style="font-weight: 700; color: #1e293b; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $m->title }}</div>
-            <div style="font-size: 0.74rem; color: #64748b;">
-              {{ $m->subject }} &bull; {{ $m->class_level }}
-            </div>
-          </div>
+      <div class="stream-item">
+        <span class="stream-icon stream-icon--cyan"><i class="fa-solid fa-file-lines"></i></span>
+        <div class="stream-body">
+          <div class="stream-title">{{ $m->title }}</div>
+          <div class="stream-meta">{{ $m->subject }} &bull; {{ $m->class_level }}</div>
         </div>
-        <span class="badge-tag" style="background: #f1f5f9; color: #475569; white-space: nowrap;">{{ $m->file_type }}</span>
+        <span class="badge-tag">{{ $m->file_type }}</span>
       </div>
       @empty
-      <div style="text-align: center; color: #94a3b8; padding: 20px;">Belum ada modul bahan ajar diunggah.</div>
+      <div class="empty-state">
+        <i class="fa-solid fa-folder-open"></i>
+        <p>Belum ada modul bahan ajar diunggah.</p>
+      </div>
       @endforelse
     </div>
 
-    <div style="margin-top: 18px;">
-      <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'materi']) }}" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 10px; border-radius: 10px; background: #0f172a; color: #ffffff; font-size: 0.85rem; font-weight: 700; text-decoration: none;">
-        <i class="fa-solid fa-magnifying-glass-chart"></i> Buka Supervisi Modul Ajar
-      </a>
-    </div>
+    <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'materi']) }}" class="btn-block">
+      <i class="fa-solid fa-magnifying-glass-chart"></i> Buka Supervisi Modul Ajar
+    </a>
   </div>
-</div>
 
-<!-- 3. Bottom Grid: Video Terbaru & Pendaftar PPDB Terbaru -->
-<div class="content-grid-2">
   <!-- Video Pembelajaran Terbaru -->
   <div class="box-card">
     <div class="box-card-header">
       <div class="box-card-title">
-        <i class="fa-brands fa-youtube" style="color: #dc2626;"></i> Video Pembelajaran Terkini
+        <span class="title-icon title-icon--rose"><i class="fa-brands fa-youtube"></i></span>
+        Video Pembelajaran Terkini
       </div>
       <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'video']) }}" class="box-card-link">
         Semua Video ({{ $totalVideo }}) <i class="fa-solid fa-chevron-right"></i>
       </a>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 12px;">
+    <div class="stream-list">
       @forelse($recentVideos as $v)
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;">
-        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
-          <div style="width: 40px; height: 40px; border-radius: 8px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
-            <i class="fa-solid fa-play"></i>
-          </div>
-          <div style="min-width: 0;">
-            <div style="font-weight: 700; color: #1e293b; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $v->title }}</div>
-            <div style="font-size: 0.74rem; color: #64748b;">
-              Oleh: <strong>{{ $v->user->name ?? 'Guru' }}</strong> &bull; Kelas: {{ $v->class_level }} &bull; {{ $v->subject }}
-            </div>
+      <div class="stream-item">
+        <span class="stream-icon stream-icon--rose"><i class="fa-solid fa-play"></i></span>
+        <div class="stream-body">
+          <div class="stream-title">{{ $v->title }}</div>
+          <div class="stream-meta">
+            {{ $v->user->name ?? 'Guru' }} &bull; {{ $v->class_level }} &bull; {{ $v->subject }}
           </div>
         </div>
-        <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'video', 'search' => $v->title]) }}" style="padding: 6px 12px; border-radius: 8px; background: #ffffff; border: 1px solid #cbd5e1; font-size: 0.75rem; font-weight: 700; color: #1e293b; text-decoration: none; white-space: nowrap;">
-          Lihat Video
+        <a href="{{ route('kepsek.monitoring.pembelajaran', ['tab' => 'video', 'search' => $v->title]) }}" class="stream-action">
+          Lihat <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
       @empty
-      <div style="text-align: center; color: #94a3b8; padding: 20px;">Belum ada video pembelajaran yang diunggah.</div>
+      <div class="empty-state">
+        <i class="fa-solid fa-video"></i>
+        <p>Belum ada video pembelajaran yang diunggah.</p>
+      </div>
       @endforelse
     </div>
   </div>
+</div>
 
+<!-- 4. Latest PPDB Registrations & Announcements -->
+<div class="content-grid-2 content-grid-2--even">
   <!-- Pendaftar PPDB Terkini -->
   <div class="box-card">
     <div class="box-card-header">
       <div class="box-card-title">
-        <i class="fa-solid fa-id-card-clip" style="color: #ca8a04;"></i> Calon Siswa Baru (PPDB)
+        <span class="title-icon title-icon--amber"><i class="fa-solid fa-user-graduate"></i></span>
+        Calon Siswa Baru (PPDB)
       </div>
       <a href="{{ route('kepsek.monitoring.ppdb') }}" class="box-card-link">
         Lihat Semua ({{ $totalPpdb }}) <i class="fa-solid fa-chevron-right"></i>
       </a>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 10px;">
+    <div class="stream-list stream-list--compact">
       @forelse($recentPpdb as $p)
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #f8fafc; border: 1px solid var(--border); border-radius: 10px;">
-        <div style="min-width: 0;">
-          <div style="font-weight: 700; color: #1e293b; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $p->full_name }}</div>
-          <div style="font-size: 0.74rem; color: #64748b;">No: <code>{{ $p->registration_number }}</code> &bull; Asal: {{ $p->previous_school ?: '-' }}</div>
+      <div class="stream-item">
+        <span class="stream-icon stream-icon--indigo"><i class="fa-solid fa-id-card"></i></span>
+        <div class="stream-body">
+          <div class="stream-title">{{ $p->student_name }}</div>
+          <div class="stream-meta"><code>{{ $p->registration_number }}</code> &bull; {{ $p->previous_school ?: 'Asal sekolah -' }}</div>
         </div>
-        <div>
-          @if($p->status === 'diterima')
-            <span class="badge-tag" style="background: #ecfdf5; color: #059669;">Diterima</span>
-          @elseif($p->status === 'ditolak')
-            <span class="badge-tag" style="background: #fef2f2; color: #dc2626;">Ditolak</span>
-          @else
-            <span class="badge-tag" style="background: #fefce8; color: #ca8a04;">Menunggu</span>
-          @endif
+        @if(in_array($p->status, ['diterima', 'accepted'], true))
+          <span class="status-chip status-chip--green"><i class="fa-solid fa-check"></i> Diterima</span>
+        @elseif(in_array($p->status, ['ditolak', 'rejected'], true))
+          <span class="status-chip status-chip--red"><i class="fa-solid fa-xmark"></i> Ditolak</span>
+        @else
+          <span class="status-chip status-chip--amber"><i class="fa-solid fa-hourglass-half"></i> Menunggu</span>
+        @endif
+      </div>
+      @empty
+      <div class="empty-state">
+        <i class="fa-solid fa-user-plus"></i>
+        <p>Belum ada calon peserta didik mendaftar.</p>
+      </div>
+      @endforelse
+    </div>
+  </div>
+
+  <!-- Pengumuman Sekolah -->
+  <div class="box-card">
+    <div class="box-card-header">
+      <div class="box-card-title">
+        <span class="title-icon title-icon--violet"><i class="fa-solid fa-bullhorn"></i></span>
+        Pengumuman Sekolah
+      </div>
+      <span class="badge-tag">{{ $announcements->count() }} aktif</span>
+    </div>
+
+    <div class="stream-list stream-list--compact">
+      @forelse($announcements as $announcement)
+      <div class="stream-item">
+        <span class="stream-icon stream-icon--violet"><i class="fa-solid fa-bullhorn"></i></span>
+        <div class="stream-body">
+          <div class="stream-title">{{ $announcement->title }}</div>
+          <div class="stream-meta">
+            <i class="fa-regular fa-calendar"></i>
+            {{ optional($announcement->published_at)->locale('id')->translatedFormat('d F Y') ?? 'Tanpa tanggal' }}
+          </div>
         </div>
       </div>
       @empty
-      <div style="text-align: center; color: #94a3b8; padding: 20px;">Belum ada calon peserta didik mendaftar.</div>
+      <div class="empty-state">
+        <i class="fa-solid fa-inbox"></i>
+        <p>Belum ada pengumuman yang dipublikasikan.</p>
+      </div>
       @endforelse
     </div>
   </div>

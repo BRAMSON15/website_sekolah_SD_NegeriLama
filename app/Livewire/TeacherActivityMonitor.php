@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use App\Models\User;
@@ -12,6 +13,8 @@ use Illuminate\Support\Collection;
 
 class TeacherActivityMonitor extends Component
 {
+    use WithPagination;
+
     /**
      * Filter & Search
      */
@@ -28,23 +31,25 @@ class TeacherActivityMonitor extends Component
      * Pagination
      */
     public int $perPage = 10;
-    public int $currentPage = 1;
 
     /**
      * Mount component
      */
-    public function mount()
+    public function mount(?int $pollingInterval = null)
     {
+        if ($pollingInterval) {
+            $this->pollingInterval = $pollingInterval;
+        }
+
         // Set initial filter dari query string jika ada
         $this->filterStatus = request('status', 'all');
         $this->filterActivityType = request('activity_type', 'all');
     }
 
     /**
-     * Computed: Dapatkan data guru yang sedang aktif dengan polling
+     * Query aktivitas yang sudah difilter, sebelum dipaginasi.
      */
-    #[Computed]
-    public function teacherActivities()
+    protected function filteredActivitiesQuery()
     {
         $query = TeacherActivity::with('teacher')
             ->latest('created_at');
@@ -70,7 +75,29 @@ class TeacherActivityMonitor extends Component
             });
         }
 
-        return $query->paginate($this->perPage);
+        return $query;
+    }
+
+    /**
+     * Computed: Dapatkan data guru yang sedang aktif dengan polling
+     */
+    #[Computed]
+    public function teacherActivities()
+    {
+        return $this->filteredActivitiesQuery()->paginate($this->perPage);
+    }
+
+    /**
+     * Computed: Jumlah aktivitas per tipe dari seluruh hasil filter
+     */
+    #[Computed]
+    public function activityTypeCounts()
+    {
+        return $this->filteredActivitiesQuery()
+            ->reorder()
+            ->selectRaw('activity_type, COUNT(*) as aggregate')
+            ->groupBy('activity_type')
+            ->pluck('aggregate', 'activity_type');
     }
 
     /**
@@ -126,7 +153,7 @@ class TeacherActivityMonitor extends Component
      */
     public function updatedSearch()
     {
-        $this->currentPage = 1;
+        $this->resetPage();
     }
 
     /**
@@ -134,7 +161,7 @@ class TeacherActivityMonitor extends Component
      */
     public function updatedFilterStatus()
     {
-        $this->currentPage = 1;
+        $this->resetPage();
     }
 
     /**
@@ -142,7 +169,7 @@ class TeacherActivityMonitor extends Component
      */
     public function updatedFilterActivityType()
     {
-        $this->currentPage = 1;
+        $this->resetPage();
     }
 
     /**
@@ -164,14 +191,6 @@ class TeacherActivityMonitor extends Component
     }
 
     /**
-     * Change page
-     */
-    public function changePage($page)
-    {
-        $this->currentPage = $page;
-    }
-
-    /**
      * Reset filters
      */
     public function resetFilters()
@@ -179,7 +198,7 @@ class TeacherActivityMonitor extends Component
         $this->search = '';
         $this->filterStatus = 'all';
         $this->filterActivityType = 'all';
-        $this->currentPage = 1;
+        $this->resetPage();
     }
 
     /**

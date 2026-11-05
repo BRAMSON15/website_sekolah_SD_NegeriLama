@@ -24,9 +24,11 @@ class TeacherPerformanceStats extends Component
     /**
      * Mount component
      */
-    public function mount()
+    public function mount(?int $pollingInterval = null)
     {
-        // Initialize jika perlu
+        if ($pollingInterval) {
+            $this->pollingInterval = $pollingInterval;
+        }
     }
 
     /**

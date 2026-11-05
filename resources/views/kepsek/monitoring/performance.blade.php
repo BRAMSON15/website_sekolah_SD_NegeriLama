@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.monitoring')
+
+@section('title', 'Monitoring Performa Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
 <div class="container-fluid">

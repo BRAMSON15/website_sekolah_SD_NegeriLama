@@ -1,4 +1,4 @@
-<div class="container-fluid py-4">
+<div class="container-fluid py-4" wire:poll.{{ $pollingInterval }}ms="$refresh">
     <!-- Header Section -->
     <div class="row mb-4">
         <div class="col-md-12">
@@ -112,19 +112,19 @@
                         <div class="col-md-4">
                             <h6 class="text-muted small mb-2">Material Upload</h6>
                             <h4 class="fw-bold text-primary">
-                                {{ $this->teacherActivities()->sum(function($a) { return $a->activity_type === 'material_upload' ? 1 : 0; }) }}
+                                {{ $this->activityTypeCounts()->get('material_upload', 0) }}
                             </h4>
                         </div>
                         <div class="col-md-4">
                             <h6 class="text-muted small mb-2">Video Upload</h6>
                             <h4 class="fw-bold text-warning">
-                                {{ $this->teacherActivities()->sum(function($a) { return $a->activity_type === 'video_upload' ? 1 : 0; }) }}
+                                {{ $this->activityTypeCounts()->get('video_upload', 0) }}
                             </h4>
                         </div>
                         <div class="col-md-4">
                             <h6 class="text-muted small mb-2">Assignment Create</h6>
                             <h4 class="fw-bold text-info">
-                                {{ $this->teacherActivities()->sum(function($a) { return $a->activity_type === 'assignment_create' ? 1 : 0; }) }}
+                                {{ $this->activityTypeCounts()->get('assignment_create', 0) }}
                             </h4>
                         </div>
                     </div>
@@ -233,7 +233,7 @@
         @if($this->teacherActivities()->count() > 0)
             <div class="card-footer bg-light border-top">
                 <nav aria-label="Page navigation">
-                    {{ $this->teacherActivities()->links('pagination::bootstrap-4') }}
+                    {{ $this->teacherActivities()->links('livewire::bootstrap') }}
                 </nav>
             </div>
         @endif

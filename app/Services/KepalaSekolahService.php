@@ -24,8 +24,8 @@ class KepalaSekolahService
         $totalVideo = EducationalVideo::count();
         $totalMateri = LearningMaterial::count();
         $totalPpdb = PpdbRegistration::count();
-        $totalPpdbPending = PpdbRegistration::where('status', 'menunggu')->count();
-        $totalPpdbDiterima = PpdbRegistration::where('status', 'diterima')->count();
+        $totalPpdbPending = PpdbRegistration::whereIn('status', ['pending', 'menunggu'])->count();
+        $totalPpdbDiterima = PpdbRegistration::whereIn('status', ['accepted', 'diterima'])->count();
 
         // 2. Performa Guru Pengajar (Keaktifan Konten Digital)
         $teachers = User::where('role', 'guru')

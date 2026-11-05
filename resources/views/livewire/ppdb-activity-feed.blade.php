@@ -1,4 +1,4 @@
-﻿<div wire:poll-3000ms>
+﻿<div wire:poll.3000ms="$refresh">
   @if($this->activities->count() > 0)
     <div style="display: flex; flex-direction: column; gap: 12px;">
       @foreach($this->activities as $activity)
@@ -17,11 +17,11 @@
                 <strong>{{ $activity->registration->student_name }}</strong> ({{ $activity->registration->registration_number }})
               </small>
             @endif
-            @if($activity->metadata && isset($activity->metadata[''status_from'']) && isset($activity->metadata[''status_to'']))
+            @if($activity->metadata && isset($activity->metadata['status_from']) && isset($activity->metadata['status_to']))
               <div style="margin-top: 6px; font-size: 0.85rem; color: #666;">
-                <span style="background: #ffe0e0; padding: 2px 6px; border-radius: 3px;">{{ $activity->metadata[''status_from''] }}</span>
+                <span style="background: #ffe0e0; padding: 2px 6px; border-radius: 3px;">{{ $activity->metadata['status_from'] }}</span>
                 <i class="fa-solid fa-arrow-right" style="margin: 0 4px;"></i>
-                <span style="background: #e0ffe0; padding: 2px 6px; border-radius: 3px;">{{ $activity->metadata[''status_to''] }}</span>
+                <span style="background: #e0ffe0; padding: 2px 6px; border-radius: 3px;">{{ $activity->metadata['status_to'] }}</span>
               </div>
             @endif
           </div>

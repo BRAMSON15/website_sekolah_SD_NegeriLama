@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Cache;
 
 class PpdbMonitoringService
 {
-    private const STATS_CACHE_TIME = 180; // 3 minutes
+    private const STATS_CACHE_TIME = 3; // 3 detik agar polling tetap real-time
     private const ACTIVITIES_CACHE_TIME = 120; // 2 minutes
 
     /**

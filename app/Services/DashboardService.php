@@ -4,7 +4,10 @@ namespace App\Services;
 
 use App\Models\Announcement;
 use App\Models\Feature;
+use App\Models\PpdbRegistration;
 use App\Models\SchoolSetting;
+use App\Models\Student;
+use App\Models\User;
 
 class DashboardService
 {
@@ -18,6 +21,11 @@ class DashboardService
             'activeAnnouncements' => Announcement::active()->count(),
             'features'            => Feature::count(),
             'settings'            => SchoolSetting::count(),
+            'teachers'            => User::where('role', 'guru')->count(),
+            'students'            => Student::count(),
+            'ppdbTotal'           => PpdbRegistration::count(),
+            'ppdbPending'         => PpdbRegistration::whereIn('status', ['pending', 'menunggu'])->count(),
+            'ppdbAccepted'        => PpdbRegistration::whereIn('status', ['accepted', 'diterima'])->count(),
         ];
 
         $recentAnnouncements = Announcement::latest('published_at')

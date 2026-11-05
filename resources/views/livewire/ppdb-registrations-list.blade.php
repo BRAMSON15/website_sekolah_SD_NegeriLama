@@ -1,4 +1,4 @@
-<div class="ppdb-registrations-container">
+<div class="ppdb-registrations-container" wire:poll.3000ms="$refresh">
     <!-- Filter Bar -->
     <div style="background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e2e8f0;">
         <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
@@ -20,14 +20,11 @@
                 <option value="ditolak">Ditolak</option>
             </select>
             <span style="color: #64748b; font-size: 13px;">
-                <i class="fas fa-sync-alt" @if (isset($wire->loading)) style="animation: spin 1s linear infinite;" @endif></i>
-                Last updated: <span wire:poll-5000="$refresh">{{ now()->format('H:i:s') }}</span>
+                <i class="fas fa-sync-alt" wire:loading.class="fa-spin"></i>
+                Last updated: {{ now()->format('H:i:s') }}
             </span>
         </div>
     </div>
-
-    <!-- Auto-refresh indicator -->
-    <div wire:poll-3000="$refresh" style="display: none;"></div>
 
     <!-- Table -->
     <div class="table-responsive">
@@ -85,7 +82,7 @@
     <!-- Pagination -->
     @if($registrations->hasPages())
     <div style="margin-top: 20px; display: flex; justify-content: center;">
-        {{ $registrations->links() }}
+        {{ $registrations->links('livewire::bootstrap') }}
     </div>
     @endif
 
@@ -168,5 +165,38 @@
     .information-status-active {
         background: #dcfce7;
         color: #166534;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 4px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .pagination .page-link,
+    .pagination button {
+        padding: 6px 11px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        background: #ffffff;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .pagination .active .page-link,
+    .pagination .page-item.active .page-link {
+        background: #1769d9;
+        border-color: #1769d9;
+        color: #ffffff;
+    }
+
+    .pagination .disabled .page-link,
+    .pagination button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
     }
 </style>

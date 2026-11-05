@@ -21,12 +21,12 @@ class PpdbRegistrationsList extends Component
         // Initialize component
     }
 
-    public function updateSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
 
-    public function updateStatusFilter()
+    public function updatedStatusFilter()
     {
         $this->resetPage();
     }

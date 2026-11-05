@@ -2,261 +2,305 @@
 
 @section('title', 'Dashboard Guru - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard-guru.css') }}?v={{ @filemtime(public_path('mentahan2/css/dashboard-guru.css')) ?: time() }}">
+@endsection
+
 @section('content')
 @if (session('success'))
-<div style="background: #ddf7ed; border: 1px solid #27a879; color: #1e7e5a; padding: 14px 20px; border-radius: 12px; margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px;">
+<div class="gd-flash">
     <i class="fa-solid fa-circle-check"></i> {{ session('success') }}
 </div>
 @endif
 
 <!-- WELCOME -->
-<div class="welcome">
-    <div class="welcome-text">
-        <h1>
-            Selamat datang, {{ Auth::user()->name }}! 👋
-        </h1>
+<section class="gd-hero">
+    <div class="gd-hero-glow gd-hero-glow--teal" aria-hidden="true"></div>
+    <div class="gd-hero-glow gd-hero-glow--blue" aria-hidden="true"></div>
+
+    <div class="gd-hero-main">
+        <span class="gd-hero-chip">
+            <i class="fa-solid fa-chalkboard-user"></i> Ruang Kerja Guru
+        </span>
+        <h1>Selamat datang, <span>{{ $user->name }}</span>!</h1>
         <p>
-            Semoga hari ini penuh dengan inspirasi dan semangat untuk mencerdaskan generasi bangsa di {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.
+            Semoga hari ini penuh inspirasi dan semangat untuk mencerdaskan generasi bangsa
+            di {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}.
         </p>
+        <div class="gd-hero-meta">
+            <span><i class="fa-regular fa-calendar-days"></i> {{ now()->locale('id')->translatedFormat('l, d F Y') }}</span>
+            <span><i class="fa-solid fa-book-open"></i> {{ $user->subject ?: 'Guru Pengajar' }}</span>
+            <span class="gd-hero-status"><span class="gd-pulse"></span> Siap mengajar</span>
+        </div>
+
+        <div class="gd-hero-actions">
+            <a href="{{ route('guru.materi') }}" class="gd-btn gd-btn--primary">
+                <i class="fa-solid fa-file-arrow-up"></i> Unggah Materi
+            </a>
+            <a href="{{ route('guru.video') }}" class="gd-btn gd-btn--ghost">
+                <i class="fa-solid fa-video"></i> Tambah Video
+            </a>
+        </div>
     </div>
 
-    <div class="teacher-illustration">
+    <div class="teacher-illustration" aria-hidden="true">
         <div class="teacher">
             <div class="teacher-head"></div>
             <div class="teacher-body"></div>
         </div>
 
         <div class="board">
-            <span>{{ Auth::user()->subject ?: 'Guru Pengajar' }}</span>
+            <span>{{ $user->subject ?: 'Guru Pengajar' }}</span>
             <small>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</small>
         </div>
     </div>
-</div>
+</section>
 
 <!-- STATISTICS -->
-<div class="stats">
-    <div class="stat-card green">
-        <div class="stat-icon">
-            <i class="bi bi-book-half"></i>
+<div class="gd-stats">
+    <a href="{{ route('guru.kelas.index') }}" class="gd-stat gd-stat--blue">
+        <span class="gd-stat-accent" aria-hidden="true"></span>
+        <div class="gd-stat-icon"><i class="fa-solid fa-users-rectangle"></i></div>
+        <div class="gd-stat-info">
+            <span class="gd-stat-label">Kelas Diampu</span>
+            <h2>{{ $stats['classes'] ?? 0 }}</h2>
+            <span class="gd-stat-note"><i class="fa-solid fa-door-open"></i> Kelas yang Anda ampu</span>
         </div>
-        <h2>{{ $stats['materials'] ?? 0 }}</h2>
-        <p>Materi Pembelajaran</p>
-        <a href="{{ route('guru.materi') }}">
-            Kelola Materi
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
+        <i class="fa-solid fa-users-rectangle gd-stat-ghost" aria-hidden="true"></i>
+    </a>
 
-    <div class="stat-card purple">
-        <div class="stat-icon">
-            <i class="bi bi-play-circle-fill"></i>
+    <a href="{{ route('guru.materi') }}" class="gd-stat gd-stat--emerald">
+        <span class="gd-stat-accent" aria-hidden="true"></span>
+        <div class="gd-stat-icon"><i class="fa-solid fa-book-open"></i></div>
+        <div class="gd-stat-info">
+            <span class="gd-stat-label">Materi Pembelajaran</span>
+            <h2>{{ $stats['materials'] ?? 0 }}</h2>
+            <span class="gd-stat-note"><i class="fa-solid fa-folder-open"></i> Modul siap dibagikan</span>
         </div>
-        <h2>{{ $stats['videos'] ?? 0 }}</h2>
-        <p>Video Edukasi</p>
-        <a href="{{ route('guru.video') }}">
-            Lihat Semua
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
+        <i class="fa-solid fa-book-open gd-stat-ghost" aria-hidden="true"></i>
+    </a>
 
-    <div class="stat-card orange">
-        <div class="stat-icon">
-            <i class="bi bi-megaphone-fill"></i>
+    <a href="{{ route('guru.video') }}" class="gd-stat gd-stat--violet">
+        <span class="gd-stat-accent" aria-hidden="true"></span>
+        <div class="gd-stat-icon"><i class="fa-solid fa-circle-play"></i></div>
+        <div class="gd-stat-info">
+            <span class="gd-stat-label">Video Edukasi</span>
+            <h2>{{ $stats['videos'] ?? 0 }}</h2>
+            <span class="gd-stat-note"><i class="fa-solid fa-film"></i> Media pembelajaran</span>
         </div>
-        <h2>{{ $stats['announcements'] ?? 0 }}</h2>
-        <p>Pengumuman Sekolah</p>
-        <a href="{{ route('guru.pengumuman') }}">
-            Lihat Pengumuman
-            <i class="bi bi-arrow-right"></i>
-        </a>
-    </div>
+        <i class="fa-solid fa-circle-play gd-stat-ghost" aria-hidden="true"></i>
+    </a>
+
+    <a href="{{ route('guru.pengumuman') }}" class="gd-stat gd-stat--amber">
+        <span class="gd-stat-accent" aria-hidden="true"></span>
+        <div class="gd-stat-icon"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="gd-stat-info">
+            <span class="gd-stat-label">Pengumuman Sekolah</span>
+            <h2>{{ $stats['announcements'] ?? 0 }}</h2>
+            <span class="gd-stat-note"><i class="fa-solid fa-envelope-open-text"></i> Informasi terbaru</span>
+        </div>
+        <i class="fa-solid fa-bullhorn gd-stat-ghost" aria-hidden="true"></i>
+    </a>
 </div>
 
 <!-- GRID -->
-<div class="dashboard-grid">
+<div class="gd-grid">
 
     <!-- LEFT CONTENT -->
-    <div class="left-content">
+    <div class="gd-col">
 
         <!-- VIDEO EDUKASI -->
-        <div class="section-card video-section">
-            <div class="section-header">
-                <div class="section-title">
-                    <div class="title-icon purple-icon">
+        <section class="gd-card">
+            <div class="gd-card-head">
+                <div class="gd-card-title">
+                    <span class="gd-title-icon gd-title-icon--violet">
                         <i class="fa-solid fa-circle-play"></i>
-                    </div>
+                    </span>
                     <div>
                         <h2>Video Edukasi Terbaru</h2>
                         <p>Tonton video pembelajaran untuk memperdalam materi yang diajarkan.</p>
                     </div>
                 </div>
-                <a href="{{ route('guru.video') }}">
-                    Lihat Semua
-                    <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('guru.video') }}" class="gd-card-link">
+                    Lihat Semua <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
             @if(isset($featuredVideo) && $featuredVideo)
             <!-- VIDEO PLAYER -->
-            <div style="border-radius: 16px; overflow: hidden; position: relative; background: #000; margin-bottom: 16px; aspect-ratio: 16/9; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
-                <iframe src="{{ $featuredVideo->is_youtube ? $featuredVideo->embed_url . '?rel=0&modestbranding=1' : $featuredVideo->embed_url }}" style="width: 100%; height: 100%; border: none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <div class="gd-player">
+                <iframe src="{{ $featuredVideo->is_youtube ? $featuredVideo->embed_url . '?rel=0&modestbranding=1' : $featuredVideo->embed_url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
-            <div class="video-info">
-                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-                    <span style="display: inline-flex; align-items: center; gap: 5px; background: {{ $featuredVideo->source_badge['bg_color'] }}; color: {{ $featuredVideo->source_badge['color'] }}; border: 1px solid {{ $featuredVideo->source_badge['border'] }}; padding: 2px 9px; border-radius: 12px; font-size: 0.72rem; font-weight: 700;">
-                        <i class="{{ $featuredVideo->source_badge['icon'] }}"></i> {{ $featuredVideo->source_badge['label'] }}
-                    </span>
-                    <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0;">{{ $featuredVideo->title }}</h3>
-                </div>
-                <p style="font-size: 0.88rem; color: var(--muted); line-height: 1.6; margin-bottom: 14px;">
-                    {{ $featuredVideo->description }}
-                </p>
+            <div class="gd-video-head">
+                <span class="gd-source-badge" style="background: {{ $featuredVideo->source_badge['bg_color'] }}; color: {{ $featuredVideo->source_badge['color'] }}; border-color: {{ $featuredVideo->source_badge['border'] }};">
+                    <i class="{{ $featuredVideo->source_badge['icon'] }}"></i> {{ $featuredVideo->source_badge['label'] }}
+                </span>
+                <h3>{{ $featuredVideo->title }}</h3>
+            </div>
+            <p class="gd-video-desc">{{ $featuredVideo->description }}</p>
 
-                <div class="video-bottom">
-                    <div class="tags">
-                        <span>{{ $featuredVideo->subject }}</span>
-                        <span>{{ $featuredVideo->class_level }}</span>
-                        <span>
-                            <i class="fa-regular fa-clock"></i> {{ $featuredVideo->duration }}
-                        </span>
-                        <span>
-                            <i class="fa-regular fa-eye"></i> {{ $featuredVideo->views_count }}x ditonton
-                        </span>
-                    </div>
-
-                    <a href="{{ route('guru.video', ['play' => $featuredVideo->id]) }}" class="watch-button" style="text-decoration: none;">
-                        <i class="fa-solid fa-play"></i> Putar Lengkap
-                    </a>
+            <div class="gd-video-foot">
+                <div class="gd-tags">
+                    <span>{{ $featuredVideo->subject }}</span>
+                    <span>{{ $featuredVideo->class_level }}</span>
+                    <span><i class="fa-regular fa-clock"></i> {{ $featuredVideo->duration }}</span>
+                    <span><i class="fa-regular fa-eye"></i> {{ $featuredVideo->views_count }}x ditonton</span>
                 </div>
+
+                <a href="{{ route('guru.video', ['play' => $featuredVideo->id]) }}" class="gd-watch">
+                    <i class="fa-solid fa-play"></i> Putar Lengkap
+                </a>
             </div>
             @else
-            <p style="color: var(--muted); font-size: 0.9rem;">Belum ada video edukasi yang ditambahkan.</p>
+            <div class="gd-empty">
+                <i class="fa-solid fa-video"></i>
+                <p>Belum ada video edukasi yang ditambahkan.</p>
+            </div>
             @endif
-        </div>
+        </section>
 
         <!-- MATERI -->
-        <div class="section-card">
-            <div class="section-header">
-                <div class="section-title">
-                    <div class="title-icon green-icon">
+        <section class="gd-card">
+            <div class="gd-card-head">
+                <div class="gd-card-title">
+                    <span class="gd-title-icon gd-title-icon--emerald">
                         <i class="fa-solid fa-book-open"></i>
-                    </div>
+                    </span>
                     <div>
                         <h2>Materi Pembelajaran Terbaru</h2>
                         <p>Materi dan modul ajar yang siap diunduh peserta didik</p>
                     </div>
                 </div>
-                <a href="{{ route('guru.materi') }}">
-                    Lihat Semua
-                    <i class="fa-solid fa-arrow-right"></i>
+                <a href="{{ route('guru.materi') }}" class="gd-card-link">
+                    Lihat Semua <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <div class="materials">
+            <div class="gd-list">
                 @forelse($recentMaterials as $mat)
-                <div class="material">
-                    <div class="material-icon green">
+                <div class="gd-item">
+                    <span class="gd-item-icon gd-item-icon--emerald">
                         <i class="fa-solid fa-file-lines"></i>
+                    </span>
+                    <div class="gd-item-body">
+                        <div class="gd-item-title">{{ $mat->title }}</div>
+                        <div class="gd-item-meta">{{ $mat->subject }} &bull; {{ $mat->class_level }} &bull; {{ $mat->file_type }} ({{ $mat->file_size }})</div>
                     </div>
-                    <div style="flex: 1;">
-                        <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 2px;">{{ $mat->title }}</h3>
-                        <p style="font-size: 0.8rem; color: var(--muted); margin: 0;">{{ $mat->subject }} • {{ $mat->class_level }} • {{ $mat->file_type }} ({{ $mat->file_size }})</p>
-                    </div>
-                    <a href="{{ route('guru.materi.download', $mat->id) }}" title="Unduh Materi" style="color: var(--primary); padding: 8px; font-size: 1.1rem;">
+                    <a href="{{ route('guru.materi.download', $mat->id) }}" class="gd-icon-btn" title="Unduh Materi" aria-label="Unduh {{ $mat->title }}">
                         <i class="fa-solid fa-download"></i>
                     </a>
                 </div>
                 @empty
-                <p style="color: var(--muted); font-size: 0.9rem;">Belum ada materi pembelajaran yang diunggah.</p>
+                <div class="gd-empty">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <p>Belum ada materi pembelajaran yang diunggah.</p>
+                </div>
                 @endforelse
             </div>
-        </div>
+        </section>
 
     </div>
 
     <!-- RIGHT CONTENT -->
-    <div class="right-content">
+    <div class="gd-col">
 
         <!-- KELAS -->
-        <div class="section-card">
-            <div class="section-header">
-                <h2>
-                    <i class="fa-solid fa-users"></i> Jenjang Kelas
-                </h2>
-                <a href="{{ route('guru.kelas.index') }}">
+        <section class="gd-card">
+            <div class="gd-card-head">
+                <div class="gd-card-title">
+                    <span class="gd-title-icon gd-title-icon--blue">
+                        <i class="fa-solid fa-users"></i>
+                    </span>
+                    <div>
+                        <h2>Jenjang Kelas</h2>
+                        <p>Kelas yang Anda ampu saat ini</p>
+                    </div>
+                </div>
+                <a href="{{ route('guru.kelas.index') }}" class="gd-card-link">
                     Kelola Kelas <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
 
-            <div class="classes">
-                @foreach($classesList as $c)
-                <div class="class-item" style="cursor: default;">
-                    <div class="class-icon {{ $c['badge_color'] }}">{{ $c['badge'] }}</div>
-                    <div class="class-info">
-                        <strong>{{ $c['name'] }}</strong>
-                        <span>{{ $c['subject'] }}</span>
+            <div class="gd-list">
+                @forelse($classesList as $c)
+                <div class="gd-item">
+                    <span class="gd-class-badge gd-class-badge--{{ $c['badge_color'] }}">{{ $c['badge'] }}</span>
+                    <div class="gd-item-body">
+                        <div class="gd-item-title">{{ $c['name'] }}</div>
+                        <div class="gd-item-meta">{{ $c['subject'] }}</div>
                     </div>
-                    <small>{{ $c['students_count'] }} siswa</small>
+                    <span class="gd-pill"><i class="fa-solid fa-user-group"></i> {{ $c['students_count'] }} siswa</span>
                 </div>
-                @endforeach
+                @empty
+                <div class="gd-empty">
+                    <i class="fa-solid fa-door-closed"></i>
+                    <p>Belum ada kelas yang Anda ampu.</p>
+                </div>
+                @endforelse
             </div>
-        </div>
+        </section>
 
         <!-- QUICK ACTION -->
-        <div class="section-card quick-card">
-            <div class="section-header">
-                <h2>
-                    <i class="fa-solid fa-bolt"></i> Akses Cepat
-                </h2>
+        <section class="gd-card">
+            <div class="gd-card-head">
+                <div class="gd-card-title">
+                    <span class="gd-title-icon gd-title-icon--amber">
+                        <i class="fa-solid fa-bolt"></i>
+                    </span>
+                    <div>
+                        <h2>Akses Cepat</h2>
+                        <p>Pintasan aktivitas mengajar Anda</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="quick-actions">
-                <a href="{{ route('guru.kelas.create') }}" class="quick-item">
-                    <div class="quick-icon blue">
+            <div class="gd-quick">
+                <a href="{{ route('guru.kelas.create') }}" class="gd-quick-item">
+                    <span class="gd-quick-icon gd-quick-icon--blue">
                         <i class="fa-solid fa-users-rectangle"></i>
-                    </div>
-                    <div>
+                    </span>
+                    <div class="gd-quick-body">
                         <strong>Buat Kelas Baru</strong>
                         <span>Tambah kelas yang Anda ampu</span>
                     </div>
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right gd-quick-arrow" aria-hidden="true"></i>
                 </a>
 
-                <a href="{{ route('guru.materi') }}" class="quick-item">
-                    <div class="quick-icon blue">
+                <a href="{{ route('guru.materi') }}" class="gd-quick-item">
+                    <span class="gd-quick-icon gd-quick-icon--green">
                         <i class="bi bi-file-earmark-plus-fill"></i>
-                    </div>
-                    <div>
+                    </span>
+                    <div class="gd-quick-body">
                         <strong>Buat Materi Baru</strong>
                         <span>Unggah materi pembelajaran</span>
                     </div>
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right gd-quick-arrow" aria-hidden="true"></i>
                 </a>
 
-                <a href="{{ route('guru.video') }}" class="quick-item">
-                    <div class="quick-icon purple">
+                <a href="{{ route('guru.video') }}" class="gd-quick-item">
+                    <span class="gd-quick-icon gd-quick-icon--violet">
                         <i class="bi bi-camera-video-fill"></i>
-                    </div>
-                    <div>
+                    </span>
+                    <div class="gd-quick-body">
                         <strong>Unggah Video Edukasi</strong>
                         <span>Tambah video pembelajaran</span>
                     </div>
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right gd-quick-arrow" aria-hidden="true"></i>
                 </a>
 
-                <a href="{{ route('guru.pengumuman') }}" class="quick-item">
-                    <div class="quick-icon green">
+                <a href="{{ route('guru.pengumuman') }}" class="gd-quick-item">
+                    <span class="gd-quick-icon gd-quick-icon--amber">
                         <i class="bi bi-megaphone-fill"></i>
-                    </div>
-                    <div>
+                    </span>
+                    <div class="gd-quick-body">
                         <strong>Pengumuman Sekolah</strong>
                         <span>Info dan berita sekolah</span>
                     </div>
-                    <i class="bi bi-chevron-right"></i>
+                    <i class="fa-solid fa-chevron-right gd-quick-arrow" aria-hidden="true"></i>
                 </a>
             </div>
-        </div>
+        </section>
 
     </div>
 

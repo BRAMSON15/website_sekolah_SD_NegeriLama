@@ -1,4 +1,4 @@
-<div class="container-fluid py-4">
+<div class="container-fluid py-4" wire:poll.{{ $pollingInterval }}ms="$refresh">
     <!-- Header Section -->
     <div class="row mb-4">
         <div class="col-md-12">
@@ -271,11 +271,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="progress me-2" style="width: 60px; height: 20px;">
                                                 <div 
-                                                    class="progress-bar @switch($performance->activity_score)
-                                                        @case($performance->activity_score >= 80) bg-success @break
-                                                        @case($performance->activity_score >= 50) bg-warning @break
-                                                        @default bg-danger
-                                                    @endswitch" 
+                                                    class="progress-bar {{ $performance->activity_score >= 80 ? 'bg-success' : ($performance->activity_score >= 50 ? 'bg-warning' : 'bg-danger') }}"
                                                     style="width: {{ $performance->activity_score }}%"
                                                 >
                                                     {{ $performance->activity_score }}

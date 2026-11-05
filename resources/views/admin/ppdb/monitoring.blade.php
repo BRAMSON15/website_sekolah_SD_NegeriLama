@@ -1,6 +1,23 @@
-﻿@extends("layouts.app")
+﻿@extends("layouts.admin")
 
 @section("title", "Monitoring Registrasi PPDB - " . ($settings["school_name"] ?? "SD Negeri Lama"))
+
+@section("styles")
+<style>
+  .ppdb-monitor-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 991.98px) {
+    .ppdb-monitor-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+@endsection
 
 @section("content")
 <div class="page-header">
@@ -10,16 +27,14 @@
 
 <div class="page-content">
   <!-- Statistics Widgets -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <livewire:ppdb-monitoring-stats wire:key="stats-{{ time() }}" />
-    </div>
+  <div style="margin-bottom: 20px;">
+    <livewire:ppdb-monitoring-stats wire:key="stats" />
   </div>
 
   <!-- Main Content -->
-  <div class="row">
+  <div class="ppdb-monitor-layout">
     <!-- Filter Sidebar -->
-    <div class="col-lg-3">
+    <div>
       <div class="card-box" style="padding: 20px;">
         <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
           <i class="fa-solid fa-filter"></i> Filter & Cari
@@ -29,7 +44,7 @@
     </div>
 
     <!-- Activity Feed -->
-    <div class="col-lg-9">
+    <div>
       <div class="card-box" style="padding: 20px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
           <h3 style="font-size: 1.1rem; color: var(--primary); margin: 0; display: flex; align-items: center; gap: 8px;">
@@ -42,7 +57,7 @@
             <i class="fa-solid fa-list"></i> Lihat Semua
           </a>
         </div>
-        <livewire:ppdb-activity-feed wire:key="activities-{{ time() }}" />
+        <livewire:ppdb-activity-feed wire:key="activities" />
       </div>
     </div>
   </div>
