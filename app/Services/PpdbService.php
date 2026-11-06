@@ -1,6 +1,5 @@
-﻿<?php
-
-namespace App\Services;
+<?php
+Namespace App\Services;
 
 use App\Models\Monitoring\PpdbActivity;
 use App\Models\PpdbRegistration;
@@ -9,7 +8,6 @@ use Dompdf\Options;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 
 class PpdbService
 {
