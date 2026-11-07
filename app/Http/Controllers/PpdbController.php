@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace App\Http\Controllers;
 
@@ -17,11 +17,24 @@ class PpdbController extends Controller
     public function create()
     {
         $settings = $this->websiteService->getSettings();
+
+        if (($settings["ppdb_status"] ?? "open") !== "open") {
+            return redirect()->route("ppdb")
+                ->with("error", "Pendaftaran PPDB saat ini ditutup. Silakan pantau informasi gelombang berikutnya di halaman ini.");
+        }
+
         return view("pages.ppdb-register", compact("settings"));
     }
 
     public function store(Request $request)
     {
+        $settings = $this->websiteService->getSettings();
+
+        if (($settings["ppdb_status"] ?? "open") !== "open") {
+            return redirect()->route("ppdb")
+                ->with("error", "Pendaftaran PPDB saat ini ditutup, sehingga data tidak dapat dikirim.");
+        }
+
         try {
             // Validate registration data using service
             $validated = $this->ppdbService->validateRegistration($request->all());

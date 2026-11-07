@@ -1,4 +1,4 @@
-﻿@extends("layouts.app")
+@extends("layouts.app")
 
 @section("title", "Monitoring PPDB - " . ($settings["school_name"] ?? "SD Negeri Lama"))
 

@@ -10,8 +10,6 @@
   .kontak-item-icon { width: 44px; height: 44px; font-size: 1.2rem; }
   .kontak-item-text { font-size: 0.95rem; }
   .kontak-item-gap { gap: 20px; }
-  .kontak-form-label { font-size: 0.9rem; }
-  .kontak-form-input { padding: 12px; }
   .kontak-map { min-height: 350px; }
   
   @media (max-width: 768px) {
@@ -30,8 +28,6 @@
     .kontak-item-icon { width: 36px; height: 36px; font-size: 0.9rem; }
     .kontak-item-text { font-size: 0.78rem; }
     .kontak-item-gap { gap: 12px; }
-    .kontak-form-label { font-size: 0.80rem; }
-    .kontak-form-input { padding: 10px; font-size: 0.85rem; }
     .kontak-map { min-height: 280px; }
   }
   
@@ -40,8 +36,6 @@
     .kontak-card h4 { font-size: 0.75rem; }
     .kontak-item-icon { width: 32px; height: 32px; font-size: 0.8rem; }
     .kontak-item-text { font-size: 0.70rem; }
-    .kontak-form-label { font-size: 0.72rem; }
-    .kontak-form-input { padding: 8px; font-size: 0.78rem; }
   }
 </style>
 
@@ -103,20 +97,20 @@
 
     <div class="card-box kontak-card">
       <h2><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</h2>
-      <form action="#" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
-        <div>
-          <label class="kontak-form-label" style="display: block; font-weight: 600; margin-bottom: 6px;">Nama Lengkap</label>
-          <input type="text" placeholder="Masukkan nama Anda" class="kontak-form-input" style="width: 100%; box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
+      <form action="#" method="POST" class="mf-form" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="mf-field">
+          <label for="kontak_nama">Nama Lengkap</label>
+          <input id="kontak_nama" type="text" placeholder="Masukkan nama Anda">
         </div>
-        <div>
-          <label class="kontak-form-label" style="display: block; font-weight: 600; margin-bottom: 6px;">Email / No. HP</label>
-          <input type="text" placeholder="Masukkan kontak Anda" class="kontak-form-input" style="width: 100%; box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;">
+        <div class="mf-field">
+          <label for="kontak_kontak">Email / No. HP</label>
+          <input id="kontak_kontak" type="text" inputmode="email" placeholder="Masukkan kontak Anda">
         </div>
-        <div>
-          <label class="kontak-form-label" style="display: block; font-weight: 600; margin-bottom: 6px;">Pesan / Pertanyaan</label>
-          <textarea rows="4" placeholder="Tuliskan pesan Anda..." class="kontak-form-input" style="width: 100%; box-sizing: border-box; border: 1px solid var(--border); border-radius: 8px; font-family: inherit;"></textarea>
+        <div class="mf-field">
+          <label for="kontak_pesan">Pesan / Pertanyaan</label>
+          <textarea id="kontak_pesan" rows="4" placeholder="Tuliskan pesan Anda..."></textarea>
         </div>
-        <button type="button" class="btn-login" style="border: none; cursor: pointer; justify-content: center; padding: 12px; width: 100%; box-sizing: border-box;"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</button>
+        <button type="button" class="mf-btn mf-btn--primary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Kirim Pesan</button>
       </form>
     </div>
   </div>

@@ -36,6 +36,21 @@ function playPublicVideo(title, embedUrl, subject, classLevel, platform) {
 }
 
 /**
+ * Open video modal from a card element using data-* attributes.
+ * Avoids inline onclick quoting issues with special characters in titles.
+ * @param {HTMLElement} el - Element carrying data-title/data-embed/data-subject/data-class/data-platform
+ */
+function openPublicVideo(el) {
+  playPublicVideo(
+    el.dataset.title || '',
+    el.dataset.embed || '',
+    el.dataset.subject || '',
+    el.dataset.classLevel || '',
+    el.dataset.platform || ''
+  );
+}
+
+/**
  * Close video modal
  * Clears iframe src to stop video sound immediately
  */

@@ -1,4 +1,4 @@
-﻿<div wire:poll.3000ms="$refresh">
+<div wire:poll.3000ms="$refresh">
   @if($this->activities->count() > 0)
     <div style="display: flex; flex-direction: column; gap: 12px;">
       @foreach($this->activities as $activity)

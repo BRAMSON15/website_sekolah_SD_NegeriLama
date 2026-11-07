@@ -51,7 +51,7 @@ class GuruController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
             'subject' => ['required', 'string', 'max:100'],
-            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions()->push('Semua Kelas')->all())],
+            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions(Auth::id())->push('Semua Kelas')->all())],
             'description' => ['nullable', 'string', 'max:500'],
             'file_type' => ['nullable', 'string', 'max:50'],
             'materi_file' => ['nullable', 'file', 'max:10240'],
@@ -173,7 +173,7 @@ class GuruController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
             'subject' => ['required', 'string', 'max:100'],
-            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions()->push('Semua Kelas')->all())],
+            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions(Auth::id())->push('Semua Kelas')->all())],
             'source_type' => ['nullable', 'string', 'in:auto,youtube,google_drive'],
             'video_url' => ['required', 'string', 'max:1000'],
             'duration' => ['required', 'string', 'max:30'],
@@ -192,7 +192,7 @@ class GuruController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:200'],
             'subject' => ['required', 'string', 'max:100'],
-            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions()->push('Semua Kelas')->all())],
+            'class_level' => ['required', 'string', 'max:100', Rule::in($this->guruService->getClassOptions(Auth::id())->push('Semua Kelas')->all())],
             'source_type' => ['nullable', 'string', 'in:auto,youtube,google_drive'],
             'video_url' => ['required', 'string', 'max:1000'],
             'duration' => ['required', 'string', 'max:30'],

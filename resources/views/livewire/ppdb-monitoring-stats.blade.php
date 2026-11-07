@@ -1,4 +1,4 @@
-﻿<div wire:poll.5000ms="$refresh">
+<div wire:poll.5000ms="$refresh">
   @php($stats = $this->stats)
 
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px;">

@@ -1,4 +1,4 @@
-﻿<div>
+<div>
   <!-- Search Input -->
   <div class="form-field" style="margin-bottom: 16px;">
     <label>Cari Registrasi</label>

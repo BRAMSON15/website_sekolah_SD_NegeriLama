@@ -7,6 +7,7 @@ use App\Models\Announcement;
 use App\Models\Feature;
 use App\Models\EducationalVideo;
 use App\Models\LearningMaterial;
+use App\Models\User;
 use App\Services\WebsiteContentService;
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +28,14 @@ class HomeController extends Controller
         $announcements = Announcement::active()->take(5)->get();
         $features = Feature::orderBy('order', 'asc')->get();
 
-        return view('welcome', compact('settings', 'announcements', 'features'));
+        $stats = [
+            'students'  => User::where('role', 'siswa')->count(),
+            'teachers'  => User::where('role', 'guru')->count(),
+            'videos'    => EducationalVideo::count(),
+            'materials' => LearningMaterial::count(),
+        ];
+
+        return view('welcome', compact('settings', 'announcements', 'features', 'stats'));
     }
 
     public function profil()

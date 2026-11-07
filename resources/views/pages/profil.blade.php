@@ -3,89 +3,54 @@
 @section('title', 'Profil Sekolah - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
 @section('content')
-<style>
-  .profil-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
-  .profil-header p { font-size: 1.1rem; }
-  .profil-section h2 { font-size: 1.4rem; margin-bottom: 12px; }
-  .profil-section h3 { font-size: 1rem; margin-bottom: 6px; }
-  .profil-section p, .profil-section ul { font-size: 0.93rem; }
-  .profil-section li { margin-bottom: 6px; }
-  
-  @media (max-width: 768px) {
-    .profil-header h1 { font-size: 2rem; }
-    .profil-header p { font-size: 0.95rem; }
-    .profil-section h2 { font-size: 1.3rem; margin-bottom: 10px; }
-    .profil-section h3 { font-size: 0.95rem; }
-    .profil-section p, .profil-section ul { font-size: 0.88rem; }
-  }
-  
-  @media (max-width: 576px) {
-    .profil-header h1 { font-size: 1.8rem; margin-bottom: 6px; }
-    .profil-header p { font-size: 0.8rem; }
-    .profil-section { padding: 16px !important; margin-bottom: 16px !important; }
-    .profil-section h2 { font-size: 1.15rem; margin-bottom: 10px; }
-    .profil-section h3 { font-size: 0.88rem; margin-bottom: 5px; }
-    .profil-section p { font-size: 0.82rem; line-height: 1.5; }
-    .profil-section ul { font-size: 0.82rem; padding-left: 14px; }
-    .profil-section li { margin-bottom: 4px; }
-  }
-  
-  @media (max-width: 380px) {
-    .profil-header h1 { font-size: 1.4rem; }
-    .profil-header p { font-size: 0.72rem; }
-    .profil-section h2 { font-size: 1rem; }
-    .profil-section h3 { font-size: 0.78rem; }
-    .profil-section p, .profil-section ul { font-size: 0.75rem; }
-  }
-</style>
-
-<div class="page-header profil-header">
-  <h1>Profil Sekolah</h1>
-  <p>Mengenal lebih dekat visi, misi, sejarah, dan struktur organisasi {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</p>
+<div class="pv-hero" style="background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.6)), url('{{ asset('mentahan2/img/image1.png') }}');">
+  <div class="pv-hero-inner">
+    <span class="pv-hero-chip"><i class="fa-solid fa-school"></i> Profil Sekolah</span>
+    <h1>Mengenal {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h1>
+    <p>Visi, misi, sejarah, dan tujuan pendidikan kami dalam membangun generasi cerdas, berkarakter, dan berprestasi.</p>
+  </div>
 </div>
 
-<div class="page-content">
-  <div class="card-box profil-section">
-    <h2><i class="fa-solid fa-bullseye"></i> Visi & Misi</h2>
+<div class="pv-wrap">
+  <div class="pv-vm-grid">
     @if(!empty($settings['school_vision']))
-    <div style="margin-bottom: 18px;">
-      <h3>Visi</h3>
-      <p style="color: var(--muted); padding-left: 12px; border-left: 3px solid var(--primary);">
-        "{{ $settings['school_vision'] }}"
-      </p>
+    <div class="pv-card pv-card--gradient" style="margin-bottom: 0;">
+      <span class="pv-eyebrow"><i class="fa-solid fa-eye"></i> Visi Sekolah</span>
+      <blockquote class="pv-quote" style="margin-top: 12px;">&ldquo;{{ $settings['school_vision'] }}&rdquo;</blockquote>
     </div>
     @endif
-    <div>
-      <h3>Misi</h3>
-      @if(!empty($settings['school_mission']))
+
+    @if(!empty($settings['school_mission']))
+    <div class="pv-card" style="margin-bottom: 0;">
+      <span class="pv-eyebrow"><i class="fa-solid fa-list-check"></i> Misi Sekolah</span>
       @php
         $missions = array_filter(array_map('trim', explode("\n", $settings['school_mission'])));
       @endphp
-      <ul style="color: var(--muted); padding-left: 18px; line-height: 1.7;">
+      <ul class="pv-check-list" style="margin-top: 14px;">
         @foreach($missions as $mission)
           <li>{{ $mission }}</li>
         @endforeach
       </ul>
-      @endif
     </div>
+    @endif
   </div>
 
   @if(!empty($settings['school_history']))
-  <div class="card-box profil-section">
-    <h2><i class="fa-solid fa-landmark"></i> Sejarah Sekolah</h2>
-    <p style="color: var(--muted); line-height: 1.75;">
+  <div class="pv-card" style="margin-top: 26px;">
+    <h2 class="pv-title"><i class="fa-solid fa-landmark"></i> Sejarah Sekolah</h2>
+    <p style="color: var(--muted); line-height: 1.85; margin: 0; font-size: 0.95rem;">
       {{ $settings['school_history'] }}
     </p>
   </div>
   @endif
 
   @if(!empty($settings['school_objectives']))
-  <div class="card-box profil-section">
-    <h2><i class="fa-solid fa-target"></i> Tujuan Sekolah</h2>
+  <div class="pv-card">
+    <h2 class="pv-title"><i class="fa-solid fa-bullseye"></i> Tujuan Sekolah</h2>
     @php
       $objectives = array_filter(array_map('trim', explode("\n", $settings['school_objectives'])));
     @endphp
-    <ul style="color: var(--muted); padding-left: 18px; line-height: 1.7;">
+    <ul class="pv-check-list">
       @foreach($objectives as $objective)
         <li>{{ $objective }}</li>
       @endforeach

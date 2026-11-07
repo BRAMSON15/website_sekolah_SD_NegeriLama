@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('mentahan2/css/style2.css') }}?v={{ filemtime(public_path('mentahan2/css/style2.css')) ?: time() }}">
   <link rel="stylesheet" href="{{ asset('mentahan2/css/app.css') }}?v={{ filemtime(public_path('mentahan2/css/app.css')) ?: time() }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/mobile-forms.css') }}?v={{ filemtime(public_path('mentahan2/css/mobile-forms.css')) ?: time() }}">
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/public-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/public-pages.css')) ?: time() }}">
   @yield('styles')
 </head>
 <body>

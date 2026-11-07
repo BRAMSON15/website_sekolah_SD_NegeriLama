@@ -9,13 +9,13 @@
 </div>
 
 <div class="page-content">
-  <form action="{{ route('ppdb.store') }}" method="POST" class="card-box ppdb-form" enctype="multipart/form-data">
+  <form action="{{ route('ppdb.store') }}" method="POST" class="card-box ppdb-form mf-form" enctype="multipart/form-data">
     @csrf
 
     @if ($errors->any())
-      <div style="background: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444; padding: 14px 16px; border-radius: 8px; margin-bottom: 24px;">
-        <strong>Periksa kembali data berikut:</strong>
-        <ul style="margin: 8px 0 0 18px;">
+      <div class="mf-error">
+        <strong><i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i> Periksa kembali data berikut:</strong>
+        <ul>
           @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
           @endforeach
@@ -23,110 +23,102 @@
       </div>
     @endif
 
-    <h2 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 20px;"><i class="fa-solid fa-child"></i> Data Calon Peserta Didik</h2>
-    <div class="ppdb-form-grid">
-      <div class="form-field form-field-wide">
-        <label for="student_name">Nama Lengkap *</label>
-        <input id="student_name" type="text" name="student_name" value="{{ old('student_name') }}" required>
+    <h2 class="mf-section-title"><span class="mf-step">1</span> Data Calon Peserta Didik</h2>
+    <div class="mf-grid">
+      <div class="mf-field mf-field-wide">
+        <label for="student_name">Nama Lengkap <span class="mf-req">*</span></label>
+        <input id="student_name" type="text" name="student_name" value="{{ old('student_name') }}" placeholder="Sesuai akte kelahiran" required>
       </div>
-      <div class="form-field">
-        <label for="birth_place">Tempat Lahir *</label>
-        <input id="birth_place" type="text" name="birth_place" value="{{ old('birth_place') }}" required>
+      <div class="mf-field">
+        <label for="birth_place">Tempat Lahir <span class="mf-req">*</span></label>
+        <input id="birth_place" type="text" name="birth_place" value="{{ old('birth_place') }}" placeholder="Contoh: Ambon" required>
       </div>
-      <div class="form-field">
-        <label for="birth_date">Tanggal Lahir *</label>
+      <div class="mf-field">
+        <label for="birth_date">Tanggal Lahir <span class="mf-req">*</span></label>
         <input id="birth_date" type="date" name="birth_date" value="{{ old('birth_date') }}" required>
       </div>
-      <div class="form-field">
-        <label for="gender">Jenis Kelamin *</label>
-        <select id="gender" name="gender" required>
-          <option value="">Pilih jenis kelamin</option>
-          <option value="L" @selected(old('gender') === 'L')>Laki-laki</option>
-          <option value="P" @selected(old('gender') === 'P')>Perempuan</option>
-        </select>
+      <div class="mf-field">
+        <label for="gender">Jenis Kelamin <span class="mf-req">*</span></label>
+        <div class="mf-select-wrap">
+          <select id="gender" name="gender" required>
+            <option value="">Pilih jenis kelamin</option>
+            <option value="L" @selected(old('gender') === 'L')>Laki-laki</option>
+            <option value="P" @selected(old('gender') === 'P')>Perempuan</option>
+          </select>
+        </div>
       </div>
-      <div class="form-field">
+      <div class="mf-field">
         <label for="previous_school">Asal TK/RA</label>
-        <input id="previous_school" type="text" name="previous_school" value="{{ old('previous_school') }}">
+        <input id="previous_school" type="text" name="previous_school" value="{{ old('previous_school') }}" placeholder="Nama TK/RA asal (opsional)">
       </div>
-      <div class="form-field">
+      <div class="mf-field">
         <label for="nik">NIK (16 digit)</label>
-        <input id="nik" type="text" name="nik" inputmode="numeric" maxlength="16" value="{{ old('nik') }}">
+        <input id="nik" type="text" name="nik" inputmode="numeric" maxlength="16" value="{{ old('nik') }}" placeholder="16 digit sesuai KK">
+        <span class="mf-hint">Nomor Induk Kependudukan calon siswa.</span>
       </div>
-      <div class="form-field">
+      <div class="mf-field">
         <label for="kk_number">Nomor KK (16 digit)</label>
-        <input id="kk_number" type="text" name="kk_number" inputmode="numeric" maxlength="16" value="{{ old('kk_number') }}">
+        <input id="kk_number" type="text" name="kk_number" inputmode="numeric" maxlength="16" value="{{ old('kk_number') }}" placeholder="16 digit pada Kartu Keluarga">
       </div>
-      <div class="form-field form-field-wide">
-        <label for="address">Alamat Lengkap *</label>
-        <textarea id="address" name="address" rows="3" required>{{ old('address') }}</textarea>
+      <div class="mf-field mf-field-wide">
+        <label for="address">Alamat Lengkap <span class="mf-req">*</span></label>
+        <textarea id="address" name="address" rows="3" placeholder="Jalan, RT/RW, kelurahan, kecamatan" required>{{ old('address') }}</textarea>
       </div>
     </div>
 
-    <h2 style="font-size: 1.3rem; color: var(--primary); margin: 30px 0 20px;"><i class="fa-solid fa-user-tie"></i> Data Orang Tua/Wali</h2>
-    <div class="ppdb-form-grid">
-      <div class="form-field form-field-wide">
-        <label for="parent_name">Nama Orang Tua/Wali *</label>
-        <input id="parent_name" type="text" name="parent_name" value="{{ old('parent_name') }}" required>
+    <h2 class="mf-section-title"><span class="mf-step">2</span> Data Orang Tua / Wali</h2>
+    <div class="mf-grid">
+      <div class="mf-field mf-field-wide">
+        <label for="parent_name">Nama Orang Tua / Wali <span class="mf-req">*</span></label>
+        <input id="parent_name" type="text" name="parent_name" value="{{ old('parent_name') }}" placeholder="Nama lengkap ayah/ibu/wali" required>
       </div>
-      <div class="form-field">
-        <label for="phone">Nomor WhatsApp *</label>
-        <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required>
+      <div class="mf-field">
+        <label for="phone">Nomor WhatsApp <span class="mf-req">*</span></label>
+        <input id="phone" type="tel" name="phone" inputmode="tel" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" required>
+        <span class="mf-hint">Aktif, untuk konfirmasi pendaftaran.</span>
       </div>
-      <div class="form-field">
+      <div class="mf-field">
         <label for="email">Email</label>
-        <input id="email" type="email" name="email" value="{{ old('email') }}">
+        <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com (opsional)">
       </div>
     </div>
 
-    <h2 style="font-size: 1.3rem; color: var(--primary); margin: 30px 0 20px;"><i class="fa-solid fa-file-upload"></i> File Pendukung</h2>
-    <div style="background: #f0f9ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-      <p style="font-size: 0.9rem; color: #1e40af; margin-bottom: 16px; line-height: 1.6;">
-        <i class="fa-solid fa-info-circle" style="margin-right: 6px;"></i>
-        <strong>File pendukung berikut diperlukan:</strong> Scan/fotocopy Kartu Keluarga (KK), Akte Kelahiran, dan Rapor terakhir. Format: PDF, JPG, PNG. Ukuran maksimal: 5MB per file.
-      </p>
-      
-      <div class="ppdb-form-grid">
-        <div class="form-field form-field-wide">
-          <label for="supporting_file_kk">
-            <i class="fa-solid fa-id-card" style="color: #1769d9; margin-right: 6px;"></i> Kartu Keluarga (KK) *
-            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
-          </label>
-          <input id="supporting_file_kk" type="file" name="supporting_file_kk" accept=".pdf,.jpg,.jpeg,.png" required 
-                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
-          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan atau fotocopy Kartu Keluarga</small>
-        </div>
+    <h2 class="mf-section-title"><span class="mf-step">3</span> File Pendukung</h2>
+    <div class="mf-info">
+      <i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i>
+      <strong>Berkas yang diperlukan:</strong> scan/foto Kartu Keluarga (wajib), Akte Kelahiran, dan Rapor terakhir. Format PDF, JPG, atau PNG — maksimal 5MB per file.
+    </div>
 
-        <div class="form-field form-field-wide">
-          <label for="supporting_file_akte">
-            <i class="fa-solid fa-certificate" style="color: #10b981; margin-right: 6px;"></i> Akte Kelahiran (Akta Lahir)
-            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
-          </label>
-          <input id="supporting_file_akte" type="file" name="supporting_file_akte" accept=".pdf,.jpg,.jpeg,.png"
-                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
-          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan atau fotocopy Akte Kelahiran (opsional tapi disarankan)</small>
+    <div class="mf-grid">
+      <div class="mf-field mf-field-wide">
+        <label for="supporting_file_kk"><i class="fa-solid fa-id-card" style="color: #2563eb; margin-right: 5px;"></i> Kartu Keluarga (KK) <span class="mf-req">*</span></label>
+        <div class="mf-upload">
+          <input id="supporting_file_kk" type="file" name="supporting_file_kk" accept=".pdf,.jpg,.jpeg,.png" required>
+          <span class="mf-upload-hint">Unggah scan atau foto Kartu Keluarga. Wajib.</span>
         </div>
+      </div>
 
-        <div class="form-field form-field-wide">
-          <label for="supporting_file_rapor">
-            <i class="fa-solid fa-file-pdf" style="color: #ef4444; margin-right: 6px;"></i> Rapor / Nilai Terakhir
-            <span style="font-size: 0.75rem; color: #7790b3; margin-left: 8px;">(PDF, JPG, PNG - Max 5MB)</span>
-          </label>
-          <input id="supporting_file_rapor" type="file" name="supporting_file_rapor" accept=".pdf,.jpg,.jpeg,.png"
-                 style="padding: 10px; border: 2px dashed #cbd5e1; border-radius: 8px; width: 100%; box-sizing: border-box; background: #f8fafc; cursor: pointer;">
-          <small style="display: block; color: #7790b3; margin-top: 6px;">Unggah scan rapor atau nilai terakhir dari TK/RA</small>
+      <div class="mf-field mf-field-wide">
+        <label for="supporting_file_akte"><i class="fa-solid fa-certificate" style="color: #059669; margin-right: 5px;"></i> Akte Kelahiran</label>
+        <div class="mf-upload">
+          <input id="supporting_file_akte" type="file" name="supporting_file_akte" accept=".pdf,.jpg,.jpeg,.png">
+          <span class="mf-upload-hint">Opsional, tetapi sangat disarankan.</span>
+        </div>
+      </div>
+
+      <div class="mf-field mf-field-wide">
+        <label for="supporting_file_rapor"><i class="fa-solid fa-file-lines" style="color: #ea580c; margin-right: 5px;"></i> Rapor / Nilai Terakhir</label>
+        <div class="mf-upload">
+          <input id="supporting_file_rapor" type="file" name="supporting_file_rapor" accept=".pdf,.jpg,.jpeg,.png">
+          <span class="mf-upload-hint">Dari TK/RA asal, jika ada.</span>
         </div>
       </div>
     </div>
 
-    <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 30px; flex-wrap: wrap;">
-      <a href="{{ route('ppdb') }}" style="padding: 12px 22px; border: 1px solid var(--border); border-radius: 10px; font-weight: 700;">Batal</a>
-      <button type="submit" class="btn-login" style="border: 0; cursor: pointer; padding: 12px 22px;"><i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran</button>
+    <div class="mf-actions">
+      <a href="{{ route('ppdb') }}" class="mf-btn mf-btn--ghost"><i class="fa-solid fa-arrow-left"></i> Batal</a>
+      <button type="submit" class="mf-btn mf-btn--primary"><i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran</button>
     </div>
   </form>
 </div>
-@endsection
-
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/ppdb-register.css') }}?v={{ filemtime(public_path('mentahan2/css/ppdb-register.css')) ?: time() }}">
 @endsection
