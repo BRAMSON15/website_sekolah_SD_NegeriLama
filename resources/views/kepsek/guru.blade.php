@@ -3,11 +3,6 @@
 @section('title', 'Monitoring Guru & Tenaga Pendidik - Kepala Sekolah')
 @section('page-title', 'Monitoring Guru & Kinerja Pengajaran')
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
-@endsection
-
 @section('content')
 @php
     $activeTeachers = $teachers->filter(fn ($t) => ($t->materials_count ?? 0) > 0 || ($t->videos_count ?? 0) > 0)->count();

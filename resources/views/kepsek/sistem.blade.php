@@ -3,11 +3,6 @@
 @section('title', 'Monitoring Sistem & Informasi - Kepala Sekolah')
 @section('page-title', 'Status Sistem & Kesehatan Layanan')
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
-@endsection
-
 @section('content')
 @php
     $totalMedia = $stats['videos_count'] + $stats['materials_count'];

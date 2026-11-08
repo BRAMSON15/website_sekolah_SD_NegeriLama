@@ -4,7 +4,6 @@
 
 @section('styles')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/welcome.css') }}?v={{ filemtime(public_path('mentahan2/css/welcome.css')) ?: time() }}">
 @endsection
 
 @section('content')
@@ -14,9 +13,6 @@
 
   <div class="h-hero-inner">
     <div>
-      <!-- <span class="h-hero-chip">
-        <i class="fa-solid fa-award"></i> {{ $settings['hero_badge'] ?? 'Sekolah Penggerak & Akreditasi A' }}
-      </span> -->
       <h1>
         {!! $settings['hero_title'] ?? 'Mewujudkan Generasi <span class="h-grad">Cerdas, Kreatif &amp; Berkarakter</span>' !!}
       </h1>
@@ -24,29 +20,8 @@
         {{ $settings['hero_description'] ?? 'Selamat datang di portal resmi SD Negeri Negeri Lama.' }}
       </p>
       <div class="h-hero-btns">
-        <!-- <a href="{{ route('ppdb') }}" class="h-btn h-btn--gold">
-          <i class="fa-solid fa-user-plus"></i> Informasi PPDB
-        </a> -->
-        <!-- <a href="{{ route('profil') }}" class="h-btn h-btn--ghost">
-          <i class="fa-solid fa-circle-info"></i> Jelajahi Profil
-        </a> -->
       </div>
     </div>
-
-    <!-- Kartu Portal Belajar Siswa -->
-    <!-- <aside class="h-hero-card">
-      <span class="h-hero-card-badge"><i class="fa-solid fa-graduation-cap"></i> Khusus Peserta Didik</span>
-      <h3>Portal Belajar Siswa</h3>
-      <p>Video edukasi dan modul materi dari bapak/ibu guru, siap diakses kapan saja.</p>
-      <ul class="h-hero-card-list">
-        <li><span class="h-check"><i class="fa-solid fa-check"></i></span> Video pembelajaran interaktif</li>
-        <li><span class="h-check"><i class="fa-solid fa-check"></i></span> Modul materi siap diunduh</li>
-        <li><span class="h-check"><i class="fa-solid fa-check"></i></span> Masuk cukup dengan NISN</li>
-      </ul>
-      <a href="{{ route('akademik') }}" class="h-btn h-btn--gold">
-        <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk Portal Belajar
-      </a>
-    </aside> -->
   </div>
 </section>
 
@@ -154,20 +129,6 @@
     </div>
   </div>
 </section>
-
-<!-- CTA PPDB -->
-<!-- <section class="h-section">
-  <div class="h-cta">
-    <div>
-      <h2>Siap Menjadi Bagian dari Keluarga Besar Kami?</h2>
-      <p>Kuota terbatas. Amankan kursi putra-putri Anda untuk tahun ajaran {{ date('Y') }}/{{ date('Y') + 1 }} melalui pendaftaran online.</p>
-    </div>
-    <div class="h-hero-btns">
-      <a href="{{ route('ppdb') }}" class="h-btn h-btn--gold"><i class="fa-solid fa-user-plus"></i> Informasi &amp; Pendaftaran PPDB</a>
-    </div>
-  </div>
-</section> -->
-
 <!-- Lokasi Sekolah -->
 <section class="school-location-section" aria-labelledby="school-location-title">
   <script>

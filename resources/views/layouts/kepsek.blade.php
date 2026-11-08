@@ -19,11 +19,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <!-- Tailwind & Core Framework Styles -->
-  @vite('resources/css/app.css')
-
-  <!-- Custom Kepsek Layout Stylesheet (Loaded after Tailwind for layout priority) -->
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek.css') }}?v={{ @filemtime(public_path('mentahan2/css/kepsek.css')) ?: time() }}">
+  <!-- Tailwind CSS & Core JS (Vite) -->
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
   @yield('styles')
 </head>

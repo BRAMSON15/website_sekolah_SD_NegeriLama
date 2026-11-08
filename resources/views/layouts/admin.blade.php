@@ -19,11 +19,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/app.css') }}?v={{ filemtime(public_path('mentahan2/css/app.css')) ?: time() }}">
-  
-  <!-- Custom Mentahan2 Stylesheet -->
- <link rel="stylesheet" href="{{ asset('mentahan2/css/style.css') }}?v={{ filemtime(public_path('mentahan2/css/style.css')) ?: time() }}">
-  
+
+  <!-- Tailwind CSS (Vite) -->
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
+
   <script>
     (function() {
       try {

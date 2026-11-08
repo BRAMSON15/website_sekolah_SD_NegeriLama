@@ -3,11 +3,6 @@
 @section('title', 'Monitoring PPDB Online - Kepala Sekolah')
 @section('page-title', 'Monitoring PPDB Online')
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
-@endsection
-
 @section('content')
 @php
     $pct = fn ($n) => $totalAll > 0 ? (int) round($n / $totalAll * 100) : 0;

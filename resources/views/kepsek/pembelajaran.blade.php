@@ -3,11 +3,6 @@
 @section('title', 'Monitoring Media Pembelajaran - Kepala Sekolah')
 @section('page-title', 'Monitoring Media Pembelajaran')
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard.css') }}?v={{ filemtime(public_path('mentahan2/css/dashboard.css')) ?: time() }}">
-<link rel="stylesheet" href="{{ asset('mentahan2/css/kepsek-pages.css') }}?v={{ filemtime(public_path('mentahan2/css/kepsek-pages.css')) ?: time() }}">
-@endsection
-
 @section('content')
 <!-- Hero -->
 <section class="exec-hero">

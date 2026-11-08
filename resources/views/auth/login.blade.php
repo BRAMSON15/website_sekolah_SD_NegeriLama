@@ -54,10 +54,6 @@
 
 @section('title', $currentConfig['title'])
 
-@section('styles')
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/login.css') }}?v={{ filemtime(public_path('mentahan2/css/login.css')) ?: time() }}">
-@endsection
-
 @section('content')
 <div class="login-page-wrap">
   <div class="login-card-box {{ $currentConfig['role_class'] }}">

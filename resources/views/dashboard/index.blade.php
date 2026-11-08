@@ -2,10 +2,6 @@
 
 @section('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
 
-@section('styles')
-<link rel="stylesheet" href="{{ asset('mentahan2/css/dashboard-admin.css') }}?v={{ @filemtime(public_path('mentahan2/css/dashboard-admin.css')) ?: time() }}">
-@endsection
-
 @section('content')
 @if (session('success'))
 <div class="ad-flash">
