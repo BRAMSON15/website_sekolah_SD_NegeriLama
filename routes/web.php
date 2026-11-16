@@ -22,6 +22,8 @@ Route::get('/ppdb', [HomeController::class, 'ppdb'])->name('ppdb');
 Route::get('/ppdb/daftar', [PpdbController::class, 'create'])->name('ppdb.register');
 Route::post('/ppdb/daftar', [PpdbController::class, 'store'])->name('ppdb.store');
 Route::get('/ppdb/berhasil/{registration}', [PpdbController::class, 'success'])->name('ppdb.success');
+Route::get('/ppdb/cetak/{registration}', [PpdbController::class, 'printProof'])->name('ppdb.print');
+Route::get('/ppdb/unduh-bukti/{registration}', [PpdbController::class, 'downloadProofPdf'])->name('ppdb.download.proof');
 Route::get('/pengumuman', [HomeController::class, 'pengumuman'])->name('pengumuman.index');
 Route::get('/pengumuman/{slug}', [HomeController::class, 'detailPengumuman'])->name('pengumuman.show');
 Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');

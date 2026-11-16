@@ -1,17 +1,39 @@
 @extends('layouts.app')
 
-@section('title', 'Pendaftaran PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
+@section('title', 'Pendaftaran PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
 @php
   $isOpen = ($settings['ppdb_status'] ?? 'open') === 'open';
+
+  // Smart resolution for title & description based on admin open/closed status
+  $rawTitle = trim($settings['ppdb_batch_title'] ?? '');
+  $rawDesc  = trim($settings['ppdb_batch_desc'] ?? '');
+
+  if ($isOpen) {
+    $bannerTitle = !empty($rawTitle) ? $rawTitle : 'PPDB Gelombang II Telah Dibuka!';
+    $bannerDesc  = !empty($rawDesc) ? $rawDesc : 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik di SD Negeri Lama.';
+  } else {
+    // When closed, avoid displaying contradictory "dibuka" text
+    if (empty($rawTitle) || (stripos($rawTitle, 'dibuka') !== false && stripos($rawTitle, 'tutup') === false)) {
+      $bannerTitle = 'Pendaftaran PPDB Saat Ini Ditutup';
+    } else {
+      $bannerTitle = $rawTitle;
+    }
+
+    if (empty($rawDesc) || (stripos($rawDesc, 'dibuka') !== false && stripos($rawDesc, 'tutup') === false)) {
+      $bannerDesc = 'Pendaftaran online untuk periode ini resmi ditutup. Informasi pembukaan gelombang berikutnya akan diumumkan di halaman ini.';
+    } else {
+      $bannerDesc = $rawDesc;
+    }
+  }
 @endphp
 
 <div class="pv-hero" style="background-image: linear-gradient(rgba(15, 23, 42, 0.62), rgba(30, 64, 175, 0.6)), url('{{ asset('mentahan2/img/image1.png') }}');">
   <div class="pv-hero-inner">
     <span class="pv-hero-chip"><i class="fa-solid fa-bullhorn"></i> Tahun Ajaran {{ date('Y') }}/{{ date('Y') + 1 }}</span>
     <h1>Penerimaan Peserta Didik Baru</h1>
-    <p>Daftarkan putra-putri Anda di {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }} dan berikan mereka pendidikan terbaik untuk masa depan yang gemilang.</p>
+    <p>Daftarkan putra-putri Anda di {{ $settings['school_name'] ?? 'SD Negeri Lama' }} dan berikan mereka pendidikan terbaik untuk masa depan yang gemilang.</p>
     <div class="pv-hero-btns">
       @if($isOpen)
         <a href="{{ route('ppdb.register') }}" class="pv-btn pv-btn--gold"><i class="fa-solid fa-paper-plane"></i> Daftar Sekarang Online</a>
@@ -36,8 +58,8 @@
       @else
         <span class="pv-status-pill pv-status-pill--closed"><i class="fa-solid fa-circle-xmark"></i> Pendaftaran Ditutup</span>
       @endif
-      <h2 class="pv-banner-title"><i class="fa-solid fa-bullhorn"></i> {{ $settings['ppdb_batch_title'] ?? 'PPDB Gelombang II Telah Dibuka!' }}</h2>
-      <p class="pv-banner-text">{{ $settings['ppdb_batch_desc'] ?? 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik.' }}</p>
+      <h2 class="pv-banner-title"><i class="fa-solid fa-bullhorn"></i> {{ $bannerTitle }}</h2>
+      <p class="pv-banner-text">{{ $bannerDesc }}</p>
     </div>
 
     @if($isOpen)

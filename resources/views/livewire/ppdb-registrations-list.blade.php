@@ -36,7 +36,8 @@
                     <th>Orang Tua/Wali</th>
                     <th>Kontak</th>
                     <th>Tanggal</th>
-                    <th class="text-right">Status</th>
+                    <th>Status</th>
+                    <th class="text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,15 +62,36 @@
                             {{ $registration->created_at ? $registration->created_at->format('d M Y H:i') : '-' }}
                         </span>
                     </td>
-                    <td class="text-right">
-                        <span class="information-status information-status-active" style="padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 600;">
-                            {{ ucfirst($registration->status) }}
-                        </span>
+                    <td>
+                        @php
+                            $st = strtolower($registration->status ?? 'pending');
+                        @endphp
+                        @if($st === 'diterima' || $st === 'accepted')
+                            <span class="information-status" style="background: #dcfce7; color: #166534; padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 700;">
+                                Diterima
+                            </span>
+                        @elseif($st === 'ditolak' || $st === 'rejected')
+                            <span class="information-status" style="background: #fee2e2; color: #991b1b; padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 700;">
+                                Ditolak
+                            </span>
+                        @else
+                            <span class="information-status" style="background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: 700;">
+                                Menunggu
+                            </span>
+                        @endif
+                    </td>
+                    <td class="text-right" style="white-space: nowrap;">
+                        <a href="{{ route('ppdb.print', $registration) }}" target="_blank" title="Cetak Lembar Bukti Pendaftaran" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; margin-right: 4px; text-decoration: none;">
+                            <i class="fa-solid fa-print"></i>
+                        </a>
+                        <a href="{{ route('ppdb.download.proof', $registration) }}" title="Unduh File PDF Bukti Pendaftaran" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; text-decoration: none;">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center" style="padding: 40px; color: #8aa0bc;">
+                    <td colspan="7" class="text-center" style="padding: 40px; color: #8aa0bc;">
                         <i class="fas fa-inbox" style="font-size: 32px; opacity: 0.3; margin-bottom: 12px; display: block;"></i>
                         Belum ada calon siswa yang mendaftar.
                     </td>

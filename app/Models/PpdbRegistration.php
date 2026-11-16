@@ -34,6 +34,20 @@ class PpdbRegistration extends Model
         'birth_date' => 'date',
     ];
 
+    public function getFullNameAttribute(): string
+    {
+        return $this->student_name ?? '';
+    }
+
+    public function getAgeAttribute(): string
+    {
+        if (!$this->birth_date) {
+            return '-';
+        }
+        $diff = $this->birth_date->diff(now());
+        return "{$diff->y} Tahun {$diff->m} Bulan";
+    }
+
     // Relationship to activities
     public function activities()
     {

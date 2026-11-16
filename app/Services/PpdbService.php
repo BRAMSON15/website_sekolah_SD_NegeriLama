@@ -210,6 +210,45 @@ class PpdbService
     }
 
     /**
+     * Generate individual PDF proof for a single student registration
+     */
+    public function generateSingleProofPdf(PpdbRegistration $registration, array $settings): array
+    {
+        $logoPath = public_path('mentahan2/img/Logo1.png');
+        if (!file_exists($logoPath)) {
+            $logoPath = public_path('mentahan/img/Logo1.png');
+        }
+        $logoBase64 = '';
+        if (file_exists($logoPath)) {
+            $logoData = file_get_contents($logoPath);
+            $logoBase64 = 'data:image/png;base64,'.base64_encode($logoData);
+        }
+
+        $html = view('pages.ppdb-proof-pdf', compact(
+            'settings',
+            'registration',
+            'logoBase64'
+        ))->render();
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+        $options->set('defaultFont', 'Helvetica');
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $filename = 'Bukti_PPDB_'.Str::slug($registration->registration_number).'_'.Str::slug($registration->student_name).'.pdf';
+
+        return [
+            'content' => $dompdf->output(),
+            'filename' => $filename,
+        ];
+    }
+
+    /**
      * Generate Excel export spreadsheet content for PPDB registrations
      */
     public function generateExcelExport(array $settings): array

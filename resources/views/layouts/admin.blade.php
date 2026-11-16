@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))</title>
+  <title>@yield('title', 'Dashboard Admin - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))</title>
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
@@ -23,6 +23,9 @@
   <!-- Tailwind CSS (Vite) -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+  <!-- Dedicated Admin Panel Stylesheet (Independent of Vite build) -->
+  <link rel="stylesheet" href="{{ asset('mentahan2/css/admin.css') }}?v={{ @filemtime(public_path('mentahan2/css/admin.css')) ?: time() }}">
+
   <script>
     (function() {
       try {
@@ -33,20 +36,18 @@
     })();
   </script>
 
- 
-
   @yield('styles')
 </head>
-<body>
+<body class="admin-body">
   <div class="app">
     <!-- Sidebar -->
     <aside class="sidebar" id="appSidebar">
       <div class="brand">
         <div class="brand-logo">
-          <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fa-solid fa-graduation-cap\' style=\'font-size: 22px; color: #1769e0;\'></i>';">
+          <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Lama' }}" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fa-solid fa-graduation-cap\' style=\'font-size: 22px; color: #1769e0;\'></i>';">
         </div>
         <div class="brand-title-wrap">
-          <h2>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</h2>
+          <h2>{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</h2>
           <span>Berilmu, Berkarakter, Berprestasi</span>
         </div>
         <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Tutup Sidebar" title="Tutup Sidebar">

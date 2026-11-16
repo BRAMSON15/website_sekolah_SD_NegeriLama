@@ -71,6 +71,22 @@ class PpdbController extends Controller
         return view("pages.ppdb-success", compact("settings", "registration"));
     }
 
+    public function printProof(PpdbRegistration $registration)
+    {
+        $settings = $this->websiteService->getSettings();
+        return view("pages.ppdb-print-proof", compact("settings", "registration"));
+    }
+
+    public function downloadProofPdf(PpdbRegistration $registration)
+    {
+        $settings = $this->websiteService->getSettings();
+        $export = $this->ppdbService->generateSingleProofPdf($registration, $settings);
+
+        return response($export["content"])
+            ->header("Content-Type", "application/pdf")
+            ->header("Content-Disposition", "attachment; filename=\"".$export["filename"]."\"");
+    }
+
     public function index()
     {
         $settings = $this->websiteService->getSettings();

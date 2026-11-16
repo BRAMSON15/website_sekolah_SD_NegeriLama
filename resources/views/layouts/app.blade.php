@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'SD Negeri Negeri Lama')</title>
+  <title>@yield('title', $settings['school_name'] ?? 'SD Negeri Lama')</title>
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('mentahan2/img/Logo1.svg') }}">
   <link rel="alternate icon" type="image/png" href="{{ asset('mentahan2/img/Logo1.png') }}">
@@ -18,12 +18,53 @@
   <!-- Tailwind CSS (Vite) -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+  <style>
+    .mobile-nav-badge--open {
+      background: #10b981 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35) !important;
+    }
+    .mobile-nav-badge--closed {
+      background: #ef4444 !important;
+      color: #ffffff !important;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35) !important;
+    }
+    .ppdb-icon--closed {
+      background: #fee2e2 !important;
+      color: #ef4444 !important;
+    }
+    .desktop-ppdb-badge {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 1px 7px;
+      border-radius: 999px;
+      margin-left: 5px;
+      letter-spacing: 0.3px;
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .desktop-ppdb-badge--open {
+      background: #dcfce7;
+      color: #059669;
+      border: 1px solid #86efac;
+    }
+    .desktop-ppdb-badge--closed {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+  </style>
+
   @yield('styles')
 </head>
 <body>
 
   @php
     $isLoginPage = request()->routeIs('login.guru') || request()->routeIs('login.kepsek') || request()->routeIs('login.admin') || request()->routeIs('login');
+    $isPpdbOpen = ($settings['ppdb_status'] ?? 'open') === 'open';
   @endphp
 
   <!-- Top Bar -->
@@ -47,10 +88,10 @@
   <header class="navbar">
     <a href="{{ route('home') }}" class="brand">
       <div class="brand-logo">
-        <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
+        <img src="{{ asset('mentahan2/img/Logo1.svg') }}?v={{ @filemtime(public_path('mentahan2/img/Logo1.svg')) ?: time() }}" alt="Logo {{ $settings['school_name'] ?? 'SD Negeri Lama' }}" onerror="this.onerror=null; this.src='{{ asset('mentahan2/img/Logo1.png') }}';">
       </div>
       <div class="brand-text">
-        <strong>{{ $settings['school_name'] ?? 'SD Negeri Negeri Lama' }}</strong>
+        <strong>{{ $settings['school_name'] ?? 'SD Negeri Lama' }}</strong>
         <span>{{ $settings['school_tagline'] ?? 'UNGGUL & BERKARAKTER' }}</span>
       </div>
     </a>
@@ -66,7 +107,12 @@
         <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-school"></i> Profil</a>
         <a href="{{ route('akademik') }}" class="{{ request()->routeIs('akademik') ? 'active' : '' }}"><i class="fa-solid fa-book-open"></i> Akademik</a>
         <a href="{{ route('fasilitas') }}" class="{{ request()->routeIs('fasilitas') ? 'active' : '' }}"><i class="fa-solid fa-building"></i> Fasilitas</a>
-        <a href="{{ route('ppdb') }}" class="{{ request()->routeIs('ppdb') ? 'active' : '' }}"><i class="fa-solid fa-user-plus"></i> PPDB</a>
+        <a href="{{ route('ppdb') }}" class="{{ request()->routeIs('ppdb*') ? 'active' : '' }}">
+          <i class="fa-solid fa-user-plus"></i> PPDB
+          @if(!$isPpdbOpen)
+            <span class="desktop-ppdb-badge desktop-ppdb-badge--closed">Tutup</span>
+          @endif
+        </a>
         <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'active' : '' }}"><i class="fa-solid fa-address-book"></i> Kontak</a>
       @endif
     </nav>
@@ -191,13 +237,19 @@
           <i class="fa-solid fa-chevron-right arrow-icon"></i>
         </a>
 
-        <a href="{{ route('ppdb') }}" class="mobile-nav-link ppdb-link {{ request()->routeIs('ppdb') ? 'active' : '' }}">
-          <div class="mobile-nav-icon ppdb-icon"><i class="fa-solid fa-user-plus"></i></div>
+        <a href="{{ route('ppdb') }}" class="mobile-nav-link ppdb-link {{ request()->routeIs('ppdb*') ? 'active' : '' }}">
+          <div class="mobile-nav-icon ppdb-icon {{ $isPpdbOpen ? '' : 'ppdb-icon--closed' }}">
+            <i class="fa-solid {{ $isPpdbOpen ? 'fa-user-plus' : 'fa-lock' }}"></i>
+          </div>
           <div class="mobile-nav-text">
             <span class="title">PPDB Online</span>
-            <span class="desc">Pendaftaran siswa baru & bukti cetak PDF</span>
+            <span class="desc">{{ $isPpdbOpen ? 'Pendaftaran siswa baru & bukti cetak PDF' : 'Pendaftaran siswa baru sementara ditutup' }}</span>
           </div>
-          <span class="mobile-nav-badge">Buka</span>
+          @if($isPpdbOpen)
+            <span class="mobile-nav-badge mobile-nav-badge--open">Buka</span>
+          @else
+            <span class="mobile-nav-badge mobile-nav-badge--closed">Tutup</span>
+          @endif
         </a>
 
         <a href="{{ route('kontak') }}" class="mobile-nav-link {{ request()->routeIs('kontak') ? 'active' : '' }}">

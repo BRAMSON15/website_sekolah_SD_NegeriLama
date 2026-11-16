@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Pengaturan PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Negeri Lama'))
+@section('title', 'Kelola Pengaturan PPDB - ' . ($settings['school_name'] ?? 'SD Negeri Lama'))
 
 @section('content')
 <div class="information-home">
@@ -44,33 +44,44 @@
         <!-- Panel 1: Status & Banner Gelombang PPDB -->
         <div class="information-panel">
             <div class="information-panel-heading">
-                <h3><i class="fa-solid fa-bullhorn" style="color: #1769d9;"></i> Status Pendaftaran & Judul Gelombang</h3>
-                <p>Status buka/tutup pendaftaran siswa baru dan teks pengantar</p>
+                <div>
+                    <h3><i class="fa-solid fa-bullhorn" style="color: #1769d9;"></i> Status Pendaftaran & Judul Gelombang</h3>
+                    <p>Status buka/tutup pendaftaran siswa baru secara otomatis mengontrol tombol formulir, banner publik, serta label status Buka/Tutup di menu mobile.</p>
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-xs btn-success" id="btnPresetOpen" style="cursor: pointer;">
+                        <i class="fa-solid fa-circle-check"></i> Template Buka
+                    </button>
+                    <button type="button" class="btn btn-xs btn-danger" id="btnPresetClosed" style="cursor: pointer;">
+                        <i class="fa-solid fa-circle-xmark"></i> Template Tutup
+                    </button>
+                </div>
             </div>
             
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Status Penerimaan Peserta Didik Baru</label>
-                        <select name="ppdb_status" class="form-control" required style="font-weight: 600;">
+                        <label for="ppdb_status">Status Penerimaan Peserta Didik Baru</label>
+                        <select name="ppdb_status" id="ppdb_status" class="form-control" required style="font-weight: 700; font-size: 14px;">
                             <option value="open" {{ old('ppdb_status', $settings['ppdb_status'] ?? 'open') === 'open' ? 'selected' : '' }}>🟢 DIBUKA (Pendaftaran Online Aktif)</option>
                             <option value="closed" {{ old('ppdb_status', $settings['ppdb_status'] ?? 'open') === 'closed' ? 'selected' : '' }}>🔴 DITUTUP (Pendaftaran Sementara Ditutup)</option>
                         </select>
-                        <span class="form-hint">Jika ditutup, formulir pendaftaran online akan menampilkan pemberitahuan bahwa pendaftaran belum/sudah ditutup.</span>
+                        <span class="form-hint">Jika status DITUTUP: Menu navigasi mobile/desktop akan otomatis menampilkan badge "TUTUP", banner berwarna merah, dan formulir pendaftaran dinonaktifkan.</span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Judul Pengumuman Gelombang</label>
-                        <input type="text" name="ppdb_batch_title" class="form-control" value="{{ old('ppdb_batch_title', $settings['ppdb_batch_title'] ?? 'PPDB Gelombang II Telah Dibuka!') }}" required placeholder="Contoh: PPDB Gelombang II Telah Dibuka!">
-                        <span class="form-hint">Muncul di banner utama halaman PPDB</span>
+                        <label for="ppdb_batch_title">Judul Pengumuman Gelombang / Status</label>
+                        <input type="text" name="ppdb_batch_title" id="ppdb_batch_title" class="form-control" value="{{ old('ppdb_batch_title', $settings['ppdb_batch_title'] ?? 'PPDB Gelombang II Telah Dibuka!') }}" required placeholder="Contoh: PPDB Gelombang II Telah Dibuka!">
+                        <span class="form-hint">Muncul sebagai judul utama banner informasi di halaman PPDB.</span>
                     </div>
                 </div>
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
-                <label>Keterangan Tambahan Gelombang</label>
-                <textarea name="ppdb_batch_desc" class="form-control" rows="2" required placeholder="Tuliskan pesan ajakan atau informasi kuota...">{{ old('ppdb_batch_desc', $settings['ppdb_batch_desc'] ?? 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik di lingkungan yang unggul dan berkarakter.') }}</textarea>
+                <label for="ppdb_batch_desc">Keterangan Tambahan Gelombang / Penutupan</label>
+                <textarea name="ppdb_batch_desc" id="ppdb_batch_desc" class="form-control" rows="2" required placeholder="Tuliskan pesan ajakan atau informasi jadwal gelombang...">{{ old('ppdb_batch_desc', $settings['ppdb_batch_desc'] ?? 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik di lingkungan yang unggul dan berkarakter.') }}</textarea>
+                <span class="form-hint">Pastikan keterangan selaras dengan status di atas agar tidak memuat pesan yang bertolak belakang.</span>
             </div>
         </div>
 
@@ -162,4 +173,53 @@
         </div>
     </form>
 </div>
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusSelect = document.getElementById('ppdb_status');
+        const titleInput = document.getElementById('ppdb_batch_title');
+        const descInput = document.getElementById('ppdb_batch_desc');
+        const btnOpen = document.getElementById('btnPresetOpen');
+        const btnClosed = document.getElementById('btnPresetClosed');
+
+        if (btnOpen) {
+            btnOpen.addEventListener('click', function() {
+                if (statusSelect) statusSelect.value = 'open';
+                if (titleInput) titleInput.value = 'PPDB Gelombang II Telah Dibuka!';
+                if (descInput) descInput.value = 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik di lingkungan yang unggul dan berkarakter.';
+            });
+        }
+
+        if (btnClosed) {
+            btnClosed.addEventListener('click', function() {
+                if (statusSelect) statusSelect.value = 'closed';
+                if (titleInput) titleInput.value = 'PPDB Tahun Ajaran Baru telah DiTutup!';
+                if (descInput) descInput.value = 'Pendaftaran online untuk periode ini resmi ditutup. Terima kasih atas partisipasi dan kepercayaan seluruh calon peserta didik baru.';
+            });
+        }
+
+        // When status is manually changed, suggest matching texts if desired
+        if (statusSelect) {
+            statusSelect.addEventListener('change', function() {
+                if (this.value === 'closed') {
+                    if (titleInput && titleInput.value.toLowerCase().includes('dibuka')) {
+                        titleInput.value = 'PPDB Tahun Ajaran Baru telah DiTutup!';
+                    }
+                    if (descInput && descInput.value.toLowerCase().includes('dibuka')) {
+                        descInput.value = 'Pendaftaran online untuk periode ini resmi ditutup. Terima kasih atas partisipasi dan kepercayaan seluruh calon peserta didik baru.';
+                    }
+                } else if (this.value === 'open') {
+                    if (titleInput && titleInput.value.toLowerCase().includes('ditutup')) {
+                        titleInput.value = 'PPDB Gelombang II Telah Dibuka!';
+                    }
+                    if (descInput && descInput.value.toLowerCase().includes('ditutup')) {
+                        descInput.value = 'Segera daftarkan putra-putri Anda untuk mendapatkan pendidikan terbaik di lingkungan yang unggul dan berkarakter.';
+                    }
+                }
+            });
+        }
+    });
+</script>
+@endsection
 @endsection
