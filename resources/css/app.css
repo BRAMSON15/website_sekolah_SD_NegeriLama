@@ -4931,7 +4931,7 @@ html, body {
 body:has(.dashboard),
 body:has(.app),
 body:has(.kepsek-main),
-body:has(.mon-main),
+body:has(.mon-main), 
 body:has(.login-page-wrap) {
     padding-top: 0 !important;
     overflow-x: hidden;
