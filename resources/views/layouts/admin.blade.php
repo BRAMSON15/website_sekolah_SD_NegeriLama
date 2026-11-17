@@ -23,9 +23,6 @@
   <!-- Tailwind CSS (Vite) -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-  <!-- Dedicated Admin Panel Stylesheet (Independent of Vite build) -->
-  <link rel="stylesheet" href="{{ asset('mentahan2/css/admin.css') }}?v={{ @filemtime(public_path('mentahan2/css/admin.css')) ?: time() }}">
-
   <script>
     (function() {
       try {

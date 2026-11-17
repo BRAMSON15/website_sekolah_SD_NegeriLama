@@ -4933,7 +4933,8 @@ body:has(.app),
 body:has(.kepsek-main),
 body:has(.mon-main),
 body:has(.login-page-wrap) {
-    padding-top: 0;
+    padding-top: 0 !important;
+    overflow-x: hidden;
 }
 
 /* ===== GURU LAYOUT (from style1.css) ===== */
@@ -7253,4 +7254,85 @@ body:has(.login-page-wrap) {
 .gd-desktop-download--admin .gd-desktop-features span {
     color: #6d28d9;
     background: rgba(124, 58, 237, 0.1);
+}
+
+/* ====================================================================
+   ADMIN PANEL EXTRAS
+   (Converted from public/mentahan2/css/admin.css — new classes only)
+   ==================================================================== */
+
+/* Reset padding-top untuk body di halaman admin (admin.css approach) */
+body.admin-body {
+    padding: 0 !important;
+}
+
+/* Preload state sidebar tanpa flash transisi */
+html.sidebar-closed-preload .sidebar {
+    transform: translateX(-100%) !important;
+    transition: none !important;
+}
+html.sidebar-closed-preload .main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    transition: none !important;
+}
+
+@layer components {
+    /* ===== ADMIN PANEL HEADING (alias dari information-panel-heading) ===== */
+    .admin-panel-heading {
+        @apply flex items-center justify-between flex-wrap gap-3 pb-4.5 mb-5 border-b;
+        border-color: #e7eef7;
+    }
+
+    .admin-panel-heading h4 {
+        font-size: 18px;
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0;
+        letter-spacing: -0.2px;
+    }
+
+    /* ===== TABLE SUBTEXT ===== */
+    .table-subtext {
+        @apply block text-slate-400;
+        font-size: 11.5px;
+        margin-top: 3px;
+    }
+
+    /* ===== BTN SECONDARY (alias btn-grey) ===== */
+    .btn-secondary {
+        background: #f1f5f9;
+        color: #334155 !important;
+        border-color: #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+        background: #e2e8f0;
+        color: #0f172a !important;
+    }
+
+    /* ===== INFORMATION FEATURE LIST ===== */
+    .information-feature-list {
+        @apply flex flex-col;
+    }
+
+    /* ===== INFORMATION FEATURE ICON ===== */
+    .information-feature-icon {
+        @apply flex items-center justify-center shrink-0 text-white;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        font-size: 17px;
+    }
+
+    .information-feature-icon.bg-blue   { background: linear-gradient(135deg, #1d4ed8, #2563eb); }
+    .information-feature-icon.bg-green  { background: linear-gradient(135deg, #059669, #10b981); }
+    .information-feature-icon.bg-purple { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+    .information-feature-icon.bg-amber  { background: linear-gradient(135deg, #d97706, #f59e0b); }
+
+    /* ===== SIDEBAR SCROLLBAR ===== */
+    .sidebar::-webkit-scrollbar { width: 5px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+    .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
 }
